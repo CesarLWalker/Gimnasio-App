@@ -5,16 +5,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Bienvenido</ion-card-title>
-      <ion-card-subtitle>Sistema de Gestión del Gimnasio</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      Esta será la pantalla donde administraremos todos los clientes.
-    </ion-card-content>
-  </ion-card>
+  
+  @for (cliente of clientes; track cliente.id) {
 
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title> 👤 {{ cliente.nombre }} </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card-content>
+      <p>Estado: {{ cliente.estado }} </p>
+      <p>Fecha de Pago: {{ cliente.fechaPago }}</p>
+      <p>Cuota: {{ cliente.cuota }}</p>
+      <p>Monto: $ {{ cliente.monto }}</p>
+      <p>Tipo de Pago: {{ cliente.tipoPago }}</p>
+      <p>Celular: 📱{{ cliente.celular }}</p>
+    </ion-card-content>
+  }
 
 
 </ion-content>
