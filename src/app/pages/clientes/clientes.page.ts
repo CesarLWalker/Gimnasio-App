@@ -7,7 +7,7 @@ import { ClienteService } from 'src/app/services/cliente.service';
   selector: 'app-clientes',
   templateUrl: './clientes.page.html',
   styleUrls: ['./clientes.page.scss'],
-  imports: [ IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonCard, IonContent, IonTitle, IonToolbar, IonHeader],
+  imports: [ IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle, IonToolbar, IonHeader],
 })
 export class ClientesPage implements OnInit {
 
