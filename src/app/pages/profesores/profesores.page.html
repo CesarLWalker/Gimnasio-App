@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-title>Profesores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Horarios Profesores 👋</h2>
+  <p></p>
+
+  <ion-grid>
+    <ion-row>
+
+      @for (profesor of profesores; track profesor) {
+       <ion-col size="6">
+        <ion-card [color]="profesor.color"> 
+          <ion-card-header> 
+            <ion-card-title> {{ profesor.icono }} {{ profesor.nombre}}</ion-card-title>
+          </ion-card-header>
+            <ion-card-content>
+              <h1> {{ profesor.sueldo}}</h1>
+              <p> {{ profesor.horas }}</p>
+            </ion-card-content>
+        </ion-card>
+      </ion-col>
+      }
+
+<!--
+       <ion-col size="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>👨‍🏫 Profesora B</ion-card-title>
+          </ion-card-header>
+            <ion-card-content>
+              <h1>Sueldo Total: $150.000</h1>
+              <p>Total Horas: 120hs</p>
+            </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+       <ion-col size="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>👨‍🏫 Profesor César Walker</ion-card-title>
+          </ion-card-header>
+            <ion-card-content>
+              <h1>Sueldo Total: $70.000</h1>
+              <p>Total Horas: 9hs</p>
+            </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+       <ion-col size="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>👨‍🏫 Profesora D</ion-card-title>
+          </ion-card-header>
+            <ion-card-content>
+              <h1>Sueldo Total: $50.000</h1>
+              <p>Total Horas: 6hs</p>
+            </ion-card-content>
+        </ion-card>
+      </ion-col>
+-->
+
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+
+
+
+
+

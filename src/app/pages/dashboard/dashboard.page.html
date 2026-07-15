@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gym Manager</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>¡Bienvenido César! 👋</h2>
+  <p>Resumen del gimnasio</p>
+
+  <ion-grid>
+    <ion-row>
+
+      @for (card of cards; track card) {
+      <ion-col size="6">
+        <ion-card [color]="card.color">
+          <ion-card-header>
+            <ion-card-title>  {{ card.icono }} {{ card.titulo }}</ion-card-title>
+          </ion-card-header>
+            <ion-card-content>
+              <h1> {{ card.valor }}</h1>
+              <p> {{ card.descripcion }}</p>
+            </ion-card-content>
+        </ion-card>
+      </ion-col>
+      }
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
