@@ -4,25 +4,41 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-searchbar placeholder="Buscar Cliente"></ion-searchbar>
+
 <ion-content class="ion-padding">
-  
+  <ion-list>
   @for (cliente of clientes; track cliente.id) {
 
     <ion-card>
       <ion-card-header>
         <ion-card-title> 👤 {{ cliente.nombre }} </ion-card-title>
       </ion-card-header>
-    </ion-card>
+   
 
     <ion-card-content>
-      <p>Estado: {{ cliente.estado }} </p>
-      <p>Fecha de Pago: {{ cliente.fechaPago }}</p>
-      <p>Cuota: {{ cliente.cuota }}</p>
-      <p>Monto: $ {{ cliente.monto }}</p>
-      <p>Tipo de Pago: {{ cliente.tipoPago }}</p>
-      <p>Celular: 📱{{ cliente.celular }}</p>
+      <ion-item lines="none">
+        <ion-label>Estado: {{ cliente.estado }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Fecha de Pago: {{ cliente.fechaPago }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Cuota: {{ cliente.cuota }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Monto: $ {{ cliente.monto }}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Tipo de Pago: {{ cliente.tipoPago }}</ion-label>
+      </ion-item>
+      <ion-item line="none">
+        <ion-label>Celular: 📱{{ cliente.celular }}</ion-label>
+      </ion-item>
+      
     </ion-card-content>
+    </ion-card>
   }
 
-
+  </ion-list>
 </ion-content>
