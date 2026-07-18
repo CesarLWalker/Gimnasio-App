@@ -4,11 +4,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-searchbar placeholder="Buscar Cliente"></ion-searchbar>
+<ion-searchbar placeholder="Buscar Cliente" [(ngModel)]="searchTerm" (ionInput)="filterClients()"></ion-searchbar>
 
 <ion-content class="ion-padding">
   <ion-list>
-  @for (cliente of clientes; track cliente.id) {
+  @for (cliente of clientesFiltrados; track cliente.id) {
 
     <ion-card>
       <ion-card-header>

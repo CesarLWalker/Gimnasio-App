@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonItem, IonLabel, IonIcon, IonList, IonSearchbar } from "@ionic/angular/standalone";
 import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
@@ -8,19 +9,48 @@ import { ClienteService } from 'src/app/services/cliente.service';
   templateUrl: './clientes.page.html',
   styleUrls: ['./clientes.page.scss'],
   imports: [IonList,  IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle,
-     IonToolbar, IonHeader, IonItem, IonLabel, IonIcon, IonSearchbar],
+     IonToolbar, IonHeader, IonItem, IonLabel, IonIcon, IonSearchbar, FormsModule],
 })
 export class ClientesPage implements OnInit {
-
+  // Propiedades
   clientes: Cliente[] = [];
+
+  clientesFiltrados: Cliente[] = [];
 
   searchTerm = '';
 
+  //  Constructor
   constructor(private clienteService: ClienteService) { }
 
+  //  Ciclos de vida
   ngOnInit(): void {
     this.clientes = this.clienteService.getClientes();
+    this.clientesFiltrados = [...this.clientes]; //creamos una copia superficial del arreglo. Así podemos filtrar la copia sin afectar la lista original.
   }
 
+  // Método para normalizar texto
+  public normalizeText(text: string): string {
+    return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+  }
+
+  //  Métodos públicos
+  public filterClients(): void {
+
+    if (!this.searchTerm.trim()) {
+      this.clientesFiltrados = [...this.clientes];
+      return;
+    }
+
+    const search = this.normalizeText(this.searchTerm);
+
+    this.clientesFiltrados = this.clientes.filter(cliente => this.normalizeText(cliente.nombre).includes(search)
+    );
+  }
+
+  //private matchesSearch(cliente: Cliente): boolean;
 
 }

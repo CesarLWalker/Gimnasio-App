@@ -3,7 +3,7 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Gym</ion-list-header>
+          <ion-list-header>Megadeth Gym</ion-list-header>
           <ion-note>hi&#64;pesguicom.com.ar</ion-note>
 
           @for (p of appPages; track p; let i = $index) {
@@ -15,7 +15,7 @@
             </ion-menu-toggle>
           }
         </ion-list>
-
+        <!--
         <ion-list id="labels-list">
           <ion-list-header>Labels</ion-list-header>
 
@@ -25,7 +25,7 @@
               <ion-label>{{ label }}</ion-label>
             </ion-item>
           }
-        </ion-list>
+        </ion-list>-->
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
