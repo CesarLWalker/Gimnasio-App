@@ -14,7 +14,7 @@
       <ion-card-header>
         <ion-card-title> 👤 {{ cliente.nombre }} </ion-card-title>
       </ion-card-header>
-   
+
 
     <ion-card-content>
       <ion-item lines="none">
@@ -35,10 +35,17 @@
       <ion-item line="none">
         <ion-label>Celular: 📱{{ cliente.celular }}</ion-label>
       </ion-item>
-      
+
     </ion-card-content>
     </ion-card>
   }
 
   </ion-list>
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="goToNuevoCliente()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+ 
 </ion-content>

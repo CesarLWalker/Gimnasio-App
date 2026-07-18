@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonItem, IonLabel, IonIcon, IonList, IonSearchbar } from "@ionic/angular/standalone";
+import { Router } from '@angular/router';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonItem, IonLabel, IonIcon, IonList, IonSearchbar, IonFab, IonFabButton } from "@ionic/angular/standalone";
 import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 
@@ -8,7 +9,7 @@ import { ClienteService } from 'src/app/services/cliente.service';
   selector: 'app-clientes',
   templateUrl: './clientes.page.html',
   styleUrls: ['./clientes.page.scss'],
-  imports: [IonList,  IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle,
+  imports: [IonFabButton, IonFab, IonList,  IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle,
      IonToolbar, IonHeader, IonItem, IonLabel, IonIcon, IonSearchbar, FormsModule],
 })
 export class ClientesPage implements OnInit {
@@ -20,7 +21,7 @@ export class ClientesPage implements OnInit {
   searchTerm = '';
 
   //  Constructor
-  constructor(private clienteService: ClienteService) { }
+  constructor(private clienteService: ClienteService, private router: Router) { }
 
   //  Ciclos de vida
   ngOnInit(): void {
@@ -51,6 +52,9 @@ export class ClientesPage implements OnInit {
     );
   }
 
-  //private matchesSearch(cliente: Cliente): boolean;
+  public goToNuevoCliente(): void {
+    console.log("Botón + presionado");
+    this.router.navigate(['/clientes/nuevo-cliente']);
+  }
 
 }
