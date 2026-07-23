@@ -6,15 +6,65 @@
 
 <ion-content class="ion-padding">
 
-  <ion-item>
-    <ion-input label="Nombre y Apellido" labelPlacement="stacked" placeholder="Ingrese su nombre y apellido">
+<form (ngSubmit)="guardarCliente()">
 
+  <ion-item>
+    <ion-input label="Nombre y Apellido" [(ngModel)]="cliente.nombre" name="nombre"
+     labelPlacement="stacked" placeholder="Ingrese su nombre y apellido">
     </ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-input label="Celular" labelPlacement="stacked" placeholder="Ingrese el celular"></ion-input>
+    <ion-select label="Estado" [(ngModel)]="cliente.estado" name="estado"
+    labelPlacement="stacked">
+      <ion-select-option value="PAGADO">PAGADO</ion-select-option>
+      <ion-select-option value="DEBE">DEBE</ion-select-option>
+      <ion-select-option value="NO_VIENE">NO VIENE</ion-select-option>
+      <ion-select-option value="MEDIO_MES">MEDIO MES</ion-select-option>
+      <ion-select-option value="SEMANA">SEMANA</ion-select-option>
+      <ion-select-option value="DIA">DÍA</ion-select-option>
+    </ion-select>
   </ion-item>
 
-  <ion-button expand="block">Guardar</ion-button>
+  <ion-item>
+    <ion-input type="date" label="Fecha de pago" labelPlacement="stacked"
+    [(ngModel)]="cliente.fechaPago" name="fechaPago"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Cuota" labelPlacement="stacked" name="cuota"
+    [(ngModel)]="cliente.cuota">
+       <ion-select-option value="INDIVIDUAL">INDIVIDUAL</ion-select-option>
+       <ion-select-option value="FAMILIARx2">FAMILIARx2</ion-select-option>
+       <ion-select-option value="FAMILIARx3">FAMILIARx3</ion-select-option>
+       <ion-select-option value="FAMILIARx4">FAMILIARx4</ion-select-option>
+       <ion-select-option value="FAMILIARx5">FAMILIARx5</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="number" label="Monto" labelPlacement="stacked" name="monto"
+    [(ngModel)]="cliente.monto"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Tipo de pago" labelPlacement="stacked" name="tipoPago"
+    [(ngModel)]="cliente.tipoPago">
+        <ion-select-option value="EFECTIVO">EFECTIVO</ion-select-option>
+         <ion-select-option value="TRANSFERENCIA">TRANSFERENCIA</ion-select-option>
+          <ion-select-option value="TARJETA_DEBITO">TARJETA DE DÉBITO</ion-select-option>
+          <ion-select-option value="TARJETA_CREDITO">TARJETA DE CRÉDITO</ion-select-option>
+           <ion-select-option value="MERCADO_PAGO">MERCADO PAGO</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Celular" [(ngModel)]="cliente.celular" name="celular"
+    labelPlacement="stacked" placeholder="Ingrese el celular"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" type="submit">Guardar</ion-button>
+
+</form>  
+
 </ion-content>

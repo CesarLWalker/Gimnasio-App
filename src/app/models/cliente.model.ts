@@ -9,7 +9,7 @@ export interface Cliente {
   estado: EstadoCliente;
   fechaPago: string;
   cuota: Cuota;
-  monto: string;
+  monto: number;
   tipoPago: TipoPago;
   celular: string;
 }

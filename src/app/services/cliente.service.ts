@@ -14,9 +14,9 @@ export class ClienteService {
       id: 1,
       nombre: 'César Walker',
       estado: EstadoCliente.PAGADO,
-      fechaPago: '05/07/2026',
+      fechaPago: '2026-07-05',
       cuota: Cuota.INDIVIDUAL,
-      monto: '15.000',
+      monto: 15.000,
       tipoPago: TipoPago.EFECTIVO,
       celular: '123456'
     },
@@ -24,9 +24,9 @@ export class ClienteService {
       id: 2,
       nombre: 'Dana Walker',
       estado: EstadoCliente.DEBE,
-      fechaPago: '04/06/2026',
+      fechaPago: '2026-06-04',
       cuota: Cuota.INDIVIDUAL,
-      monto: '15.000',
+      monto: 15.000,
       tipoPago: TipoPago.MERCADO_PAGO,
       celular: '451525'
     },
@@ -34,19 +34,19 @@ export class ClienteService {
       id: 3,
       nombre: 'Leandro Walker',
       estado: EstadoCliente.DIA,
-      fechaPago: '14/07/2026',
+      fechaPago: '2026-07-14',
       cuota: Cuota.FAMILIARx2,
-      monto: '1.000',
+      monto: 1.000,
       tipoPago: TipoPago.TRANSFERENCIA,
       celular: '898681'
     },
     {
       id: 4,
       nombre: 'Cristina Bovier',
-      estado: EstadoCliente.NO,
-      fechaPago: '14/07/2026',
+      estado: EstadoCliente.NO_VIENE,
+      fechaPago: '2026-07-14',
       cuota: Cuota.INDIVIDUAL,
-      monto: '4.000',
+      monto: 4.000,
       tipoPago: TipoPago.TRANSFERENCIA,
       celular: '157802'
     }
@@ -56,5 +56,10 @@ export class ClienteService {
 
   getClientes(): Cliente[]{
     return this.clientes;
+  }
+
+  addCliente(cliente: Cliente): void {
+    cliente.id = this.clientes.length + 1;
+    this.clientes.push(cliente);
   }
 }
