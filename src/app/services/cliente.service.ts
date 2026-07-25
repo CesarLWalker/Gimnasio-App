@@ -60,6 +60,6 @@ export class ClienteService {
 
   addCliente(cliente: Cliente): void {
     cliente.id = this.clientes.length + 1;
-    this.clientes.push(cliente);
+    this.clientes.push({ ...cliente }); // Así se guarda una copia del objeto
   }
 }

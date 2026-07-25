@@ -18,8 +18,6 @@ import { ClienteService } from 'src/app/services/cliente.service';
 })
 export class NuevoClientePage implements OnInit {
 
-  private clienteService: ClienteService = new ClienteService;
-  private router: Router = new Router;
 
   cliente: Cliente = {
     id: 0,
@@ -32,15 +30,17 @@ export class NuevoClientePage implements OnInit {
     tipoPago: TipoPago.EFECTIVO
   };
 
-  constructor() { }
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router) { }
 
   ngOnInit() {
   }
 
   public guardarCliente(): void {
     this.clienteService.addCliente(this.cliente);
+    
     this.router.navigate(['/clientes']);
-    //console.log(this.cliente);
   }
 
 }
