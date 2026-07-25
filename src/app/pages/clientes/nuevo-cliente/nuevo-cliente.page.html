@@ -10,9 +10,15 @@
 
   <ion-item>
     <ion-input label="Nombre y Apellido" [(ngModel)]="cliente.nombre" name="nombre"
-     labelPlacement="stacked" placeholder="Ingrese su nombre y apellido" required>
+     labelPlacement="stacked" placeholder="Ingrese su nombre y apellido" #nombre="ngModel" required>
     </ion-input>
   </ion-item>
+
+  @if (nombre.invalid && nombre.touched) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El nombre es obligatorio.</ion-text>
+    </div>
+     }
 
   <ion-item>
     <ion-select label="Estado" [(ngModel)]="cliente.estado" name="estado"
@@ -44,8 +50,20 @@
 
   <ion-item>
     <ion-input type="number" label="Monto" labelPlacement="stacked" name="monto"
-    [(ngModel)]="cliente.monto" min="1" required></ion-input>
+    [(ngModel)]="cliente.monto" min="1" #monto="ngModel" required></ion-input>
   </ion-item>
+
+  @if (monto.touched && monto.errors?.['required']) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El monto es obligatorio.</ion-text>
+    </div>
+  }
+
+  @if (monto.touched && monto.errors?.['min']) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El monto debe ser mayor que 0.</ion-text>
+    </div>
+  }
 
   <ion-item>
     <ion-select label="Tipo de pago" labelPlacement="stacked" name="tipoPago"
@@ -60,8 +78,14 @@
 
   <ion-item>
     <ion-input label="Celular" [(ngModel)]="cliente.celular" name="celular"
-    labelPlacement="stacked" placeholder="Ingrese el celular" required></ion-input>
+    labelPlacement="stacked" placeholder="Ingrese el celular" #celular="ngModel" required></ion-input>
   </ion-item>
+
+  @if (celular.invalid && celular.touched) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El celular es obligatorio.</ion-text>
+    </div>
+  }
 
   <ion-button expand="block" type="submit" [disabled]="formCliente.invalid">Guardar</ion-button>
 
