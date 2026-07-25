@@ -6,11 +6,11 @@
 
 <ion-content class="ion-padding">
 
-<form (ngSubmit)="guardarCliente()">
+<form #formCliente="ngForm" (ngSubmit)="guardarCliente()">
 
   <ion-item>
     <ion-input label="Nombre y Apellido" [(ngModel)]="cliente.nombre" name="nombre"
-     labelPlacement="stacked" placeholder="Ingrese su nombre y apellido">
+     labelPlacement="stacked" placeholder="Ingrese su nombre y apellido" required>
     </ion-input>
   </ion-item>
 
@@ -44,7 +44,7 @@
 
   <ion-item>
     <ion-input type="number" label="Monto" labelPlacement="stacked" name="monto"
-    [(ngModel)]="cliente.monto"></ion-input>
+    [(ngModel)]="cliente.monto" min="1" required></ion-input>
   </ion-item>
 
   <ion-item>
@@ -60,10 +60,10 @@
 
   <ion-item>
     <ion-input label="Celular" [(ngModel)]="cliente.celular" name="celular"
-    labelPlacement="stacked" placeholder="Ingrese el celular"></ion-input>
+    labelPlacement="stacked" placeholder="Ingrese el celular" required></ion-input>
   </ion-item>
 
-  <ion-button expand="block" type="submit">Guardar</ion-button>
+  <ion-button expand="block" type="submit" [disabled]="formCliente.invalid">Guardar</ion-button>
 
 </form>  
 

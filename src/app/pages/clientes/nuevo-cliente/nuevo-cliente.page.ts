@@ -39,7 +39,7 @@ export class NuevoClientePage implements OnInit {
 
   public guardarCliente(): void {
     this.clienteService.addCliente(this.cliente);
-    
+    console.log(this.cliente);
     this.router.navigate(['/clientes']);
   }
 

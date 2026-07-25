@@ -46,3 +46,10 @@
           </ion-card-content>
        </ion-card>
       </ion-col>
+
+# Con #formCliente="ngForm" Angular nos permite saber si el formulario es válido.
+<form #formCliente="ngForm" (ngSubmit)="guardarCliente()">
+
+# Mientras falte un dato obligatorio: el botón estará deshabilitado.
+Cuando el formulario sea válido: el botón se habilitará automáticamente.
+[disabled]="formCliente.invalid">Guardar
