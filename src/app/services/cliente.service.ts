@@ -12,7 +12,7 @@ export class ClienteService {
   private clientes: Cliente[] = [
     {
       id: 1,
-      nombre: 'César Walker',
+      nombre: 'AC/DC',
       estado: EstadoCliente.PAGADO,
       fechaPago: '2026-07-05',
       cuota: Cuota.INDIVIDUAL,
