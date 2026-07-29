@@ -6,7 +6,7 @@ import { Cliente } from 'src/app/models/cliente.model';
 import { EstadoCliente } from 'src/app/enums/estadoCliente.enum';
 import { TipoPago } from 'src/app/enums/tipoPago.enum';
 import { Cuota } from 'src/app/enums/cuota.enum';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
@@ -18,6 +18,7 @@ import { ClienteService } from 'src/app/services/cliente.service';
 })
 export class NuevoClientePage implements OnInit {
 
+  public EstadoCliente = EstadoCliente;
 
   cliente: Cliente = {
     id: 0,
@@ -30,11 +31,26 @@ export class NuevoClientePage implements OnInit {
     tipoPago: TipoPago.EFECTIVO
   };
 
+  public modoEdicion = false;
+
   constructor(
     private clienteService: ClienteService,
-    private router: Router) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // Obtiene el ID de la URL
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    //console.log('ID recibido: ', id);
+    if (id) { // verifica si hay un ID
+      const clienteEncontrado = this.clienteService.getClienteById(Number(id)); // busca el cliente
+
+      if (clienteEncontrado) {
+        // operador de propagación ( ... )
+        this.cliente = { ...clienteEncontrado }; // carga los datos en el formulario
+        this.modoEdicion = true; // activamos el modo edición
+      }
+    }
   }
 
   public guardarCliente(): void {

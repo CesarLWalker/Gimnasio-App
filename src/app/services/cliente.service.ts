@@ -16,17 +16,17 @@ export class ClienteService {
       estado: EstadoCliente.PAGADO,
       fechaPago: '2026-07-05',
       cuota: Cuota.INDIVIDUAL,
-      monto: 15.000,
+      monto: 15000,
       tipoPago: TipoPago.EFECTIVO,
       celular: '123456'
     },
     {
       id: 2,
       nombre: 'Dana Walker',
-      estado: EstadoCliente.DEBE,
+      estado: EstadoCliente.MEDIO_MES,
       fechaPago: '2026-06-04',
       cuota: Cuota.INDIVIDUAL,
-      monto: 15.000,
+      monto: 15000,
       tipoPago: TipoPago.MERCADO_PAGO,
       celular: '451525'
     },
@@ -36,7 +36,7 @@ export class ClienteService {
       estado: EstadoCliente.DIA,
       fechaPago: '2026-07-14',
       cuota: Cuota.FAMILIARx2,
-      monto: 1.000,
+      monto: 1000,
       tipoPago: TipoPago.TRANSFERENCIA,
       celular: '898681'
     },
@@ -46,7 +46,7 @@ export class ClienteService {
       estado: EstadoCliente.NO_VIENE,
       fechaPago: '2026-07-14',
       cuota: Cuota.INDIVIDUAL,
-      monto: 4.000,
+      monto: 4000,
       tipoPago: TipoPago.TRANSFERENCIA,
       celular: '157802'
     }
@@ -56,6 +56,11 @@ export class ClienteService {
 
   getClientes(): Cliente[]{
     return this.clientes;
+  }
+
+  // Método que recorre el arreglo de clientes y devuelve el primero que tenga el mismo ID.
+  public getClienteById(id: number): Cliente | undefined {
+    return this.clientes.find(cliente => cliente.id === id);
   }
 
   addCliente(cliente: Cliente): void {

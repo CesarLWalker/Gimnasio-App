@@ -85,4 +85,69 @@ Todos funcionan con el mismo principio. Ej.
     private router: Router
   ) {}
 
-#   
+#  Utilizando console.log(); para corroborar
+public editarCliente(cliente: Cliente): void {
+  console.log('Editar cliente:', cliente);
+  this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
+}
+
+O incluso, cuando comprobemos que la navegación funciona, directamente eliminaría el console.log:
+
+public editarCliente(cliente: Cliente): void {
+  this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
+}
+
+## En producción no solemos dejar console.log() salvo que estemos depurando un problema.
+
+# ¿Qué hace este código?
+1. Obtiene el ID de la URL
+const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+Si la URL es:
+
+/clientes/nuevo-cliente/3
+
+entonces:
+
+id = "3"
+
+Si la URL es:
+
+/clientes/nuevo-cliente
+
+entonces:
+
+id = null
+2. Verifica si hay un ID
+if (id)
+
+Solo entra si estamos editando.
+
+3. Busca el cliente
+const clienteEncontrado = this.clienteService.getClienteById(Number(id));
+
+Usamos Number(id) porque el parámetro de la URL llega como texto (string), pero nuestro método espera un number.
+
+4. Carga los datos en el formulario
+this.cliente = { ...clienteEncontrado };
+
+Fijate que nuevamente usamos el operador de propagación (...).
+
+No hacemos:
+
+this.cliente = clienteEncontrado;
+
+porque eso haría que ambos objetos apuntaran a la misma referencia. Si empezaras a escribir en el formulario, estarías modificando el cliente de la lista incluso antes de guardar.
+
+Con:
+
+     this.cliente = { ...clienteEncontrado };
+
+trabajamos sobre una copia, que es mucho más seguro.
+
+5. Activamos el modo edición
+this.modoEdicion = true;
+
+Más adelante esta variable nos servirá para decidir si el botón debe crear o actualizar un cliente.
+
+# 

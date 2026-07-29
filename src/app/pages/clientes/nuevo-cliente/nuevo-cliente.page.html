@@ -23,12 +23,12 @@
   <ion-item>
     <ion-select label="Estado" [(ngModel)]="cliente.estado" name="estado"
     labelPlacement="stacked">
-      <ion-select-option value="PAGADO">PAGADO</ion-select-option>
-      <ion-select-option value="DEBE">DEBE</ion-select-option>
-      <ion-select-option value="NO_VIENE">NO VIENE</ion-select-option>
-      <ion-select-option value="MEDIO_MES">MEDIO MES</ion-select-option>
-      <ion-select-option value="SEMANA">SEMANA</ion-select-option>
-      <ion-select-option value="DIA">DÍA</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.PAGADO">PAGADO</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.DEBE">DEBE</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.NO_VIENE">NO VIENE</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.MEDIO_MES">MEDIO MES</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.SEMANA">SEMANA</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.DIA">DÍA</ion-select-option>
     </ion-select>
   </ion-item>
 

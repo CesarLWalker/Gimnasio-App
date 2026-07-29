@@ -18,7 +18,7 @@
 
     <ion-card-content>
       <ion-item lines="none">
-        <ion-label>Estado: {{ cliente.estado }} </ion-label>
+        <ion-label>Estado: {{ getEstadoLabel(cliente.estado) }} </ion-label>
       </ion-item>
       <ion-item lines="none">
         <ion-label>Fecha de Pago: {{ cliente.fechaPago }} </ion-label>

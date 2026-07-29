@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonItem, IonLabel, IonIcon, IonList, IonSearchbar, IonFab, IonFabButton, IonButton } from "@ionic/angular/standalone";
+import { EstadoCliente } from 'src/app/enums/estadoCliente.enum';
 import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 
@@ -38,6 +39,29 @@ export class ClientesPage implements OnInit {
     .trim();
   }
 
+  public getEstadoLabel(estado: string): string {
+
+    switch (estado) {
+    case EstadoCliente.PAGADO:
+      return '🟢 Pagado';
+
+    case EstadoCliente.NO_VIENE:
+      return '🔴 No viene';
+
+    case EstadoCliente.MEDIO_MES:
+      return '🔵 Medio mes';
+
+    case EstadoCliente.SEMANA:
+      return '🟣 Semana';
+
+    case EstadoCliente.DIA:
+      return '🟢 Día';
+
+    default:
+      return estado;  
+    }
+  }
+
   //  Métodos públicos
   public filterClients(): void {
 
@@ -53,12 +77,13 @@ export class ClientesPage implements OnInit {
   }
 
   public goToNuevoCliente(): void {
-    console.log("Botón + presionado");
+    //console.log("Botón + presionado");
     this.router.navigate(['/clientes/nuevo-cliente']);
   }
 
   public editarCliente(cliente: Cliente): void {
-    console.log("Editar cliente: ", cliente);
+    //console.log("Editar cliente: ", cliente);
+    this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
   }
 
 }
