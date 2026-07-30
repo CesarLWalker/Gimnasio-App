@@ -63,6 +63,14 @@ export class ClienteService {
     return this.clientes.find(cliente => cliente.id === id);
   }
 
+  public updateCliente(clienteActualizado: Cliente): void {
+    const index = this.clientes.findIndex(cliente => cliente.id === clienteActualizado.id);
+
+    if (index !== -1) {
+      this.clientes[index] = { ...clienteActualizado };
+    }
+  }
+
   addCliente(cliente: Cliente): void {
     cliente.id = this.clientes.length + 1;
     this.clientes.push({ ...cliente }); // Así se guarda una copia del objeto

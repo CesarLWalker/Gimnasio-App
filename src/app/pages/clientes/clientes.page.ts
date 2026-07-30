@@ -26,9 +26,15 @@ export class ClientesPage implements OnInit {
 
   //  Ciclos de vida
   ngOnInit(): void {
+
+  }
+
+  // Método para refrescar datos, cargar listas
+  ionViewWillEnter(): void {
     this.clientes = this.clienteService.getClientes();
     this.clientesFiltrados = [...this.clientes]; //creamos una copia superficial del arreglo. Así podemos filtrar la copia sin afectar la lista original.
   }
+    
 
   // Método para normalizar texto
   public normalizeText(text: string): string {

@@ -150,4 +150,70 @@ this.modoEdicion = true;
 
 Más adelante esta variable nos servirá para decidir si el botón debe crear o actualizar un cliente.
 
-# 
+# ¿Qué hace este método?
+
+Primero busca en qué posición del arreglo está el cliente:
+
+const index = this.clientes.findIndex(
+  cliente => cliente.id === clienteActualizado.id
+);
+
+Por ejemplo, si el cliente con ID 3 está en la tercera posición del arreglo, index valdrá 2 (porque los arreglos empiezan en 0).
+
+Después verifica que realmente lo encontró:
+
+if (index !== -1)
+
+Y finalmente reemplaza ese cliente por el actualizado:
+
+this.clientes[index] = { ...clienteActualizado };
+
+Fijate que seguimos usando ... para trabajar con una copia del objeto.
+
+🧠 Un concepto nuevo: find() vs findIndex()
+
+Hasta ahora usamos:
+
+this.clientes.find(...)
+
+Eso devuelve el objeto.
+
+En cambio:
+
+this.clientes.findIndex(...)
+
+devuelve la posición del objeto dentro del arreglo.
+
+Ejemplo:
+
+Índice    Cliente
+
+0         César
+1         Dana
+2         Leandro
+3         Cristina
+
+Si buscamos a Leandro:
+
+find()      → devuelve el objeto Leandro
+
+findIndex() → devuelve 2
+
+Y como necesitamos reemplazar un elemento del arreglo, findIndex() es la herramienta adecuada.
+
+# ngOnInit()
+Se ejecuta cuando el componente se crea por primera vez.
+Ideal para:
+
+Configuración inicial.
+Cargar datos que no cambian mientras la página está abierta.
+Inicializar variables.
+
+# ionViewWillEnter()
+Se ejecuta cada vez que la página vuelve a mostrarse.
+Ideal para:
+
+Recargar listas.
+Refrescar datos.
+Consultar nuevamente el backend.
+En una aplicación Ionic se usa muchísimo.

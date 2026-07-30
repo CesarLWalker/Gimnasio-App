@@ -54,8 +54,15 @@ export class NuevoClientePage implements OnInit {
   }
 
   public guardarCliente(): void {
-    this.clienteService.addCliente(this.cliente);
-    console.log(this.cliente);
+    
+    if (this.modoEdicion) {
+      this.clienteService.updateCliente(this.cliente); // Actualiza cliente
+      console.log('Cliente actualizado: ', this.cliente);
+    } else {
+      this.clienteService.addCliente(this.cliente); // Agrega cliente
+      console.log('Cliente agregado: ', this.cliente);
+    }
+
     this.router.navigate(['/clientes']);
   }
 
