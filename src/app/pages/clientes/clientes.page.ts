@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonItem, IonLabel, IonIcon, IonList, IonSearchbar, IonFab, IonFabButton, IonButton } from "@ionic/angular/standalone";
 import { EstadoCliente } from 'src/app/enums/estadoCliente.enum';
 import { Cliente } from 'src/app/models/cliente.model';
@@ -22,19 +23,21 @@ export class ClientesPage implements OnInit {
   searchTerm = '';
 
   //  Constructor
-  constructor(private clienteService: ClienteService, private router: Router) { }
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router,
+    private alertController: AlertController
+  ) { }
 
   //  Ciclos de vida
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   // Método para refrescar datos, cargar listas
   ionViewWillEnter(): void {
     this.clientes = this.clienteService.getClientes();
     this.clientesFiltrados = [...this.clientes]; //creamos una copia superficial del arreglo. Así podemos filtrar la copia sin afectar la lista original.
   }
-    
+
 
   // Método para normalizar texto
   public normalizeText(text: string): string {
@@ -64,7 +67,7 @@ export class ClientesPage implements OnInit {
       return '🟢 Día';
 
     default:
-      return estado;  
+      return estado;
     }
   }
 
@@ -90,6 +93,32 @@ export class ClientesPage implements OnInit {
   public editarCliente(cliente: Cliente): void {
     //console.log("Editar cliente: ", cliente);
     this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
+  }
+
+  public async eliminarCliente(cliente: Cliente): Promise<void> {
+
+    const alert = await this.alertController.create({
+      header: 'Eliminar cliente',
+      message: `¿Estás seguro que desea eliminar a ${cliente.nombre}?`, // comillas invertidas (backticks)
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this. clienteService.deleteCliente(cliente.id);
+            this.clientes = this.clienteService.getClientes();
+            this.clientesFiltrados = [ ...this.clientes ];
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+    console.log("Cliente eliminado: ", cliente);
   }
 
 }

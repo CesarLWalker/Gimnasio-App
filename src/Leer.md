@@ -217,3 +217,48 @@ Recargar listas.
 Refrescar datos.
 Consultar nuevamente el backend.
 En una aplicación Ionic se usa muchísimo.
+
+# 🧠 Un concepto importante
+Varios métodos muy útiles de los arreglos:
+
+# Método	    ¿Qué hace?
+find()	      Devuelve un objeto.
+findIndex()	  Devuelve la posición del objeto.
+filter()	    Devuelve un nuevo arreglo filtrado.
+push()	      Agrega un elemento al final.
+
+# Comillas invertidas (backticks)
+`Hola`
+
+Sirven para crear template literals (plantillas de texto), que permiten insertar variables.
+
+Por ejemplo:
+
+const nombre = 'César';
+
+console.log(`Hola ${nombre}`);
+
+Resultado: Hola César
+
+# Lo correcto es usar backticks:
+
+message: `¿Está seguro que desea eliminar a ${cliente.nombre}?`
+
+Así TypeScript reemplaza ${cliente.nombre} por el nombre real del cliente.
+
+Cada vez que veas esta sintaxis:
+
+${ ... }
+
+preguntate: ¿Estoy usando backticks ( )?
+
+Porque ${...} solo funciona dentro de backticks.
+
+# 💡En lugar de escribir:
+
+'Hola ' + nombre + ', bienvenido.'
+
+escribimos: `Hola ${nombre}, bienvenido.`
+
+# 
+

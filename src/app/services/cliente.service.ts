@@ -71,8 +71,12 @@ export class ClienteService {
     }
   }
 
-  addCliente(cliente: Cliente): void {
+  public addCliente(cliente: Cliente): void {
     cliente.id = this.clientes.length + 1;
     this.clientes.push({ ...cliente }); // Así se guarda una copia del objeto
+  }
+
+  public deleteCliente(id: number): void {
+    this.clientes = this.clientes.filter(cliente => cliente.id !== id);
   }
 }
