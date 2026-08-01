@@ -54,8 +54,12 @@ export class ClienteService {
 
   constructor() {}
 
-  getClientes(): Cliente[]{
-    return this.clientes;
+  public getClientes(): Cliente[]{
+    return [...this.clientes].sort((a, b) => // copia del arreglo y ordenar
+    a.nombre.localeCompare(b.nombre, 'es', {  // Orden alfabético correcto en español
+      sensitivity: 'base'  // ignora los acentos
+    })
+  );
   }
 
   // Método que recorre el arreglo de clientes y devuelve el primero que tenga el mismo ID.
@@ -78,5 +82,9 @@ export class ClienteService {
 
   public deleteCliente(id: number): void {
     this.clientes = this.clientes.filter(cliente => cliente.id !== id);
+  }
+
+  public getTotalClientes(): number {
+    return this.clientes.length;
   }
 }
