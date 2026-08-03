@@ -93,6 +93,7 @@ export class ClienteService {
     return this.clientes.length;
   }
 
+  // Métodos de Estado Cliente
   public getClientesPagados(): number {
     return this.clientes.filter(
       cliente => cliente.estado === EstadoCliente.PAGADO
@@ -108,6 +109,31 @@ export class ClienteService {
   public getClientesNoVienen(): number {
     return this.clientes.filter(
       cliente => cliente.estado === EstadoCliente.NO_VIENE
+    ).length;
+  }
+
+  // Métodos de Períodos de Pago
+  public getClientesMensuales(): number {
+    return this.clientes.filter(
+      cliente => cliente.periodoPago === PeriodoPago.MES
+    ).length;
+  }
+
+  public getClientesMedioMes(): number {
+    return this.clientes.filter(
+      cliente => cliente.periodoPago === PeriodoPago.MEDIO_MES
+    ).length;
+  }
+
+  public getClientesSemanales(): number {
+    return this.clientes.filter(
+      cliente => cliente.periodoPago === PeriodoPago.SEMANA
+    ).length;
+  }
+
+  public getClientesDiarios(): number {
+    return this.clientes.filter(
+      cliente => cliente.periodoPago === PeriodoPago.DIA
     ).length;
   }
 }
