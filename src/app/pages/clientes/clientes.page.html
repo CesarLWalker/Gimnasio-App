@@ -21,19 +21,22 @@
         <ion-label>Estado: {{ getEstadoLabel(cliente.estado) }} </ion-label>
       </ion-item>
       <ion-item lines="none">
+        <ion-label>Periodo de Pago: {{ cliente.periodoPago }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
         <ion-label>Fecha de Pago: {{ cliente.fechaPago }} </ion-label>
       </ion-item>
       <ion-item lines="none">
         <ion-label>Cuota: {{ cliente.cuota }} </ion-label>
       </ion-item>
       <ion-item lines="none">
-        <ion-label>Monto: $ {{ cliente.monto }}</ion-label>
+        <ion-label>Monto: $ {{ cliente.monto }} </ion-label>
       </ion-item>
       <ion-item lines="none">
-        <ion-label>Tipo de Pago: {{ cliente.tipoPago }}</ion-label>
+        <ion-label>Tipo de Pago: {{ cliente.tipoPago }} </ion-label>
       </ion-item>
       <ion-item lines="none">
-        <ion-label>Celular: 📱{{ cliente.celular }}</ion-label>
+        <ion-label>Celular: 📱{{ cliente.celular }} </ion-label>
       </ion-item>
 
       <ion-button expand="block" fill="outline" color="primary" (click)="editarCliente(cliente)">
@@ -51,11 +54,11 @@
   }
 
   </ion-list>
-  
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary" (click)="goToNuevoCliente()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
- 
+
 </ion-content>

@@ -8,6 +8,7 @@ import { TipoPago } from 'src/app/enums/tipoPago.enum';
 import { Cuota } from 'src/app/enums/cuota.enum';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from 'src/app/services/cliente.service';
+import { PeriodoPago } from 'src/app/enums/periodoPago';
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -19,12 +20,14 @@ import { ClienteService } from 'src/app/services/cliente.service';
 export class NuevoClientePage implements OnInit {
 
   public EstadoCliente = EstadoCliente;
+  public PeriodoPago = PeriodoPago;
 
   cliente: Cliente = {
     id: 0,
     nombre: '',
     celular: '',
     estado: EstadoCliente.PAGADO,
+    periodoPago: PeriodoPago.MES,
     fechaPago: '',
     cuota: Cuota.INDIVIDUAL,
     monto: 1000,
@@ -54,7 +57,7 @@ export class NuevoClientePage implements OnInit {
   }
 
   public guardarCliente(): void {
-    
+
     if (this.modoEdicion) {
       this.clienteService.updateCliente(this.cliente); // Actualiza cliente
       console.log('Cliente actualizado: ', this.cliente);

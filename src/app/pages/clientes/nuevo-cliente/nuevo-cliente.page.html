@@ -26,9 +26,16 @@
       <ion-select-option [value]="EstadoCliente.PAGADO">PAGADO</ion-select-option>
       <ion-select-option [value]="EstadoCliente.DEBE">DEBE</ion-select-option>
       <ion-select-option [value]="EstadoCliente.NO_VIENE">NO VIENE</ion-select-option>
-      <ion-select-option [value]="EstadoCliente.MEDIO_MES">MEDIO MES</ion-select-option>
-      <ion-select-option [value]="EstadoCliente.SEMANA">SEMANA</ion-select-option>
-      <ion-select-option [value]="EstadoCliente.DIA">DÍA</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Periodo de Pago" [(ngModel)]="cliente.periodoPago" name="periodoPago"
+    labelPlacement="stacked">
+      <ion-select-option [value]="PeriodoPago.MES">MES</ion-select-option>
+      <ion-select-option [value]="PeriodoPago.MEDIO_MES">MEDIO MES</ion-select-option>
+      <ion-select-option [value]="PeriodoPago.SEMANA">SEMANA</ion-select-option>
+      <ion-select-option [value]="PeriodoPago.DIA">DÍA</ion-select-option>
     </ion-select>
   </ion-item>
 
@@ -88,7 +95,7 @@
   }
 
   <ion-button expand="block" type="submit" [disabled]="formCliente.invalid">Guardar</ion-button>
-  
+
 </form>
 
 </ion-content>

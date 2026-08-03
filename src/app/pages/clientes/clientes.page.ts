@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonItem, IonLabel, IonIcon, IonList, IonSearchbar, IonFab, IonFabButton, IonButton } from "@ionic/angular/standalone";
 import { EstadoCliente } from 'src/app/enums/estadoCliente.enum';
+import { PeriodoPago } from 'src/app/enums/periodoPago';
 import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 
@@ -54,20 +55,34 @@ export class ClientesPage implements OnInit {
     case EstadoCliente.PAGADO:
       return '🟢 Pagado';
 
+    case EstadoCliente.DEBE:
+      return '🟡 Debe';
+
     case EstadoCliente.NO_VIENE:
-      return '🔴 No viene';
-
-    case EstadoCliente.MEDIO_MES:
-      return '🔵 Medio mes';
-
-    case EstadoCliente.SEMANA:
-      return '🟣 Semana';
-
-    case EstadoCliente.DIA:
-      return '🟢 Día';
+      return '🔴 No vienen';
 
     default:
       return estado;
+    }
+  }
+
+  public getPeriodoPagoLabel(periodo: PeriodoPago): string {
+
+    switch (periodo) {
+      case PeriodoPago.MES:
+        return '📅 Mes';
+
+      case PeriodoPago.MEDIO_MES:
+        return '📅 Medio mes';
+
+      case PeriodoPago.SEMANA:
+        return '📅 Semana';
+
+      case PeriodoPago.DIA:
+        return '📅 Día';   
+        
+      default:
+        return periodo;   
     }
   }
 

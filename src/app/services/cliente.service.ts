@@ -3,6 +3,7 @@ import { Cliente } from '../models/cliente.model';
 import { Cuota } from '../enums/cuota.enum';
 import { TipoPago } from '../enums/tipoPago.enum';
 import { EstadoCliente } from '../enums/estadoCliente.enum';
+import { PeriodoPago } from '../enums/periodoPago';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class ClienteService {
       id: 1,
       nombre: 'AC/DC',
       estado: EstadoCliente.PAGADO,
+      periodoPago: PeriodoPago.MES,
       fechaPago: '2026-07-05',
       cuota: Cuota.INDIVIDUAL,
       monto: 15000,
@@ -23,7 +25,8 @@ export class ClienteService {
     {
       id: 2,
       nombre: 'Dana Walker',
-      estado: EstadoCliente.MEDIO_MES,
+      estado: EstadoCliente.PAGADO,
+      periodoPago: PeriodoPago.MEDIO_MES,
       fechaPago: '2026-06-04',
       cuota: Cuota.INDIVIDUAL,
       monto: 15000,
@@ -33,7 +36,8 @@ export class ClienteService {
     {
       id: 3,
       nombre: 'Leandro Walker',
-      estado: EstadoCliente.DIA,
+      estado: EstadoCliente.PAGADO,
+      periodoPago: PeriodoPago.DIA,
       fechaPago: '2026-07-14',
       cuota: Cuota.FAMILIARx2,
       monto: 1000,
@@ -44,6 +48,7 @@ export class ClienteService {
       id: 4,
       nombre: 'Cristina Bovier',
       estado: EstadoCliente.NO_VIENE,
+      periodoPago: PeriodoPago.MES,
       fechaPago: '2026-07-14',
       cuota: Cuota.INDIVIDUAL,
       monto: 4000,
@@ -55,7 +60,7 @@ export class ClienteService {
   constructor() {}
 
   public getClientes(): Cliente[]{
-    return [...this.clientes].sort((a, b) => // copia del arreglo y ordenar
+    return [...this.clientes].sort((a, b) => // crea copia del arreglo y ordena esa copia
     a.nombre.localeCompare(b.nombre, 'es', {  // Orden alfabético correcto en español
       sensitivity: 'base'  // ignora los acentos
     })
@@ -86,5 +91,23 @@ export class ClienteService {
 
   public getTotalClientes(): number {
     return this.clientes.length;
+  }
+
+  public getClientesPagados(): number {
+    return this.clientes.filter(
+      cliente => cliente.estado === EstadoCliente.PAGADO
+    ).length;
+  }
+
+  public getClientesDeben(): number {
+    return this.clientes.filter(
+      cliente => cliente.estado === EstadoCliente.DEBE
+    ).length;
+  }
+
+  public getClientesNoVienen(): number {
+    return this.clientes.filter(
+      cliente => cliente.estado === EstadoCliente.NO_VIENE
+    ).length;
   }
 }
