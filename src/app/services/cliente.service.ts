@@ -136,4 +136,10 @@ export class ClienteService {
       cliente => cliente.periodoPago === PeriodoPago.DIA
     ).length;
   }
+
+  public getRecaudacionTotal(): number {
+    return this.clientes
+    .filter(cliente => cliente.estado === EstadoCliente.PAGADO)
+    .reduce((total, cliente) => total + Number(cliente.monto), 0); //Number lo comvierte a number
+  }
 }

@@ -111,6 +111,13 @@ export class DashboardPage implements OnInit {
         valor: this.clienteService.getClientesSemanales().toString(),
         descripcion: 'Período de pago',
         color: 'secondary'
+      },
+      {
+        icono: '💰',
+        titulo: 'Recaudado',
+        valor: `$ ${this.clienteService.getRecaudacionTotal().toLocaleString('es-AR')}`, // formato Argentina
+        descripcion: 'Total cobrado',
+        color: 'success'
       }
     ];
   }
