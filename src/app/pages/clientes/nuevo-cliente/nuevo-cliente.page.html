@@ -40,8 +40,8 @@
   </ion-item>
 
   <ion-item>
-    <ion-input type="date" label="Fecha de pago" labelPlacement="stacked"
-    [(ngModel)]="cliente.fechaPago" name="fechaPago"></ion-input>
+    <ion-input type="date" label="Fecha de último pago" labelPlacement="stacked"
+    [(ngModel)]="cliente.fechaUltimoPago" name="fechaUltimoPago"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -73,8 +73,8 @@
   }
 
   <ion-item>
-    <ion-select label="Tipo de pago" labelPlacement="stacked" name="tipoPago"
-    [(ngModel)]="cliente.tipoPago">
+    <ion-select label="Tipo de pago" labelPlacement="stacked" name="tipoPagoHabitual"
+    [(ngModel)]="cliente.tipoPagoHabitual">
         <ion-select-option value="EFECTIVO">EFECTIVO</ion-select-option>
          <ion-select-option value="TRANSFERENCIA">TRANSFERENCIA</ion-select-option>
           <ion-select-option value="TARJETA_DEBITO">TARJETA DE DÉBITO</ion-select-option>

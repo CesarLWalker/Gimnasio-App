@@ -1,4 +1,4 @@
-import { Profesor } from 'src/app/models/profesor'
+import { Profesor } from 'src/app/models/profesor.model'
 import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCardTitle, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
 

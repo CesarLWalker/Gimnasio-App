@@ -28,10 +28,10 @@ export class NuevoClientePage implements OnInit {
     celular: '',
     estado: EstadoCliente.PAGADO,
     periodoPago: PeriodoPago.MES,
-    fechaPago: '',
+    fechaUltimoPago: '',
     cuota: Cuota.INDIVIDUAL,
     monto: 1000,
-    tipoPago: TipoPago.EFECTIVO
+    tipoPagoHabitual: TipoPago.EFECTIVO
   };
 
   public modoEdicion = false;

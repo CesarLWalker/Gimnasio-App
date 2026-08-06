@@ -8,10 +8,10 @@ export interface Cliente {
   id: number;
   nombre: string;
   estado: EstadoCliente;
-  fechaPago: string;
+  fechaUltimoPago: string;
   cuota: Cuota;
   monto: number;
-  tipoPago: TipoPago;
+  tipoPagoHabitual: TipoPago;
   periodoPago: PeriodoPago;
   celular: string;
 }

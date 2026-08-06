@@ -16,10 +16,10 @@ export class ClienteService {
       nombre: 'AC/DC',
       estado: EstadoCliente.PAGADO,
       periodoPago: PeriodoPago.MES,
-      fechaPago: '2026-07-05',
+      fechaUltimoPago: '2026-07-05',
       cuota: Cuota.INDIVIDUAL,
       monto: 15000,
-      tipoPago: TipoPago.EFECTIVO,
+      tipoPagoHabitual: TipoPago.EFECTIVO,
       celular: '123456'
     },
     {
@@ -27,10 +27,10 @@ export class ClienteService {
       nombre: 'Dana Walker',
       estado: EstadoCliente.PAGADO,
       periodoPago: PeriodoPago.MEDIO_MES,
-      fechaPago: '2026-06-04',
+      fechaUltimoPago: '2026-06-04',
       cuota: Cuota.INDIVIDUAL,
       monto: 15000,
-      tipoPago: TipoPago.MERCADO_PAGO,
+      tipoPagoHabitual: TipoPago.MERCADO_PAGO,
       celular: '451525'
     },
     {
@@ -38,10 +38,10 @@ export class ClienteService {
       nombre: 'Leandro Walker',
       estado: EstadoCliente.PAGADO,
       periodoPago: PeriodoPago.DIA,
-      fechaPago: '2026-07-14',
+      fechaUltimoPago: '2026-07-14',
       cuota: Cuota.FAMILIARx2,
       monto: 1000,
-      tipoPago: TipoPago.TRANSFERENCIA,
+      tipoPagoHabitual: TipoPago.TRANSFERENCIA,
       celular: '898681'
     },
     {
@@ -49,10 +49,10 @@ export class ClienteService {
       nombre: 'Cristina Bovier',
       estado: EstadoCliente.NO_VIENE,
       periodoPago: PeriodoPago.MES,
-      fechaPago: '2026-07-14',
+      fechaUltimoPago: '2026-07-14',
       cuota: Cuota.INDIVIDUAL,
       monto: 4000,
-      tipoPago: TipoPago.TRANSFERENCIA,
+      tipoPagoHabitual: TipoPago.TRANSFERENCIA,
       celular: '157802'
     }
   ];
