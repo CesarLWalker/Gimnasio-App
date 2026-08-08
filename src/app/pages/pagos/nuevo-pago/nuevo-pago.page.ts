@@ -7,13 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
+import { BrowserModule } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-nuevo-pago',
   standalone: true,
   templateUrl: './nuevo-pago.page.html',
   styleUrls: ['./nuevo-pago.page.scss'],
-  imports: [ IonicModule, FormsModule ]
+  imports: [IonicModule, FormsModule, BrowserModule]
 })
 export class NuevoPagoPage implements OnInit {
 
@@ -23,12 +24,12 @@ export class NuevoPagoPage implements OnInit {
   pago: Pago = {
 
     id: 0,
-    clienteId: 1,
+    clienteId: 0,
     fecha: '',
-    monto: 15000,
+    monto: 1000,
     tipoPago: TipoPago.EFECTIVO,
-    observacion: ''
-  };
+    observacion: '',
+   };
 
   public modoEdicion = false;
 
@@ -41,7 +42,7 @@ export class NuevoPagoPage implements OnInit {
 
   ngOnInit(): void {
     this.clientes = this.clienteService.getClientes();
-    console.log("Clientes:" , this.clientes);
+    console.log("Clientes para nuevo pago: " , this.clientes);
     // Obtiene el ID de la URL
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     //console.log('ID recibido: ', id);

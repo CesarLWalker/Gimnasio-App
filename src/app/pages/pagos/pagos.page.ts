@@ -63,10 +63,25 @@ export class PagosPage implements OnInit {
 
     const search = this.normalizeText(this.searchTerm);
 
-    this.pagosFiltrados = this.pagos.filter(pago => this.normalizeText(pago.id.toString()).includes(search)
-    );
+    this.pagosFiltrados = this.pagos.filter(pago => {
+      const nombreCliente = this.getNombreCliente(pago.clienteId);
+      return (
+        this.normalizeText(nombreCliente).includes(search) ||
+        this.normalizeText(pago.id.toString()).includes(search)
+      );
+    });
   }
+  /*
+  public formatearFecha(fecha: string): string {
 
+    if (!fecha) {
+      return '';
+    }
+
+    const partes = fecha.split('-');
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+  }
+  */
   public goToNuevoPago(): void {
     //console.log("Botón + presionado");
     this.router.navigate(['/pagos/nuevo-pago']);
@@ -91,7 +106,7 @@ export class PagosPage implements OnInit {
           text: 'Eliminar',
           role: 'destructive',
           handler: () => {
-            this. pagoService.deletePago(pago.id);
+            this.pagoService.deletePago(pago.id);
             this.pagos = this.pagoService.getPagos();
             this.pagosFiltrados = [ ...this.pagos ];
           }

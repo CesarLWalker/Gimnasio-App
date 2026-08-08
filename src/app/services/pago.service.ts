@@ -10,7 +10,7 @@ export class PagoService {
   private pagos: Pago[] = [
     {
       id: 1,
-      clienteId: 1,
+      clienteId: 3,
       fecha: '05/08/2026',
       monto: 15000,
       tipoPago: TipoPago.EFECTIVO,
