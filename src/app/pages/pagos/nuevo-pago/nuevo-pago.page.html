@@ -7,10 +7,7 @@
 <ion-content class="ion-padding">
   <ion-item>
     <ion-select label="Cliente" labelPlacement="stacked" [(ngModel)]="pago.clienteId" name="clienteId">
-      <ion-select-option *ngFor="let cliente of clientes" [value]="cliente.id"> {{ cliente.nombre }}</ion-select-option>
-      <ion-select-option>César Walker</ion-select-option>
-      <ion-select-option>Leandro Walker</ion-select-option>
-      <ion-select-option>Dana Walker</ion-select-option>
+      <ion-select-option *ngFor="let cliente of clientes" [value]="cliente.id"> {{ cliente.nombre }} </ion-select-option>
     </ion-select>
   </ion-item>
 

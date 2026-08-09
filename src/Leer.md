@@ -260,5 +260,8 @@ Porque ${...} solo funciona dentro de backticks.
 
 escribimos: `Hola ${nombre}, bienvenido.`
 
-# 
+# Página	Forma de cargar
+Página con NgModule	loadChildren
+Página standalone	loadComponent
 
+# 

@@ -71,32 +71,44 @@ export class PagosPage implements OnInit {
       );
     });
   }
-  /*
-  public formatearFecha(fecha: string): string {
-
-    if (!fecha) {
-      return '';
-    }
-
-    const partes = fecha.split('-');
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
-  }
-  */
   public goToNuevoPago(): void {
-    //console.log("Botón + presionado");
+  console.log('1 - Botón nuevo pago');
+
+  this.router.navigate(['/pagos/nuevo-pago'])
+    .then(resultado => {
+      console.log('2 - Resultado navegación:', resultado);
+    })
+    .catch(error => {
+      console.error('3 - ERROR navegación:', error);
+    });
+}
+public editarPago(pago: Pago): void {
+  console.log('1 - Editando pago:', pago);
+
+  this.router.navigate(['/pagos/nuevo-pago', pago.id])
+    .then(resultado => {
+      console.log('2 - Resultado navegación:', resultado);
+    })
+    .catch(error => {
+      console.error('3 - ERROR navegación:', error);
+    });
+}
+  /*
+  public async goToNuevoPago(): Promise<void> {
+    console.log("Botón nuevo pago");
     this.router.navigate(['/pagos/nuevo-pago']);
   }
 
-  public editarPago(pago: Pago): void {
+  public async editarPago(pago: Pago): Promise<void> {
     //console.log("Editar pago: ", pago);
     this.router.navigate(['/pagos/nuevo-pago', pago.id]);
   }
-
+  */
   public async eliminarPago(pago: Pago): Promise<void> {
 
     const alert = await this.alertController.create({
       header: 'Eliminar pago',
-      message: `¿Estás seguro que desea eliminar este ${pago.id}?`, // comillas invertidas (backticks)
+      message: `¿Estás seguro que desea eliminar este ${this.getNombreCliente(pago.clienteId)}?`, // comillas invertidas (backticks)
       buttons: [
         {
           text: 'Cancelar',

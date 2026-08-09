@@ -10,9 +10,9 @@ export class PagoService {
   private pagos: Pago[] = [
     {
       id: 1,
-      clienteId: 3,
-      fecha: '05/08/2026',
-      monto: 15000,
+      clienteId: 4,
+      fecha: '03/08/2026',
+      monto: 17000,
       tipoPago: TipoPago.EFECTIVO,
       observacion: 'cuota agosto'
     }
@@ -21,7 +21,7 @@ export class PagoService {
   constructor() {}
 
   public getPagos(): Pago[] {
-    return this.pagos;
+    return [...this.pagos];
   }
 
   public getPagoById(id: number): Pago | undefined {

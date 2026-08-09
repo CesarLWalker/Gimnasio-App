@@ -7,14 +7,13 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
-import { BrowserModule } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-nuevo-pago',
   standalone: true,
   templateUrl: './nuevo-pago.page.html',
   styleUrls: ['./nuevo-pago.page.scss'],
-  imports: [IonicModule, FormsModule, BrowserModule]
+  imports: [IonicModule, FormsModule]
 })
 export class NuevoPagoPage implements OnInit {
 
@@ -23,10 +22,10 @@ export class NuevoPagoPage implements OnInit {
 
   pago: Pago = {
 
-    id: 0,
-    clienteId: 0,
+    id: 2,
+    clienteId: 3,
     fecha: '',
-    monto: 1000,
+    monto: 1200,
     tipoPago: TipoPago.EFECTIVO,
     observacion: '',
    };
@@ -38,7 +37,7 @@ export class NuevoPagoPage implements OnInit {
     private clienteService: ClienteService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) { }
+  ) {  console.log('🚀 SE CREÓ NUEVOPAGOPAGE');}
 
   ngOnInit(): void {
     this.clientes = this.clienteService.getClientes();
