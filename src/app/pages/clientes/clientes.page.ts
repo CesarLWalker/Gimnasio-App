@@ -110,6 +110,10 @@ export class ClientesPage implements OnInit {
     this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
   }
 
+  public verHistorialPagos(cliente: Cliente): void {
+    this.router.navigate(['/clientes', cliente.id, 'historial-pagos']);
+  }
+
   public async eliminarCliente(cliente: Cliente): Promise<void> {
 
     const alert = await this.alertController.create({

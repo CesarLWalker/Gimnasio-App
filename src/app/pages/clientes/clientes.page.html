@@ -44,6 +44,11 @@
          Editar Cliente
       </ion-button>
 
+      <ion-button expand="block" fill="outline" color="success" (click)="verHistorialPagos(cliente)">
+        <ion-icon slot="start" name="card-outline"></ion-icon>
+        Historial de Pagos
+      </ion-button>
+
       <ion-button expand="block" fill="solid" color="danger" (click)="eliminarCliente(cliente)">
         <ion-icon slot="start" name="trash-outline"></ion-icon>
         Eliminar Cliente

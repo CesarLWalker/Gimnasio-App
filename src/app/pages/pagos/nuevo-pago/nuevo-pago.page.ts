@@ -23,7 +23,7 @@ export class NuevoPagoPage implements OnInit {
   pago: Pago = {
 
     id: 2,
-    clienteId: 3,
+    clienteId: 2,
     fecha: '',
     monto: 1200,
     tipoPago: TipoPago.EFECTIVO,
