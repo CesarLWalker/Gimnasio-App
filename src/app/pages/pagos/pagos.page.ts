@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonCard, IonList, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonButton, IonIcon, IonSearchbar, IonFab, IonFabButton } from "@ionic/angular/standalone";
+import { Cliente } from 'src/app/models/cliente.model';
 import { Pago } from 'src/app/models/pago.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { PagoService } from 'src/app/services/pago.service';
@@ -71,39 +72,15 @@ export class PagosPage implements OnInit {
       );
     });
   }
+
   public goToNuevoPago(): void {
-  console.log('1 - Botón nuevo pago');
-
-  this.router.navigate(['/pagos/nuevo-pago'])
-    .then(resultado => {
-      console.log('2 - Resultado navegación:', resultado);
-    })
-    .catch(error => {
-      console.error('3 - ERROR navegación:', error);
-    });
-}
-public editarPago(pago: Pago): void {
-  console.log('1 - Editando pago:', pago);
-
-  this.router.navigate(['/pagos/nuevo-pago', pago.id])
-    .then(resultado => {
-      console.log('2 - Resultado navegación:', resultado);
-    })
-    .catch(error => {
-      console.error('3 - ERROR navegación:', error);
-    });
-}
-  /*
-  public async goToNuevoPago(): Promise<void> {
-    console.log("Botón nuevo pago");
-    this.router.navigate(['/pagos/nuevo-pago']);
+   this.router.navigate(['/pagos/nuevo-pago']);
   }
 
-  public async editarPago(pago: Pago): Promise<void> {
-    //console.log("Editar pago: ", pago);
-    this.router.navigate(['/pagos/nuevo-pago', pago.id]);
+  public editarPago(pago: Pago): void {
+   this.router.navigate(['/pagos/nuevo-pago', pago.id]);
   }
-  */
+
   public async eliminarPago(pago: Pago): Promise<void> {
 
     const alert = await this.alertController.create({
