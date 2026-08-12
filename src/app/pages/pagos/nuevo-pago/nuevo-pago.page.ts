@@ -40,11 +40,21 @@ export class NuevoPagoPage implements OnInit {
   ) {  console.log('🚀 SE CREÓ NUEVOPAGOPAGE');}
 
   ngOnInit(): void {
+
     this.clientes = this.clienteService.getClientes();
     console.log("Clientes para nuevo pago: " , this.clientes);
+
+    const clienteId = this.activatedRoute.snapshot.queryParamMap.get('clienteId');
+
+    if (clienteId && !this.activatedRoute.snapshot.paramMap.get('id')) {
+      this.pago.clienteId = Number(clienteId);
+    }
+
     // Obtiene el ID de la URL
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+
     //console.log('ID recibido: ', id);
+
     if (id) { // verifica si hay un ID
       const pagoEncontrado = this.pagoService.getPagoById(Number(id)); // busca el cliente
 

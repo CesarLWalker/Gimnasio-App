@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Cliente } from 'src/app/models/cliente.model';
 import { Pago } from 'src/app/models/pago.model';
@@ -22,7 +22,8 @@ export class HistorialPagosPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
-    private pagoService: PagoService
+    private pagoService: PagoService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -41,6 +42,35 @@ export class HistorialPagosPage implements OnInit {
       console.log('Cliente: ', this.cliente);
       console.log('Pagos: ', this.pagos);
     }
+  }
+
+  public registrarPago(): void {
+
+    if (!this.cliente) {
+      return;
+    }
+
+    this.router.navigate(['/pagos/nuevo-pago'], {
+      queryParams: {
+        clienteId: this.cliente.id
+        }
+      }
+    ); 
+  }
+
+  public formatearFecha(fecha: string): string {
+
+    if (!fecha) {
+      return '';
+    }
+
+    const partes = fecha.split('-');
+
+    if (partes.length !== 3) {
+      return fecha;
+    }
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
   }
 
 
