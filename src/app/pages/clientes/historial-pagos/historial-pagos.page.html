@@ -80,7 +80,15 @@
                   <p>
                     📝 {{ pago.observacion }}
                   </p>
-                }
+                } 
+
+                <ion-button size="small" fill="outline" color="primary" (click)="editarPago(pago)">
+                  <ion-icon slot="start" name="create-outline">Editar</ion-icon>
+                </ion-button>
+
+                <ion-button size="small" fill="outline" color="danger" (click)="eliminarPago(pago)">
+                  <ion-icon slot="start" name="trash-outline">Eliminar</ion-icon>
+                </ion-button>
 
               </ion-label>
 

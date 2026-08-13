@@ -1,8 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { Cliente } from 'src/app/models/cliente.model';
 import { Pago } from 'src/app/models/pago.model';
 import { ClienteService } from 'src/app/services/cliente.service';
@@ -23,7 +21,8 @@ export class HistorialPagosPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
     private pagoService: PagoService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +31,7 @@ export class HistorialPagosPage implements OnInit {
     console.log('ID del cliente recibido: ', id);
 
     if (id) {
-      // convertir el número ID en cliente 
+      // convertir el número ID en cliente
       const clienteId = Number(id);
       // para obtener el cliente
       this.cliente = this.clienteService.getClienteById(clienteId);
@@ -55,7 +54,43 @@ export class HistorialPagosPage implements OnInit {
         clienteId: this.cliente.id
         }
       }
-    ); 
+    );
+  }
+
+  public editarPago(pago: Pago): void {
+    this.router.navigate(['/pagos/nuevo-pago', pago.id]);
+  }
+
+  public async eliminarPago(pago: Pago): Promise<void> {
+
+    const alert = await this.alertController.create({
+
+      header: 'Eliminar pago',
+      message: `¿Estás seguro de eliminar este pago de $${pago.monto}?`,
+
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+
+          handler: () => {
+
+            this.pagoService.deletePago(pago.id);
+
+            // Actualizamos el historial
+            if (this.cliente) {
+              this.pagos = this.pagoService.getPagosByCliente(this.cliente.id);
+            }
+          }
+        }
+      ]
+
+    });
+    await alert.present();
   }
 
   public formatearFecha(fecha: string): string {
