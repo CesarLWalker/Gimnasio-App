@@ -11,10 +11,18 @@ export class PagoService {
     {
       id: 1,
       clienteId: 2,
-      fecha: '03/08/2026',
+      fecha: '2026-06-05',
       monto: 17000,
       tipoPago: TipoPago.EFECTIVO,
-      observacion: 'cuota agosto'
+      observacion: 'cuota junio'
+    },
+    {
+      id: 4,
+      clienteId: 4,
+      fecha: '2026-06-03',
+      monto: 15000,
+      tipoPago: TipoPago.TARJETA_DEBITO,
+      observacion: 'cuota junio'
     }
   ];
 
@@ -53,6 +61,18 @@ export class PagoService {
     return this.pagos.filter(
       pago => pago.clienteId === clienteId
     );
+  }
+
+  public getTotalPagadoByCliente(clienteId: number): number {
+    const pagosCliente = this.getPagosByCliente(clienteId);
+    console.log('💰 Calculando total para:', clienteId);
+    console.log('Pagos para calcular total:', pagosCliente);
+
+    return pagosCliente.reduce((total, pago) => total + pago.monto, 0);
+  }
+
+  public getCantidadPagosByCliente(clienteId: number): number {
+    return this.getPagosByCliente(clienteId).length;
   }
 
   public getUltimoPago(clienteId: number): Pago | undefined {

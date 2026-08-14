@@ -16,6 +16,9 @@ export class HistorialPagosPage implements OnInit {
 
   public cliente: Cliente | undefined;
   public pagos: Pago[] = [];
+  public totalPagado = 0;
+  public cantidadPagos = 0;
+  public ultimoPago: Pago | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,8 +41,16 @@ export class HistorialPagosPage implements OnInit {
       // para obtener los pagos
       this.pagos = this.pagoService.getPagosByCliente(clienteId);
 
+      // resumen del cliente
+      this.cantidadPagos = this.pagos.length;
+      this.totalPagado = this.pagos.reduce((total, pago) => total + pago.monto, 0);
+      this.ultimoPago = this.pagos[this.pagos.length - 1];
+
       console.log('Cliente: ', this.cliente);
       console.log('Pagos: ', this.pagos);
+      console.log('Total pagado: ', this.totalPagado);
+      console.log('Cantidad de pagos: ', this.cantidadPagos);
+      console.log('Últimmo pago: ', this.ultimoPago);
     }
   }
 
