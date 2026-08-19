@@ -11,8 +11,8 @@ import { ClienteService } from 'src/app/services/cliente.service';
 })
 export class DashboardPage implements OnInit {
 
-  cards: DashboardCard[] = [
-     {
+  cards: DashboardCard[] = [];
+  /*   {
       icono: '👥',
       titulo: 'Clientes',
       valor: '152',
@@ -54,21 +54,43 @@ export class DashboardPage implements OnInit {
       descripcion: 'Datos',
       color: 'secondary'
     }
-  ];
+  ];*/
 
   constructor(private clienteService: ClienteService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  // se ejecuta cada vez que entrás a la página
+  // se ejecuta cada vez que entramos nuevamente al Dashboard
   ionViewWillEnter(): void {
     this.cargarDashboard();
   }
-  
+
   private cargarDashboard(): void {
-    console.log("Entré a cargarDashboard");
+
+    console.log("📊 Entré a cargarDashboard");
     console.log('Total clientes:', this.clienteService.getTotalClientes());
+
+    const totalClientes = this.clienteService.getTotalClientes();
+
+    const pagados = this.clienteService.getClientesPagados();
+
+    const porVencer = this.clienteService.getClientesPorVencer();
+
+    const deben = this.clienteService.getClientesDeben();
+
+    const noVienen = this.clienteService.getClientesNoVienen();
+
+    const mensuales = this.clienteService.getClientesMensuales();
+
+    const recaudacion = this.clienteService.getRecaudacionTotal();
+
+    console.log('👥 Total clientes:', totalClientes);
+    console.log('🟢 Pagados:', pagados);
+    console.log('🟡 Por vencer:', porVencer);
+    console.log('🔴 Deben:', deben);
+    console.log('⚪ No vienen:', noVienen);
+
     this.cards = [
       {
         icono: '👥',
@@ -105,13 +127,13 @@ export class DashboardPage implements OnInit {
         descripcion: 'Período de pago',
         color: 'tertiary'
       },
-      {
+     /* {
         icono: '📊',
         titulo: 'Semanales',
         valor: this.clienteService.getClientesSemanales().toString(),
         descripcion: 'Período de pago',
         color: 'secondary'
-      },
+      },*/
       {
         icono: '💰',
         titulo: 'Recaudado',

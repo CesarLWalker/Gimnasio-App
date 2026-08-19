@@ -11,8 +11,8 @@
   <ion-grid>
     <ion-row>
 
-      @for (card of cards; track card) {
-      <ion-col size="6">
+      @for (card of cards; track card.titulo) {
+      <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
         <ion-card [color]="card.color">
           <ion-card-header>
             <ion-card-title>  {{ card.icono }} {{ card.titulo }}</ion-card-title>
