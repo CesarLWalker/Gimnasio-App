@@ -3,7 +3,7 @@ import { LiquidacionProfesor } from 'src/app/models/liquidacionProfesor.model';
 import { Profesor } from 'src/app/models/profesor.model';
 import { LiquidacionProfesorService } from 'src/app/services/liquidacionProfesor.service';
 import { ProfesorService } from 'src/app/services/profesor.service';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonGrid, IonButton, IonRow, IonCol, IonCardHeader, IonCard, IonCardTitle, IonCardContent, IonBadge } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonGrid, IonButton, IonRow, IonCol, IonCardHeader, IonCard, IonCardTitle, IonCardContent, IonBadge, ToastController } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -24,7 +24,8 @@ export class LiquidacionesPage implements OnInit {
 
   constructor(
     private profesorService: ProfesorService,
-    private liquidacionProfesorService: LiquidacionProfesorService
+    private liquidacionProfesorService: LiquidacionProfesorService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -54,32 +55,44 @@ export class LiquidacionesPage implements OnInit {
     return `${meses[fecha.getMonth()]} ${fecha.getFullYear()}`;
   }
 
-  generarLiquidacion(): void {
-
-    const fecha = new Date();
-    const año = fecha.getFullYear();
-    const mes = fecha.getMonth() + 1;
+  async generarLiquidacion(): Promise<void> {
 
     const profesorId = this.profesorSeleccionadoId;
 
     if (profesorId == null) {
-       alert('⚠️ Debes seleccionar un profesor.');
+       await this.mostrarMensaje('⚠️ Debes seleccionar un profesor.', 'warning');
       return;
     }
+
+    const fecha = new Date();
+    const año = fecha.getFullYear();
+    const mes = fecha.getMonth() + 1;
 
     const liquidacion = this.liquidacionProfesorService.generarLiquidacion(profesorId, this.periodoSeleccionado, año, mes);
 
     if (liquidacion) {
 
       this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
-      alert('✅ Liquidación generada correctamente.');
+      await this.mostrarMensaje('✅ Liquidación generada correctamente.', 'success');
     } else {
-        alert(`⚠️ Ya existe una liquidación para este profesor en ${this.periodoSeleccionado}.`);
+        await this.mostrarMensaje(`⚠️ Ya existe una liquidación para este profesor en ${this.periodoSeleccionado}.`, 'danger');
     }
   }
 
   marcarComoPagado(id: number): void {
     this.liquidacionProfesorService.marcarComoPagado(id);
     this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
+  }
+
+  async mostrarMensaje(mensaje: string, color: 'success' | 'warning' | 'danger'): Promise<void> {
+
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2500,
+      position: 'middle',
+      color: color
+    });
+
+    await toast.present();
   }
 }

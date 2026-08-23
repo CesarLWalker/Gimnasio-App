@@ -41,7 +41,7 @@ export class ProfesorService {
       especialidad: "Musculación",
       sueldo: 70000,
       valorHora: 5000,
-      tipoRemuneracion: TipoRemuneracion.POR_CLASE,
+      tipoRemuneracion: TipoRemuneracion.POR_HORA,
       estado: EstadoProfesor.INACTIVO,
       color: "primary"
     },
@@ -53,7 +53,7 @@ export class ProfesorService {
       especialidad: "Funcional",
       sueldo: 40000,
       valorHora: 5000,
-      tipoRemuneracion: TipoRemuneracion.POR_COMISION,
+      tipoRemuneracion: TipoRemuneracion.SUELDO_FIJO,
       estado: EstadoProfesor.INACTIVO,
       color: "danger"
     }

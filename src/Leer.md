@@ -264,4 +264,16 @@ escribimos: `Hola ${nombre}, bienvenido.`
 Página con NgModule	loadChildren
 Página standalone	loadComponent
 
-# 
+# Regla sencilla para recordar
+const → no voy a reasignar el valor
+let   → voy a reasignar el valor
+
+Por ejemplo:
+
+    const profesorId = this.profesorSeleccionadoId;
+
+No lo cambiamos → const ✅
+
+    let totalPagar = 0;
+
+Puede cambiar → let ✅
