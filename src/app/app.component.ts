@@ -11,6 +11,7 @@ export class AppComponent {
     { title: 'Clientes', url: '/clientes', icon: 'people' },
     { title: 'Pagos', url: '/pagos', icon: 'cash' },
     { title: 'Profesores', url: '/profesores', icon: 'people' },
+    { title: 'Liquidaciones', url: '/liquidaciones', icon: 'cash'},
   ];
   public labels = [];
   constructor() {}

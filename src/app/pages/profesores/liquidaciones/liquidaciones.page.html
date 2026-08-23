@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-title>Liquidaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>Liquidación de Profesores</h2>
+
+  <!--SELECCIONAR PROFESOR-->
+  <ion-item>
+    <ion-label>Profesor</ion-label>
+    <ion-select [(ngModel)]="profesorSeleccionadoId" placeholder="Seleccionar profesor">
+
+      @for (profesor of profesores; track profesor.id) {
+
+        <ion-select-option [value]="profesor.id">{{ profesor.nombre }}</ion-select-option>
+      }
+
+    </ion-select>
+  </ion-item>
+
+  <!--PERÍODO-->
+  <ion-item>
+    <ion-label>Período</ion-label>
+    <ion-select [(ngModel)]="periodoSeleccionado">
+      <ion-select-option value="AGOSTO 2026">Agosto 2026</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!--BOTÓN-->
+  <ion-button expand="block" color="primary" class="ion-margin-top" (click)="generarLiquidacion()">
+     💰 Generar liquidación
+  </ion-button>
+
+  <!--LIQUIDACIONES-->
+  <ion-grid>
+    <ion-row>
+      @for (liquidacion of liquidaciones; track liquidacion.id) {
+
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+
+                @for (profesor of profesores; track profesor.id) {
+
+                  @if (profesor.id === liquidacion.profesorId) {
+                    {{ profesor.icono }} {{ profesor.nombre }}
+                  }
+                }
+
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+
+              <p> 📅 {{ liquidacion.periodo }}</p>
+              <p> 👨‍🏫 Tipo: {{ liquidacion.tipoRemuneracion }}</p>
+
+              @if (liquidacion.totalHoras > 0) {
+
+                <p> ⏱ Horas: {{ liquidacion.totalHoras }}</p>
+                <p>💰 Valor hora: ${{ liquidacion.valorHora }}</p>
+              }
+
+              <h2>💵 Total: ${{ liquidacion.totalPagar }}</h2>
+
+              @if (liquidacion.estado === 'PENDIENTE') {
+
+                <ion-badge color="warning">PENDIENTE</ion-badge>
+
+                <ion-button expand="block" color="success" class="ion-margin-top" (click)="marcarComoPagado(liquidacion.id)">✅ Marcar como pagado</ion-button>
+              } @else {
+
+                <ion-badge color="success">PAGADO</ion-badge>
+              }
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+      }
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

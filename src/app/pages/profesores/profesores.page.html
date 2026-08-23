@@ -6,20 +6,22 @@
 
 <ion-content class="ion-padding">
   <h2>Horarios Profesores 👋</h2>
-  <p></p>
+  <p>Administración de profesores</p>
 
   <ion-grid>
     <ion-row>
 
-      @for (profesor of profesores; track profesor) {
+      @for (profesor of profesores; track profesor.id) {
        <ion-col size="6">
         <ion-card [color]="profesor.color">
           <ion-card-header>
             <ion-card-title> {{ profesor.icono }} {{ profesor.nombre}}</ion-card-title>
           </ion-card-header>
             <ion-card-content>
-              <h1> {{ profesor.sueldo}}</h1>
-              <p> {{ profesor.horas }}</p>
+              <h5> 📱 {{ profesor.celular }}</h5>
+              <h5> 🏋️ {{ profesor.especialidad }}</h5>
+              <h5>  💰 Valor hora: ${{ profesor.valorHora }}</h5>
+              <h5> 💵 Sueldo: ${{ profesor.sueldo }}</h5>
             </ion-card-content>
         </ion-card>
       </ion-col>

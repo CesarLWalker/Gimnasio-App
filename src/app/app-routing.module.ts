@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'pagos',
     loadChildren: () => import('./pages/pagos/pagos.module').then( m => m.PagosPageModule)
+  },
+  {
+    path: 'liquidaciones',
+    loadChildren: () => import('./pages/profesores/liquidaciones/liquidaciones.module').then( m => m.LiquidacionesPageModule)
   }
 ];
 

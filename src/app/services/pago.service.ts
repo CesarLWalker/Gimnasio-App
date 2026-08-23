@@ -27,7 +27,9 @@ export class PagoService {
     }
   ];
 
-  constructor(private clienteService: ClienteService) {}
+  constructor(
+    private clienteService: ClienteService
+  ) {}
 
   public getPagos(): Pago[] {
     return [...this.pagos];

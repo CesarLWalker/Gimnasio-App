@@ -1,3 +1,4 @@
+import { ProfesorService } from './../../services/profesor.service';
 import { Profesor } from 'src/app/models/profesor.model'
 import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCardTitle, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
@@ -10,40 +11,14 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCardTitle, IonGrid, Ion
 })
 export class ProfesorPage implements OnInit {
 
-  profesores: Profesor[] = [
-    {
-      icono: "👨‍🏫",
-      nombre: "Profesora A",
-      sueldo: "$150.000",
-      horas: "28hs",
-      color: "secondary"
-    },
-    {
-      icono: "👨‍🏫",
-      nombre: "Profesora B",
-      sueldo: "$140.000",
-      horas: "24hs",
-      color: "success"
-    },
-    {
-      icono: "👨‍🏫",
-      nombre: "Profesor César Walker",
-      sueldo: "$70.000",
-      horas: "10hs",
-      color: "primary"
-    },
-    {
-      icono: "👨‍🏫",
-      nombre: "Profesora C",
-      sueldo: "$40.000",
-      horas: "3hs",
-      color: "danger"
-    }
-  ];
+ profesores: Profesor[] = [];
 
-  constructor() { }
+  constructor(
+    private profesorService: ProfesorService
+  ) { }
 
   ngOnInit() {
+    this.profesores = this.profesorService.getProfesores(); // trae los profesores del servicio
   }
 
 }
