@@ -73,7 +73,7 @@ export class HoraTrabajadaService {
 
       const fecha = new Date(hora.fecha);
 
-      return (hora.profesorId === profesorId && fecha.getFullYear() === año && fecha.getMonth() === mes);
+      return (hora.profesorId === profesorId && fecha.getFullYear() === año && fecha.getMonth() + 1 === mes);
     })
     .reduce((total, hora) => total + hora.horas, 0);
   }

@@ -19,7 +19,7 @@ export class LiquidacionesPage implements OnInit {
 
   liquidaciones: LiquidacionProfesor[] = [];
 
-  periodoSeleccionado = 'AGOSTO 2026';
+  periodoSeleccionado = this.obtenerPeriodoActual();
   profesorSeleccionadoId: any;
 
   constructor(
@@ -33,7 +33,32 @@ export class LiquidacionesPage implements OnInit {
     this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
   }
 
+  obtenerPeriodoActual(): string {
+    const fecha = new Date();
+
+    const meses = [
+      'ENERO',
+      'FEBRERO',
+      'MARZO',
+      'ABRIL',
+      'MAYO',
+      'JUNIO',
+      'JULIO',
+      'AGOSTO',
+      'SETIEMBRE',
+      'OCTUBRE',
+      'NOVIEMBRE',
+      'DICIEMBRE'
+    ];
+
+    return `${meses[fecha.getMonth()]} ${fecha.getFullYear()}`;
+  }
+
   generarLiquidacion(): void {
+
+    const fecha = new Date();
+    const año = fecha.getFullYear();
+    const mes = fecha.getMonth() + 1;
 
     const profesorId = this.profesorSeleccionadoId;
 
@@ -42,7 +67,7 @@ export class LiquidacionesPage implements OnInit {
       return;
     }
 
-    const liquidacion = this.liquidacionProfesorService.generarLiquidacion(profesorId, this.periodoSeleccionado, 2026, 7);
+    const liquidacion = this.liquidacionProfesorService.generarLiquidacion(profesorId, this.periodoSeleccionado, año, mes);
 
     if (liquidacion) {
 
