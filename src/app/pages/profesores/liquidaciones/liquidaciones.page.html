@@ -24,8 +24,15 @@
   <!--PERÍODO-->
   <ion-item>
     <ion-label>Período</ion-label>
-    <ion-select [(ngModel)]="periodoSeleccionado">
-      <ion-select-option value="AGOSTO 2026">Agosto 2026</ion-select-option>
+    <ion-select [(ngModel)]="periodoSeleccionado" interface="popover"
+     placeholder="Seleccionar período" (ionChange)="filtrarLiquidaciones()">
+      
+      @for (periodo of periodos; track periodo.nombre) {
+        <ion-select-option [value]="periodo">
+          {{ periodo.nombre }}
+        </ion-select-option>
+      }
+
     </ion-select>
   </ion-item>
 
@@ -37,7 +44,7 @@
   <!--LIQUIDACIONES-->
   <ion-grid>
     <ion-row>
-      @for (liquidacion of liquidaciones; track liquidacion.id) {
+      @for (liquidacion of liquidacionesFiltradas; track liquidacion.id) {
 
         <ion-col size="12" size-md="6">
           <ion-card>

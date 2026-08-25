@@ -19,8 +19,21 @@ export class LiquidacionesPage implements OnInit {
 
   liquidaciones: LiquidacionProfesor[] = [];
 
-  periodoSeleccionado = this.obtenerPeriodoActual();
+  liquidacionesFiltradas: LiquidacionProfesor[] = [];
+
   profesorSeleccionadoId: any;
+
+  periodos: {
+    nombre: string;
+    mes: number;
+    año: number;
+  }[] = [];
+
+  periodoSeleccionado = {
+    nombre: '',
+    mes: 0,
+    año: 0
+  };
 
   constructor(
     private profesorService: ProfesorService,
@@ -32,10 +45,12 @@ export class LiquidacionesPage implements OnInit {
 
     this.profesores = this.profesorService.getProfesores();
     this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
+    this.generarPeriodos();
+    this.filtrarLiquidaciones();
   }
 
-  obtenerPeriodoActual(): string {
-    const fecha = new Date();
+  generarPeriodos(): void {
+    const fechaActual = new Date();
 
     const meses = [
       'ENERO',
@@ -52,7 +67,26 @@ export class LiquidacionesPage implements OnInit {
       'DICIEMBRE'
     ];
 
-    return `${meses[fecha.getMonth()]} ${fecha.getFullYear()}`;
+    this.periodos = [];
+
+    for (let i = 0; i < 6; i++) {
+      const fecha = new Date(
+        fechaActual.getFullYear(), 
+        fechaActual.getMonth() - i, // la i permite retroceder mes por mes
+        1
+      );
+
+      const mes = fecha.getMonth() + 1;
+      const año = fecha.getFullYear();
+
+      this.periodos.push({
+        nombre: `${meses[fecha.getMonth()]} ${año}`,
+        mes: mes,
+        año: año
+      });
+    }
+
+    this.periodoSeleccionado = this.periodos[0];
   }
 
   async generarLiquidacion(): Promise<void> {
@@ -64,24 +98,31 @@ export class LiquidacionesPage implements OnInit {
       return;
     }
 
-    const fecha = new Date();
-    const año = fecha.getFullYear();
-    const mes = fecha.getMonth() + 1;
-
-    const liquidacion = this.liquidacionProfesorService.generarLiquidacion(profesorId, this.periodoSeleccionado, año, mes);
+    const liquidacion = this.liquidacionProfesorService.generarLiquidacion(
+      profesorId,
+      this.periodoSeleccionado.nombre,
+      this.periodoSeleccionado.año,
+      this.periodoSeleccionado.mes
+    );
 
     if (liquidacion) {
 
       this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
+      this.filtrarLiquidaciones();
       await this.mostrarMensaje('✅ Liquidación generada correctamente.', 'success');
     } else {
         await this.mostrarMensaje(`⚠️ Ya existe una liquidación para este profesor en ${this.periodoSeleccionado}.`, 'danger');
     }
   }
 
+  filtrarLiquidaciones(): void {
+    this.liquidacionesFiltradas = this.liquidaciones.filter(liquidacion => liquidacion.periodo === this.periodoSeleccionado.nombre);
+  }
+
   marcarComoPagado(id: number): void {
     this.liquidacionProfesorService.marcarComoPagado(id);
     this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
+    this.filtrarLiquidaciones();
   }
 
   async mostrarMensaje(mensaje: string, color: 'success' | 'warning' | 'danger'): Promise<void> {
