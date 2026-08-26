@@ -19,8 +19,8 @@ export class HoraTrabajadaService {
       actividad: 'Musculación',
       observacion: 'Turno tarde'
     },
-    {  
-      id: 1,
+    {
+      id: 2,
       profesorId: 1,
       fecha: '2026-08-21',
       horaInicio: '15:00',
@@ -30,7 +30,7 @@ export class HoraTrabajadaService {
       observacion: 'Turno tarde'
     },
     {
-      id: 2,
+      id: 3,
       profesorId: 2,
       fecha: '2026-08-22',
       horaInicio: '08:00',
@@ -40,7 +40,7 @@ export class HoraTrabajadaService {
       observacion: 'Turno mañana'
     },
     {
-      id: 3,
+      id: 4,
       profesorId: 3,
       fecha: '2026-08-15',
       horaInicio: '08:00',

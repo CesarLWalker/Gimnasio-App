@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'liquidaciones',
     loadChildren: () => import('./pages/profesores/liquidaciones/liquidaciones.module').then( m => m.LiquidacionesPageModule)
+  },
+  {
+    path: 'horas-trabajadas',
+    loadChildren: () => import('./pages/horas-trabajadas/horas-trabajadas.module').then( m => m.HorasTrabajadasPageModule)
   }
 ];
 
