@@ -16,9 +16,16 @@ import { ProfesorService } from 'src/app/services/profesor.service';
 export class HorasTrabajadasPage implements OnInit {
 
   profesores: Profesor[] = [];
-  horasTrabajadas: HoraTrabajada[] = [];
+  horasTrabajadas: HoraTrabajada[] = []; // todas las horas
 
-  profesorSeleccionadoId: number | null = null;
+  profesorSeleccionadoId: number | null = null; // Formulario para registrar una hora
+
+  // Filtros
+  profesorFiltroId: number | null = null; // Filtro de la tabla
+  horasFiltradas: HoraTrabajada[] = []; // las que mostramos después del filtro
+  totalHorasFiltradas = 0;
+
+  periodoFiltro = '';
 
   fecha = '';
   horaInicio = '';
@@ -36,6 +43,30 @@ export class HorasTrabajadasPage implements OnInit {
 
     this.profesores = this.profesorService.getProfesores();
     this.horasTrabajadas = this.horaTrabajadaService.getHorasTrabajadas();
+
+    this.horasFiltradas = this.horasTrabajadas;
+
+    this.calcularTotalHoras();
+    this.filtrarHoras();
+  }
+
+  filtrarHoras(): void {
+     
+    this.horasFiltradas = this.horasTrabajadas.filter(hora => {
+
+      const coincideProfesor = this.profesorFiltroId === null || hora.profesorId === this.profesorFiltroId;
+
+      const coincidePeriodo = !this.periodoFiltro || hora.fecha.startsWith(this.periodoFiltro);
+
+      return coincideProfesor && coincidePeriodo;
+    });
+
+    this.calcularTotalHoras();
+  }
+
+  calcularTotalHoras(): void {
+
+    this.totalHorasFiltradas = this.horasFiltradas.reduce((total, hora) => total + hora.horas, 0);
   }
 
   calcularHoras(): void {
@@ -91,12 +122,18 @@ export class HorasTrabajadasPage implements OnInit {
 
     this.horasTrabajadas = this.horaTrabajadaService.getHorasTrabajadas();
 
+    this.filtrarHoras();
+
     this.limpiarFormulario();
   }
 
   eliminarHora(id: number): void {
+
     this.horaTrabajadaService.eliminarHora(id);
+
     this.horasTrabajadas = this.horaTrabajadaService.getHorasTrabajadas();
+
+    this.filtrarHoras();
   }
 
   limpiarFormulario(): void {
@@ -108,6 +145,14 @@ export class HorasTrabajadasPage implements OnInit {
     this.horas = 0;
     this.actividad = '';
     this.observacion = '';
+  }
+
+  limpiarFiltros(): void {
+
+    this.profesorFiltroId = null;
+    this.periodoFiltro = '';
+
+    this.filtrarHoras();
   }
 
 }
