@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonCardTitle, IonCol, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonContent, IonToolbar, IonTitle } from "@ionic/angular/standalone";
 import { DashboardCard } from 'src/app/models/dashboard-card';
 import { ClienteService } from 'src/app/services/cliente.service';
+import { HoraTrabajadaService } from 'src/app/services/horaTrabajada.service';
+import { LiquidacionProfesorService } from 'src/app/services/liquidacionProfesor.service';
+import { ProfesorService } from 'src/app/services/profesor.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +16,12 @@ export class DashboardPage implements OnInit {
 
   cards: DashboardCard[] = [];
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(
+    private clienteService: ClienteService,
+    private profesorService: ProfesorService,
+    private horaTrabajadaService: HoraTrabajadaService,
+    private liquidacionProfesorService: LiquidacionProfesorService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -41,6 +49,14 @@ export class DashboardPage implements OnInit {
     const mensuales = this.clienteService.getClientesMensuales();
 
     const recaudacion = this.clienteService.getRecaudacionTotal();
+
+    const totalProfesores = this.profesorService.getProfesores().length;
+
+    const totalHoras = this.horaTrabajadaService.getTotalHoras();
+
+    const totalLiquidaciones = this.liquidacionProfesorService.getTotalLiquidaciones();
+
+    const totalPendiente = this.liquidacionProfesorService.getTotalPendiente();
 
     console.log('👥 Total clientes:', totalClientes);
     console.log('🟢 Pagados:', pagados);
@@ -90,6 +106,34 @@ export class DashboardPage implements OnInit {
         valor: `$ ${this.clienteService.getRecaudacionTotal().toLocaleString('es-AR')}`, // formato Argentina
         descripcion: 'Total cobrado',
         color: 'success'
+      },
+       {
+        icono: '👨‍🏫',
+        titulo: 'Profesores',
+        valor: totalProfesores.toString(),
+        descripcion: 'Total registrados',
+        color: 'secondary'
+      },
+      {
+        icono: '⏱️',
+        titulo: 'Horas trabajadas',
+        valor: totalHoras.toString(),
+        descripcion: 'Total registrado',
+        color: 'tertiary'
+      },
+      {
+        icono: '🧾',
+        titulo: 'Liquidaciones',
+        valor: totalLiquidaciones.toString(),
+        descripcion: 'Total generadas',
+        color: 'warning'
+      },
+      {
+        icono: '💰',
+        titulo: 'A pagar',
+        valor: `$ ${totalPendiente.toLocaleString('es-AR')}`,
+        descripcion: 'Total liquidado',
+        color: 'danger'
       }
     ];
   }

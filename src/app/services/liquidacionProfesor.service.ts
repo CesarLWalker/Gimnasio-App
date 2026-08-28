@@ -21,6 +21,20 @@ export class LiquidacionProfesorService {
     return this.liquidaciones;
   }
 
+  getTotalLiquidaciones(): number {
+    return this.liquidaciones.length;
+  }
+
+  getTotalAPagar(): number {
+    return this.liquidaciones.reduce((total, liquidacion) => total + liquidacion.totalPagar, 0);
+  }
+
+  getTotalPendiente(): number {
+    return this.liquidaciones
+    .filter(liquidacion => liquidacion.estado === EstadoLiquidacion.PENDIENTE)
+    .reduce((total, liquidacion) => total + liquidacion.totalPagar, 0);
+  }
+
   getLiquidacionesByProfesor(profesorId: number): LiquidacionProfesor[] {
     return this.liquidaciones.filter(liquidacion => liquidacion.profesorId === profesorId);
   }

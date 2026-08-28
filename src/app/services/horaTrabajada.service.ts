@@ -59,6 +59,10 @@ export class HoraTrabajadaService {
     return this.horasTrabajadas;
   }
 
+  getTotalHoras(): number {
+    return this.horasTrabajadas.reduce((total, hora) => total + hora.horas, 0);
+  }
+
   getHorasByProfesor(profesorId: number): HoraTrabajada[] {
     return this.horasTrabajadas.filter(hora => hora.profesorId === profesorId);
   }
