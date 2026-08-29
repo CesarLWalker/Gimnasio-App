@@ -11,7 +11,8 @@ import { ProfesorService } from 'src/app/services/profesor.service';
   standalone: true,
   templateUrl: './horas-trabajadas.page.html',
   styleUrls: ['./horas-trabajadas.page.scss'],
-  imports: [FormsModule, IonContent, IonTitle, IonHeader, IonToolbar, IonItem, IonLabel, IonSelect, IonSelectOption, IonInput, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent]
+  imports: [FormsModule, IonContent, IonTitle, IonHeader, IonToolbar, IonItem, IonLabel, IonSelect, IonSelectOption,
+     IonInput, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent]
 })
 export class HorasTrabajadasPage implements OnInit {
 
