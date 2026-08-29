@@ -19,7 +19,7 @@ export class ProfesorService {
       valorHora: 5000,
       tipoRemuneracion: TipoRemuneracion.SUELDO_FIJO,
       estado: EstadoProfesor.ACTIVO,
-      color: "warning"
+      color: "gray"
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ export class ProfesorService {
       valorHora: 5000,
       tipoRemuneracion: TipoRemuneracion.POR_HORA,
       estado: EstadoProfesor.ACTIVO,
-      color: "success"
+      color: "black"
     },
     {
       id: 3,
@@ -43,7 +43,7 @@ export class ProfesorService {
       valorHora: 5000,
       tipoRemuneracion: TipoRemuneracion.POR_HORA,
       estado: EstadoProfesor.INACTIVO,
-      color: "warning"
+      color: "black"
     },
     {
       id: 4,

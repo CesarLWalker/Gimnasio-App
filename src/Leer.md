@@ -277,3 +277,30 @@ No lo cambiamos → const ✅
     let totalPagar = 0;
 
 Puede cambiar → let ✅
+
+# Agregá IonIcon a los imports de Ionic y addIcons desde ionicons, junto con los iconos que vamos a utilizar.
+
+peopleOutline → clientes
+checkmarkCircleOutline → pagados
+alertCircleOutline → deben
+closeCircleOutline → no vienen
+calendarOutline → mensuales
+cashOutline → recaudación
+schoolOutline → profesores
+timeOutline → horas
+documentTextOutline → liquidaciones
+walletOutline → a pagar
+
+# SCSS Dashboard:
+
+    border-radius: 16px → tarjetas más modernas
+    box-shadow → profundidad
+    hover → pequeña elevación al pasar el mouse
+    gap → separación correcta entre icono y título
+    número de 34px → más protagonismo
+    opacity → descripción más discreta
+    height: 100% → todas las tarjetas de una fila mantienen altura uniforme
+
+Y seguimos utilizando card.color, así que Ionic mantiene automáticamente los colores primary, success, warning, danger, etc.
+
+# 

@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonCardTitle, IonCol, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonContent, IonToolbar, IonTitle } from "@ionic/angular/standalone";
+import { IonHeader, IonCardTitle, IonCol, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonContent, IonToolbar, IonTitle, IonIcon } from "@ionic/angular/standalone";
 import { DashboardCard } from 'src/app/models/dashboard-card';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { HoraTrabajadaService } from 'src/app/services/horaTrabajada.service';
 import { LiquidacionProfesorService } from 'src/app/services/liquidacionProfesor.service';
 import { ProfesorService } from 'src/app/services/profesor.service';
+import { addIcons } from 'ionicons';
+import { peopleOutline, checkmarkCircleOutline, alertCircleOutline, closeCircleOutline, calendarOutline, cashOutline, schoolOutline, timeOutline, documentTextOutline, walletOutline} from 'ionicons/icons';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
-  imports: [IonTitle, IonToolbar, IonContent, IonRow, IonGrid, IonCardContent, IonCardHeader, IonCard, IonCol, IonCardTitle, IonHeader, ]
+  imports: [IonTitle, IonToolbar, IonContent, IonRow, IonGrid, IonCardContent, IonCardHeader, IonCard, IonCol, IonCardTitle, IonHeader, IonIcon],
 })
 export class DashboardPage implements OnInit {
 
@@ -21,7 +24,20 @@ export class DashboardPage implements OnInit {
     private profesorService: ProfesorService,
     private horaTrabajadaService: HoraTrabajadaService,
     private liquidacionProfesorService: LiquidacionProfesorService
-  ) { }
+  ) {
+    addIcons({
+      peopleOutline,
+      checkmarkCircleOutline,
+      alertCircleOutline,
+      closeCircleOutline,
+      calendarOutline,
+      cashOutline,
+      schoolOutline,
+      timeOutline,
+      documentTextOutline,
+      walletOutline
+    });
+   }
 
   ngOnInit(): void {
   }
@@ -36,103 +52,75 @@ export class DashboardPage implements OnInit {
     console.log("📊 Entré a cargarDashboard");
     console.log('Total clientes:', this.clienteService.getTotalClientes());
 
-    const totalClientes = this.clienteService.getTotalClientes();
-
-    const pagados = this.clienteService.getClientesPagados();
-
-    const porVencer = this.clienteService.getClientesPorVencer();
-
-    const deben = this.clienteService.getClientesDeben();
-
-    const noVienen = this.clienteService.getClientesNoVienen();
-
-    const mensuales = this.clienteService.getClientesMensuales();
-
-    const recaudacion = this.clienteService.getRecaudacionTotal();
-
-    const totalProfesores = this.profesorService.getProfesores().length;
-
-    const totalHoras = this.horaTrabajadaService.getTotalHoras();
-
-    const totalLiquidaciones = this.liquidacionProfesorService.getTotalLiquidaciones();
-
-    const totalPendiente = this.liquidacionProfesorService.getTotalPendiente();
-
-    console.log('👥 Total clientes:', totalClientes);
-    console.log('🟢 Pagados:', pagados);
-    console.log('🟡 Por vencer:', porVencer);
-    console.log('🔴 Deben:', deben);
-    console.log('⚪ No vienen:', noVienen);
-
     this.cards = [
       {
-        icono: '👥',
+        icono: 'people-outline',
         titulo: 'Clientes',
         valor: this.clienteService.getTotalClientes().toString(),
         descripcion: 'Total registrados',
         color: 'primary'
       },
       {
-        icono: '🟢',
+        icono: 'checkmark-circle-outline',
         titulo: 'Pagados',
         valor: this.clienteService.getClientesPagados().toString(),
         descripcion: 'Cuota al día',
         color: 'success'
       },
       {
-        icono: '🟡',
+        icono: 'alert-circle-outline',
         titulo: 'Deben',
         valor: this.clienteService.getClientesDeben().toString(),
         descripcion: 'Pendientes',
         color: 'warning'
       },
       {
-        icono: '🔴',
+        icono: 'close-circle-outline',
         titulo: 'No vienen',
         valor: this.clienteService.getClientesNoVienen().toString(),
         descripcion: 'Inactivos',
         color: 'danger'
       },
       {
-        icono: '📅',
+        icono: 'calendar-outline',
         titulo: 'Mensuales',
         valor: this.clienteService.getClientesMensuales().toString(),
         descripcion: 'Período de pago',
         color: 'tertiary'
       },
       {
-        icono: '💰',
+        icono: 'cash-outline',
         titulo: 'Recaudado',
         valor: `$ ${this.clienteService.getRecaudacionTotal().toLocaleString('es-AR')}`, // formato Argentina
         descripcion: 'Total cobrado',
         color: 'success'
       },
        {
-        icono: '👨‍🏫',
+        icono: 'school-outline',
         titulo: 'Profesores',
-        valor: totalProfesores.toString(),
+        valor: this.profesorService.getProfesores().length.toString(),
         descripcion: 'Total registrados',
         color: 'secondary'
       },
       {
-        icono: '⏱️',
+        icono: 'time-outline',
         titulo: 'Horas trabajadas',
-        valor: totalHoras.toString(),
+        valor: this.horaTrabajadaService.getTotalHoras().toString(),
         descripcion: 'Total registrado',
         color: 'tertiary'
       },
       {
-        icono: '🧾',
+        icono: 'document-text-outline',
         titulo: 'Liquidaciones',
-        valor: totalLiquidaciones.toString(),
+        valor: this.liquidacionProfesorService.getTotalLiquidaciones().toString(),
         descripcion: 'Total generadas',
         color: 'warning'
       },
       {
-        icono: '💰',
+        icono: 'wallet-outline',
         titulo: 'A pagar',
-        valor: `$ ${totalPendiente.toLocaleString('es-AR')}`,
-        descripcion: 'Total liquidado',
+        valor: `$ ${this.liquidacionProfesorService.getTotalPendiente().toLocaleString('es-AR')}`,
+        descripcion: 'Total pendiente',
         color: 'danger'
       }
     ];

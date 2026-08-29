@@ -1,12 +1,14 @@
-<ion-header>
+<ion-header class="ion-page">
   <ion-toolbar color="primary">
     <ion-title>Gym Manager</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>¡Bienvenido César! 👋</h2>
-  <p>Resumen del gimnasio</p>
+  <div class="dashboard-header">
+      <h2>¡Bienvenido César! 👋</h2>
+      <p>Resumen del gimnasio</p>
+  </div>
 
   <ion-grid>
     <ion-row>
@@ -15,7 +17,9 @@
       <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
         <ion-card [color]="card.color">
           <ion-card-header>
-            <ion-card-title>  {{ card.icono }} {{ card.titulo }}</ion-card-title>
+            <ion-card-title>
+              <ion-icon [name]="card.icono"></ion-icon> {{ card.titulo }}
+            </ion-card-title>
           </ion-card-header>
             <ion-card-content>
               <h1> {{ card.valor }}</h1>
