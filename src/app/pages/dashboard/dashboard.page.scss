@@ -24,7 +24,7 @@ ion-card {
 
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-  &:hover {
+  &:hover { /*Cuando pasás el mouse, la tarjeta sube 4 píxeles y aumenta la sombra*/
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
   }
@@ -61,6 +61,13 @@ ion-card-content {
     font-size: 14px;
     opacity: 0.8;
   }
+}
+
+.section-title {
+  color: white;
+  margin: 24px 8px 8px;
+  font-weight: 600;
+  font-size: 1.3rem;
 }
 
 

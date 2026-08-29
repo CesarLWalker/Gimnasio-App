@@ -5,4 +5,5 @@ export interface DashboardCard {
   valor: string;
   descripcion: string;
   color: string;
+  seccion: 'clientes' | 'profesores' | 'finanzas';
 }
