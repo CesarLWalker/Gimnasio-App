@@ -3,8 +3,75 @@
     <ion-title>Horas Trabajadas</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="ion-padding">
+ <!--TOTAL DE HORAS-->
+ <ion-card class="ion-margin-top">
+
+  <ion-card-header>
+    <ion-card-title> ⏱️ Total de horas</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <h1>{{ totalHorasFiltradas }} horas</h1>
+  </ion-card-content>
+
+ </ion-card>
+
+  <!--LISTADO-->
+  <h2 class="ion-margin-top">Horas registradas</h2>
+
+  <ion-grid>
+    <ion-row>
+
+      @for (hora of horasFiltradas; track hora.id) {
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+
+                @for (profesor of profesores; track profesor.id) {
+                  @if (profesor.id === hora.profesorId) {
+                    {{ profesor.icono }} {{ profesor.nombre }}
+                  }
+                }
+
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p>📅 {{ hora.fecha }}</p>
+
+              <p>
+                🕐 {{ hora.horaInicio }}
+                →
+                {{ hora.horaFin }}
+              </p>
+
+              <p>
+                ⏱️ {{ hora.horas }} horas
+              </p>
+
+              <p>
+                🏋️ {{ hora.actividad }}
+              </p>
+
+              @if (hora.observacion) {
+                <p>
+                  📝 {{ hora.observacion }}
+                </p>
+              }
+
+              <ion-button expand="block" color="danger" class="ion-margin-top" (click)="eliminarHora(hora.id)">
+                 🗑️ Eliminar 
+              </ion-button>
+            </ion-card-content>
+
+          </ion-card>
+        </ion-col>
+      }
+
+    </ion-row>
+  </ion-grid>
 
   <h2>Registrar horas trabajadas</h2>
 
@@ -109,73 +176,4 @@
  <ion-button expand="block" color="medium" class="ion-margin-top" (click)="limpiarFiltros()">
     🧹 Limpiar filtros
  </ion-button>
-
- <!--TOTAL DE HORAS-->
- <ion-card class="ion-margin-top">
-
-  <ion-card-header>
-    <ion-card-title> ⏱️ Total de horas</ion-card-title>
-  </ion-card-header>
-
-  <ion-card-content>
-    <h1>{{ totalHorasFiltradas }} horas</h1>
-  </ion-card-content>
-
- </ion-card>
-
-  <!--LISTADO-->
-  <h2 class="ion-margin-top">Horas registradas</h2>
-
-  <ion-grid>
-    <ion-row>
-
-      @for (hora of horasFiltradas; track hora.id) {
-        <ion-col size="12" size-md="6">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>
-
-                @for (profesor of profesores; track profesor.id) {
-                  @if (profesor.id === hora.profesorId) {
-                    {{ profesor.icono }} {{ profesor.nombre }}
-                  }
-                }
-
-              </ion-card-title>
-            </ion-card-header>
-
-            <ion-card-content>
-              <p>📅 {{ hora.fecha }}</p>
-
-              <p>
-                🕐 {{ hora.horaInicio }}
-                →
-                {{ hora.horaFin }}
-              </p>
-
-              <p>
-                ⏱️ {{ hora.horas }} horas
-              </p>
-
-              <p>
-                🏋️ {{ hora.actividad }}
-              </p>
-
-              @if (hora.observacion) {
-                <p>
-                  📝 {{ hora.observacion }}
-                </p>
-              }
-
-              <ion-button expand="block" color="danger" class="ion-margin-top" (click)="eliminarHora(hora.id)">
-                 🗑️ Eliminar 
-              </ion-button>
-            </ion-card-content>
-
-          </ion-card>
-        </ion-col>
-      }
-
-    </ion-row>
-  </ion-grid>
 </ion-content>

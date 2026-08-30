@@ -6,7 +6,30 @@
 
 <ion-content class="ion-padding">
   <h2>Horarios Profesores 👋</h2>
-  <p>Administración de profesores</p>
+
+  <ion-grid>
+    <ion-row>
+
+      @for (profesor of profesores; track profesor.id) {
+       <ion-col size="6">
+        <ion-card [color]="profesor.color">
+          <ion-card-header>
+            <ion-card-title> {{ profesor.icono }} {{ profesor.nombre}}</ion-card-title>
+          </ion-card-header>
+            <ion-card-content>
+              <h5> 📱 {{ profesor.celular }}</h5>
+              <h5> 🏋️ {{ profesor.especialidad }}</h5>
+              <h5>  💰 Valor hora: ${{ profesor.valorHora }}</h5>
+              <h5> 💵 Sueldo: ${{ profesor.sueldo }}</h5>
+
+              <ion-button expand="block" color="primary" (click)="editarProfesor(profesor)">✏️ Editar</ion-button>
+            </ion-card-content>
+        </ion-card>
+      </ion-col>
+      }
+
+    </ion-row>
+  </ion-grid>
 
   <!--AGREGAR PROFESOR-->
   <ion-card class="ion-margin-top">
@@ -81,30 +104,6 @@
 
     </ion-card-content>
   </ion-card>
-
-  <ion-grid>
-    <ion-row>
-
-      @for (profesor of profesores; track profesor.id) {
-       <ion-col size="6">
-        <ion-card [color]="profesor.color">
-          <ion-card-header>
-            <ion-card-title> {{ profesor.icono }} {{ profesor.nombre}}</ion-card-title>
-          </ion-card-header>
-            <ion-card-content>
-              <h5> 📱 {{ profesor.celular }}</h5>
-              <h5> 🏋️ {{ profesor.especialidad }}</h5>
-              <h5>  💰 Valor hora: ${{ profesor.valorHora }}</h5>
-              <h5> 💵 Sueldo: ${{ profesor.sueldo }}</h5>
-
-              <ion-button expand="block" color="primary" (click)="editarProfesor(profesor)">✏️ Editar</ion-button>
-            </ion-card-content>
-        </ion-card>
-      </ion-col>
-      }
-
-    </ion-row>
-  </ion-grid>
 </ion-content>
 
 

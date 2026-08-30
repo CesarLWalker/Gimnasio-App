@@ -18,7 +18,7 @@
     @for (card of cards; track card.titulo) {
       @if (card.seccion === 'clientes') {
         <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
-          <ion-card [color]="card.color">
+          <ion-card [color]="card.color" [routerLink]="card.ruta">
             <ion-card-header>
               <ion-card-title>
                 <ion-icon [name]="card.icono"></ion-icon>
@@ -44,7 +44,7 @@
     @for (card of cards; track card.titulo) {
       @if (card.seccion === 'profesores') {
         <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
-          <ion-card [color]="card.color">
+          <ion-card [color]="card.color" [routerLink]="card.ruta">
             <ion-card-header>
               <ion-card-title>
                 <ion-icon [name]="card.icono"></ion-icon>
@@ -70,7 +70,7 @@
     @for (card of cards; track card.titulo) {
       @if (card.seccion === 'finanzas') {
         <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
-          <ion-card [color]="card.color">
+          <ion-card [color]="card.color" [routerLink]="card.ruta" >
             <ion-card-header>
               <ion-card-title>
                 <ion-icon [name]="card.icono"></ion-icon>

@@ -6,4 +6,5 @@ export interface DashboardCard {
   descripcion: string;
   color: string;
   seccion: 'clientes' | 'profesores' | 'finanzas';
+  ruta?: string;
 }

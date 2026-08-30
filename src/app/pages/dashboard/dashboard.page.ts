@@ -7,13 +7,14 @@ import { LiquidacionProfesorService } from 'src/app/services/liquidacionProfesor
 import { ProfesorService } from 'src/app/services/profesor.service';
 import { addIcons } from 'ionicons';
 import { peopleOutline, checkmarkCircleOutline, alertCircleOutline, closeCircleOutline, calendarOutline, cashOutline, schoolOutline, timeOutline, documentTextOutline, walletOutline} from 'ionicons/icons';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
-  imports: [IonTitle, IonToolbar, IonContent, IonRow, IonGrid, IonCardContent, IonCardHeader, IonCard, IonCol, IonCardTitle, IonHeader, IonIcon],
+  imports: [IonTitle, IonToolbar, IonContent, IonRow, IonGrid, IonCardContent, IonCardHeader, IonCard, IonCol, IonCardTitle, IonHeader, IonIcon, RouterLink],
 })
 export class DashboardPage implements OnInit {
 
@@ -59,7 +60,8 @@ export class DashboardPage implements OnInit {
         valor: this.clienteService.getTotalClientes().toString(),
         descripcion: 'Total registrados',
         color: 'primary',
-        seccion: 'clientes'
+        seccion: 'clientes',
+        ruta: '/clientes'
       },
       {
         icono: 'checkmark-circle-outline',
@@ -99,7 +101,8 @@ export class DashboardPage implements OnInit {
         valor: `$ ${this.clienteService.getRecaudacionTotal().toLocaleString('es-AR')}`, // formato Argentina
         descripcion: 'Total cobrado',
         color: 'success',
-        seccion: 'finanzas'
+        seccion: 'finanzas',
+        ruta: '/pagos'
       },
        {
         icono: 'school-outline',
@@ -107,7 +110,8 @@ export class DashboardPage implements OnInit {
         valor: this.profesorService.getProfesores().length.toString(),
         descripcion: 'Total registrados',
         color: 'secondary',
-        seccion: 'profesores'
+        seccion: 'profesores',
+        ruta: '/profesores'
       },
       {
         icono: 'time-outline',
@@ -115,7 +119,8 @@ export class DashboardPage implements OnInit {
         valor: this.horaTrabajadaService.getTotalHoras().toString(),
         descripcion: 'Total registrado',
         color: 'tertiary',
-        seccion: 'profesores'
+        seccion: 'profesores',
+        ruta: '/horas-trabajadas'
       },
       {
         icono: 'document-text-outline',
@@ -123,7 +128,8 @@ export class DashboardPage implements OnInit {
         valor: this.liquidacionProfesorService.getTotalLiquidaciones().toString(),
         descripcion: 'Total generadas',
         color: 'warning',
-        seccion: 'finanzas'
+        seccion: 'finanzas',
+        ruta: '/liquidaciones'
       },
       {
         icono: 'wallet-outline',
