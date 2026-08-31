@@ -30,6 +30,10 @@ ion-card {
   }
 }
 
+.card-clickable {
+  cursor: pointer;
+}
+
 ion-card-header {
   padding-bottom: 5px;
 }

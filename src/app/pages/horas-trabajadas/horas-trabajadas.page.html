@@ -73,6 +73,35 @@
     </ion-row>
   </ion-grid>
 
+  <!--FILTRO POR PROFESOR-->
+ <ion-item class="ion-margin-top">
+  <ion-label>Filtrar por profesor</ion-label>
+
+  <ion-select [(ngModel)]="profesorFiltroId" (ionChange)="filtrarHoras()" placeholder="Todos">
+    <ion-select-option [value]="null">Todos</ion-select-option>
+
+    @for (profesor of profesores; track profesor.id) {
+
+      <ion-select-option [value]="profesor.id">
+        {{ profesor.icono }} {{ profesor.nombre }}
+      </ion-select-option>
+
+    }
+
+  </ion-select>
+ </ion-item>
+
+ <!--FILTRO POR PERÍODO-->
+ <ion-item>
+  <ion-label position="stacked">Filtrar por período</ion-label>
+
+  <ion-input type="month" [(ngModel)]="periodoFiltro" (ionInput)="filtrarHoras()"></ion-input>
+ </ion-item>
+
+ <ion-button expand="block" color="medium" class="ion-margin-top" (click)="limpiarFiltros()">
+    🧹 Limpiar filtros
+ </ion-button>
+
   <h2>Registrar horas trabajadas</h2>
 
   <!--PROFESOR-->
@@ -148,32 +177,5 @@
      💾 Registrar hora
   </ion-button>
   
- <!--FILTRO POR PROFESOR-->
- <ion-item class="ion-margin-top">
-  <ion-label>Filtrar por profesor</ion-label>
-
-  <ion-select [(ngModel)]="profesorFiltroId" (ionChange)="filtrarHoras()" placeholder="Todos">
-    <ion-select-option [value]="null">Todos</ion-select-option>
-
-    @for (profesor of profesores; track profesor.id) {
-
-      <ion-select-option [value]="profesor.id">
-        {{ profesor.icono }} {{ profesor.nombre }}
-      </ion-select-option>
-
-    }
-
-  </ion-select>
- </ion-item>
-
- <!--FILTRO POR PERÍODO-->
- <ion-item>
-  <ion-label position="stacked">Filtrar por período</ion-label>
-
-  <ion-input type="month" [(ngModel)]="periodoFiltro" (ionInput)="filtrarHoras()"></ion-input>
- </ion-item>
-
- <ion-button expand="block" color="medium" class="ion-margin-top" (click)="limpiarFiltros()">
-    🧹 Limpiar filtros
- </ion-button>
+ 
 </ion-content>
