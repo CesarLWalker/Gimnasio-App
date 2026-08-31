@@ -191,7 +191,6 @@ export class ClienteService {
     return new Date(fecha);
   }
 
-
   // =========================================================
   // CLIENTES
   // =========================================================
@@ -252,12 +251,14 @@ export class ClienteService {
   }
 
   public getClientesDeben(): number {
+    this.actualizarEstados();
     return this.clientes.filter(
       cliente => cliente.estado === EstadoCliente.DEBE
     ).length;
   }
 
   public getClientesNoVienen(): number {
+    
     return this.clientes.filter(
       cliente => cliente.estado === EstadoCliente.NO_VIENE
     ).length;
@@ -296,8 +297,17 @@ export class ClienteService {
   // =========================================================
   public getRecaudacionTotal(): number {
     this.actualizarEstados();
+
     return this.clientes
     .filter(cliente => cliente.estado === EstadoCliente.PAGADO)
     .reduce((total, cliente) => total + Number(cliente.monto), 0); //Number lo comvierte a number
+  }
+
+  public getMontoPendiente(): number {
+    this.actualizarEstados();
+
+    return this.clientes
+      .filter(cliente => cliente.estado === EstadoCliente.DEBE)
+      .reduce((total, cliente) => total + Number(cliente.monto), 0);
   }
 }

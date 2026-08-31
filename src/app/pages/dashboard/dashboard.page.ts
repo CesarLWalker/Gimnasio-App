@@ -52,6 +52,7 @@ export class DashboardPage implements OnInit {
 
     console.log("📊 Entré a cargarDashboard");
     console.log('Total clientes:', this.clienteService.getTotalClientes());
+    console.log('💰 Monto pendiente:', this.clienteService.getMontoPendiente());
 
     this.cards = [
       {
@@ -103,6 +104,14 @@ export class DashboardPage implements OnInit {
         color: 'success',
         seccion: 'finanzas',
         ruta: '/pagos'
+      },
+      {
+        icono: 'alert-circle-outline',
+        titulo: 'Falta cobrar',
+        valor: `$ ${this.clienteService.getMontoPendiente().toLocaleString('es-AR')}`,
+        descripcion: 'Cuotas pendientes',
+        color: 'warning',
+        seccion: 'finanzas'
       },
        {
         icono: 'school-outline',
