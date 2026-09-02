@@ -22,6 +22,14 @@ const routes: Routes = [
   {
     path: 'pagos',
     loadChildren: () => import('./pages/pagos/pagos.module').then( m => m.PagosPageModule)
+  },
+  {
+    path: 'liquidaciones',
+    loadChildren: () => import('./pages/profesores/liquidaciones/liquidaciones.module').then( m => m.LiquidacionesPageModule)
+  },
+  {
+    path: 'horas-trabajadas',
+    loadChildren: () => import('./pages/horas-trabajadas/horas-trabajadas.module').then( m => m.HorasTrabajadasPageModule)
   }
 ];
 

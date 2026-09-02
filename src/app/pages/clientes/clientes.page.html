@@ -4,17 +4,66 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-searchbar placeholder="Buscar Cliente" [(ngModel)]="searchTerm" (ionInput)="filterClients()"></ion-searchbar>
+
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Bienvenido</ion-card-title>
-      <ion-card-subtitle>Sistema de Gestión del Gimnasio</ion-card-subtitle>
-    </ion-card-header>
+  <ion-list>
+  @for (cliente of clientesFiltrados; track cliente.id) {
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title> 👤 {{ cliente.nombre }} </ion-card-title>
+      </ion-card-header>
+
+
     <ion-card-content>
-      Esta será la pantalla donde administraremos todos los clientes.
+      <ion-item lines="none">
+        <ion-label>Estado: {{ getEstadoLabel(cliente.estado) }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Periodo de Pago: {{ cliente.periodoPago }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Fecha de Último Pago: {{ cliente.fechaUltimoPago }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Cuota: {{ cliente.cuota }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Monto: $ {{ cliente.monto }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Tipo de Pago: {{ cliente.tipoPagoHabitual }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Celular: 📱{{ cliente.celular }} </ion-label>
+      </ion-item>
+
+      <ion-button expand="block" fill="outline" color="primary" (click)="editarCliente(cliente)">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+         Editar Cliente
+      </ion-button>
+
+      <ion-button expand="block" fill="outline" color="success" (click)="verHistorialPagos(cliente)">
+        <ion-icon slot="start" name="card-outline"></ion-icon>
+        Historial de Pagos
+      </ion-button>
+
+      <ion-button expand="block" fill="solid" color="danger" (click)="eliminarCliente(cliente)">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Eliminar Cliente
+      </ion-button>
+
     </ion-card-content>
-  </ion-card>
+    </ion-card>
 
 
+   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="primary" (click)="goToNuevoCliente()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+   </ion-fab>
+  }
 
+  </ion-list>
 </ion-content>

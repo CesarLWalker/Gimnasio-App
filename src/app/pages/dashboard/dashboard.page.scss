@@ -1,11 +1,83 @@
-h2 {
-  color: white;
+.dashboard-header {
+  margin-bottom: 20px;
+
+  h2 {
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  p {
+    margin-top: 0;
+    opacity: 0.7;
+    font-size: 15px;
+  }
 }
 
-p {
-  color: white;
+ion-card {
+  height: 100%;
+  margin: 8px;
+
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover { /*Cuando pasás el mouse, la tarjeta sube 4 píxeles y aumenta la sombra*/
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  }
 }
 
+.card-clickable {
+  cursor: pointer;
+}
+
+ion-card-header {
+  padding-bottom: 5px;
+}
+
+ion-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+ion-icon {
+  font-size: 28px;
+}
+
+ion-card-content {
+  text-align: center;
+
+  h1 {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 12px 0;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+}
+
+.section-title {
+  color: white;
+  margin: 24px 8px 12px;
+  padding-bottom: 8px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+/*
 ion-content {
   --background: #1e1b1c;
 }
@@ -30,3 +102,4 @@ ion-card-content p {
   color: black;
   margin-top: 8px;
 }
+*/
