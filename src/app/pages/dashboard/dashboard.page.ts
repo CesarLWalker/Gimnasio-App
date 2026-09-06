@@ -1,3 +1,4 @@
+import { PagoService } from 'src/app/services/pago.service';
 import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonCardTitle, IonCol, IonCard, IonCardHeader, IonCardContent, IonGrid, IonRow, IonContent, IonToolbar, IonTitle, IonIcon } from "@ionic/angular/standalone";
 import { DashboardCard } from 'src/app/models/dashboard-card';
@@ -20,11 +21,15 @@ export class DashboardPage implements OnInit {
 
   cards: DashboardCard[] = [];
 
+  recaudacionPorMes: { mes: string; total: number } [] = [];
+  maxRecaudacion: number = 0;
+
   constructor(
-    private clienteService: ClienteService,
+    public clienteService: ClienteService,
     private profesorService: ProfesorService,
-    private horaTrabajadaService: HoraTrabajadaService,
-    private liquidacionProfesorService: LiquidacionProfesorService
+    public horaTrabajadaService: HoraTrabajadaService,
+    private liquidacionProfesorService: LiquidacionProfesorService,
+    private pagoService: PagoService
   ) {
     addIcons({
       peopleOutline,
@@ -53,6 +58,13 @@ export class DashboardPage implements OnInit {
     console.log("📊 Entré a cargarDashboard");
     console.log('Total clientes:', this.clienteService.getTotalClientes());
     console.log('💰 Monto pendiente:', this.clienteService.getMontoPendiente());
+
+    this.recaudacionPorMes = this.pagoService.getRecaudacionPorMes();
+
+    this.maxRecaudacion = Math.max(...this.recaudacionPorMes.map(dato => dato.total), 0);
+
+    console.log('📈 Recaudación por mes:', this.recaudacionPorMes);
+    console.log('📊 Máxima recaudación:', this.maxRecaudacion);
 
     this.cards = [
       {

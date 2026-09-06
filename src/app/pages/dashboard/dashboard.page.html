@@ -1,4 +1,4 @@
-<ion-header class="ion-page">
+<ion-header>
   <ion-toolbar color="primary">
     <ion-title>Gym Manager</ion-title>
   </ion-toolbar>
@@ -9,6 +9,57 @@
       <h2>¡Bienvenido César! 👋</h2>
       <p>Resumen del gimnasio</p>
   </div>
+
+  <!--RESUMEN GENERAL-->
+    <h2 class="section-title">📊 Resumen general</h2>
+
+      <ion-row class="summary-row">
+
+        <!-- 👥 TOTAL CLIENTES -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/clientes">
+            <div class="summary-icon">👥</div>
+            <div class="summary-info">
+              <span>Total Clientes</span>
+              <strong> {{ clienteService.getTotalClientes() }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+         <!-- 💰 RECAUDACIÓN -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/pagos">
+            <div class="summary-icon">💰</div>
+            <div class="summary-info">
+              <span>Recaudación</span>
+              <strong> $ {{ clienteService.getRecaudacionTotal().toLocaleString('es-AR') }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+         <!-- ⚠️ PENDIENTE -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/pagos">
+            <div class="summary-icon">⚠️</div>
+            <div class="summary-info">
+              <span>Pendiente de cobro</span>
+              <strong> $ {{ clienteService.getMontoPendiente().toLocaleString('es-AR') }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- ⏱️ HORAS TRABAJADAS -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/horas-trabajadas">
+            <div class="summary-icon">⏱️</div>
+            <div class="summary-info">
+              <span>Horas trabajadas</span>
+              <strong> {{ horaTrabajadaService.getTotalHoras() }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+      </ion-row>
 
 <ion-grid>
      <!-- 👥 CLIENTES -->
@@ -86,7 +137,52 @@
         </ion-col>
       }
     }
-
     </ion-row>
+
+
+      <!--📈 RECAUDACIÓN MENSUAL-->
+      <h2 class="section-title">📈 Recaudación mensual</h2>
+
+      <ion-row>
+        <ion-col size="12">
+
+      <div class="chart-card">
+
+      <div class="chart-header">
+        <div>
+          <h3>Ingresos</h3>
+          <p>Historial de recaudación</p>
+        </div>
+      </div>
+
+      <div class="chart">
+        @for (dato of recaudacionPorMes; track dato.mes) {
+
+          <div class="chart-column">
+
+            <div
+              class="chart-bar"
+              [style.height.px]="maxRecaudacion > 0 ? (dato.total / maxRecaudacion) * 180 : 10">
+            </div>
+
+            <span class="chart-value">
+              $ {{ dato.total.toLocaleString('es-AR') }}
+            </span>
+
+            <span class="chart-month">
+              {{ dato.mes }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      </div>
+
+     </ion-col>
+    </ion-row>
+
 </ion-grid>
 </ion-content>

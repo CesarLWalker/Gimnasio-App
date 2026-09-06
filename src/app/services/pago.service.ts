@@ -169,4 +169,26 @@ export class PagoService {
     );
   }
 
+  // =========================================================
+  // RECAUDACIÓN POR MES
+  // =========================================================
+  public getRecaudacionPorMes(): { mes: string; total: number } [] {
+
+    const recaudacion = new Map<string, number>();
+
+    this.pagos.forEach(pago => {
+      const fecha = new Date(pago.fecha);
+      const mes = fecha.toLocaleDateString('es-AR', {
+        month: 'short'
+      });
+
+      const totalActual = recaudacion.get(mes) ?? 0;
+
+      recaudacion.set(mes, totalActual + Number(pago.monto));
+    });
+
+    return Array.from(recaudacion.entries()).map(([mes, total]) => ({
+      mes, total
+    }));
+  }
 }
