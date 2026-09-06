@@ -229,13 +229,13 @@ ion-card-content {
 
   background: var(--ion-color-primary);
 
-  transition: 
+  transition:
      height 0.4s ease,
      transform 0.2s ease,
      opacity 00.2s ease;
 
   cursor: pointer;
-  
+
   &:hover {
     transform: scaleY(1.03);
     opacity: 0.85;
@@ -319,5 +319,37 @@ ion-card-content {
 
   .chart-card {
     padding: 15px;
+  }
+}
+
+// ================================
+// MEJORA RESUMEN GENERAL
+// ================================
+
+.summary-card {
+  min-height: 90px;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.summary-clickable {
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+@media (min-width: 992px) {
+  .summary-card {
+    min-height: 100px;
+  }
+
+  .summary-info {
+    strong {
+      font-size: 24px;
+    }
   }
 }
