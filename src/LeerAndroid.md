@@ -5,7 +5,7 @@ ionic cap run android -l --external --target RFCY20T1VWV --public-host 192.168.0
 
 # 📌 Regla para el proyecto
 
-Cada vez que hagamos cambios en Angular y quieras probarlos en el celular:
+# Cada vez que hagamos cambios en Angular y quieras probarlos en el celular:
 
 ionic build
 npx cap sync android

@@ -16,7 +16,7 @@ export class ProfesorService {
       celular: "123456",
       especialidad: "Musculación",
       sueldo: 150000,
-      valorHora: 5000,
+      valorHora: 11000,
       tipoRemuneracion: TipoRemuneracion.SUELDO_FIJO,
       estado: EstadoProfesor.ACTIVO,
       color: "gray"
@@ -28,7 +28,7 @@ export class ProfesorService {
       celular: "456789",
       especialidad: "Musculación",
       sueldo: 140000,
-      valorHora: 5000,
+      valorHora: 11000,
       tipoRemuneracion: TipoRemuneracion.POR_HORA,
       estado: EstadoProfesor.ACTIVO,
       color: "black"
@@ -39,8 +39,8 @@ export class ProfesorService {
       nombre: "Profesor César Walker",
       celular: "789789",
       especialidad: "Musculación",
-      sueldo: 70000,
-      valorHora: 5000,
+      sueldo: 132000,
+      valorHora: 11000,
       tipoRemuneracion: TipoRemuneracion.POR_HORA,
       estado: EstadoProfesor.INACTIVO,
       color: "black"
@@ -52,7 +52,7 @@ export class ProfesorService {
       celular: "102030",
       especialidad: "Funcional",
       sueldo: 40000,
-      valorHora: 5000,
+      valorHora: 11000,
       tipoRemuneracion: TipoRemuneracion.SUELDO_FIJO,
       estado: EstadoProfesor.INACTIVO,
       color: "gray"

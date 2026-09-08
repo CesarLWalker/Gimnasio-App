@@ -112,6 +112,35 @@
 
       </ion-row>
 
+      <!--🕐 ACTIVIDAD RECIENTE-->
+      <h2 class="section-title">🕐 Actividad reciente</h2>
+
+      <ion-row class="activity-row">
+
+        @for (actividad of actividadesRecientes; track actividad.titulo + actividad.fecha) {
+
+          <ion-col size="12" size-md="6">
+            <div class="activity-item" [routerLink]="actividad.ruta">
+              <div class="activity-icon">
+                {{ actividad.icono }}
+              </div>
+
+              <div class="activity-info">
+                <strong>{{ actividad.titulo }}</strong>
+                <span>{{ actividad.descripcion }}</span>
+                <small>
+                  {{ formatearFecha(actividad.fecha) }}
+                  @if (actividad.monto !== undefined) {
+                    . $ {{ actividad.monto.toLocaleString('es-AR') }}
+                  }
+                </small>
+              </div>
+
+            </div>
+          </ion-col>
+        }
+
+      </ion-row>
 <ion-grid>
 
      <!-- 👥 CLIENTES -->

@@ -421,3 +421,76 @@ ion-card-content {
     opacity: 0.7;
   }
 }
+
+// ========================================
+// 🕐 ACTIVIDAD RECIENTE
+// ========================================
+
+.activity-row {
+  margin-top: 5px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 16px;
+  margin: 8px 0;
+
+  background: rgb(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  transition: 
+    transform 0.2s ease,
+    background 0.2s ease,
+    bos-shadow 0.2s esase;
+}
+
+.activity-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.activity-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  font-size: 24px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.activity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.activity-info strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.activity-info span {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.activity-info small {
+  font-size: 12px;
+  opacity: 0.6;
+}

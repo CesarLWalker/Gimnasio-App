@@ -9,7 +9,8 @@ import { ProfesorService } from 'src/app/services/profesor.service';
 import { addIcons } from 'ionicons';
 import { peopleOutline, checkmarkCircleOutline, alertCircleOutline, closeCircleOutline, calendarOutline, cashOutline, schoolOutline, timeOutline, documentTextOutline, walletOutline} from 'ionicons/icons';
 import { RouterLink } from '@angular/router';
-
+import { ActividadReciente } from 'src/app/models/actividadReciente.model';
+import { ActividadService } from 'src/app/services/actividad.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -17,9 +18,12 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./dashboard.page.scss'],
   imports: [IonTitle, IonToolbar, IonContent, IonRow, IonGrid, IonCardContent, IonCardHeader, IonCard, IonCol, IonCardTitle, IonHeader, IonIcon, RouterLink],
 })
+
 export class DashboardPage implements OnInit {
 
   cards: DashboardCard[] = [];
+
+  actividadesRecientes: ActividadReciente[] = [];
 
   recaudacionPorMes: { mes: string; total: number } [] = [];
   maxRecaudacion: number = 0;
@@ -29,7 +33,8 @@ export class DashboardPage implements OnInit {
     private profesorService: ProfesorService,
     public horaTrabajadaService: HoraTrabajadaService,
     private liquidacionProfesorService: LiquidacionProfesorService,
-    private pagoService: PagoService
+    private pagoService: PagoService,
+    private actividadService: ActividadService
   ) {
     addIcons({
       peopleOutline,
@@ -53,7 +58,104 @@ export class DashboardPage implements OnInit {
     this.cargarDashboard();
   }
 
+  private cargarActividadesRecientes(): void {
+    const actividades: ActividadReciente[] = [];
+
+  // =========================================================
+  //            💵 PAGOS
+  // =========================================================
+
+  this.actividadService.getActividades().forEach(actividad => {
+    actividades.push(actividad);
+  });
+
+  // =========================================================
+  // ⏱️ HORAS TRABAJADAS
+  // =========================================================
+
+  this.horaTrabajadaService.getHorasTrabajadas().forEach(hora => {
+
+    const profesor =
+      this.profesorService.getPofesorById(hora.profesorId);
+
+    if (!profesor) {
+      return;
+    }
+
+    actividades.push({
+      icono: '⏱️',
+      titulo: 'Horas trabajadas',
+      descripcion: `${profesor.nombre} · ${hora.horas} horas`,
+      fecha: hora.fecha,
+      ruta: '/horas-trabajadas'
+    });
+  });
+
+
+  // =========================================================
+  // 💰 LIQUIDACIONES
+  // =========================================================
+
+  this.liquidacionProfesorService.getLiquidaciones().forEach(liquidacion => {
+
+    const profesor =
+      this.profesorService.getPofesorById(liquidacion.profesorId);
+
+    if (!profesor || !liquidacion.fechaLiquidacion) {
+      return;
+    }
+
+    actividades.push({
+      icono: '💰',
+      titulo: 'Liquidación generada',
+      descripcion: profesor.nombre,
+      fecha: liquidacion.fechaLiquidacion,
+      monto: liquidacion.totalPagar,
+      ruta: '/liquidaciones'
+    });
+  });
+
+
+  // =========================================================
+  // ORDENAR POR FECHA
+  // =========================================================
+
+  actividades.sort((a, b) =>
+    new Date(b.fecha).getTime() -
+    new Date(a.fecha).getTime()
+  );
+
+  // Mostrar solamente las últimas 5
+  this.actividadesRecientes = actividades.slice(0, 5);
+  }
+
+  public formatearFecha(fecha: string): string {
+
+    const fechaActividad = new Date(fecha + 'T00:00:00');
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const ayer = new Date(hoy);
+    ayer.setDate(ayer.getDate() - 1);
+
+    if (fechaActividad.getTime() === hoy.getTime()) {
+      return 'Hoy';
+    }
+
+    if (fechaActividad.getTime() === ayer.getTime()) {
+      return 'Ayer';
+    }
+
+    return fechaActividad.toLocaleDateString('es-AR', {
+      day: 'numeric',
+      month: 'long'
+    });
+  }
+
   private cargarDashboard(): void {
+
+    this.cargarActividadesRecientes(); // cargando método
 
     console.log("📊 Entré a cargarDashboard");
     console.log('Total clientes:', this.clienteService.getTotalClientes());

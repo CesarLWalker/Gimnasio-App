@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Pago } from "../models/pago.model";
 import { TipoPago } from "../enums/tipoPago.enum";
 import { ClienteService } from "./cliente.service";
+import { ActividadService } from "./actividad.service";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,8 @@ export class PagoService {
   ];
 
   constructor(
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private actividadService: ActividadService
   ) {}
 
   public getPagos(): Pago[] {
@@ -50,6 +52,16 @@ export class PagoService {
 
     // Actualizamos la fecha del último pago del cliente
     this.actualizarFechaUltimoPago(pago.clienteId);
+
+    // Registramos la actividad reciente
+    this.actividadService.agregarActividad({
+      icono: '💵',
+      titulo: 'Nuevo pago',
+      descripcion: 'Se registró un nuevo pago',
+      fecha: pago.fecha,
+      monto: pago.monto,
+      ruta: '/pagos'
+    });
   }
 
   // =========================================================
