@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Nuevo cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+<form #formCliente="ngForm" (ngSubmit)="guardarCliente()">
+
+  <ion-item>
+    <ion-input label="Nombre y Apellido" [(ngModel)]="cliente.nombre" name="nombre"
+     labelPlacement="stacked" placeholder="Ingrese su nombre y apellido" #nombre="ngModel" required>
+    </ion-input>
+  </ion-item>
+
+  @if (nombre.invalid && nombre.touched) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El nombre es obligatorio.</ion-text>
+    </div>
+     }
+
+  <ion-item>
+    <ion-select label="Estado" [(ngModel)]="cliente.estado" name="estado"
+    labelPlacement="stacked">
+      <ion-select-option [value]="EstadoCliente.PAGADO">PAGADO</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.DEBE">DEBE</ion-select-option>
+      <ion-select-option [value]="EstadoCliente.NO_VIENE">NO VIENE</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Periodo de Pago" [(ngModel)]="cliente.periodoPago" name="periodoPago"
+    labelPlacement="stacked">
+      <ion-select-option [value]="PeriodoPago.MES">MES</ion-select-option>
+      <ion-select-option [value]="PeriodoPago.MEDIO_MES">MEDIO MES</ion-select-option>
+      <ion-select-option [value]="PeriodoPago.SEMANA">SEMANA</ion-select-option>
+      <ion-select-option [value]="PeriodoPago.DIA">DÍA</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="date" label="Fecha de último pago" labelPlacement="stacked"
+    [(ngModel)]="cliente.fechaUltimoPago" name="fechaUltimoPago"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Cuota" labelPlacement="stacked" name="cuota"
+    [(ngModel)]="cliente.cuota">
+       <ion-select-option value="INDIVIDUAL">INDIVIDUAL</ion-select-option>
+       <ion-select-option value="FAMILIARx2">FAMILIARx2</ion-select-option>
+       <ion-select-option value="FAMILIARx3">FAMILIARx3</ion-select-option>
+       <ion-select-option value="FAMILIARx4">FAMILIARx4</ion-select-option>
+       <ion-select-option value="FAMILIARx5">FAMILIARx5</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="number" label="Monto" labelPlacement="stacked" name="monto"
+    [(ngModel)]="cliente.monto" min="1" #monto="ngModel" required></ion-input>
+  </ion-item>
+
+  @if (monto.touched && monto.errors?.['required']) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El monto es obligatorio.</ion-text>
+    </div>
+  }
+
+  @if (monto.touched && monto.errors?.['min']) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El monto debe ser mayor que 0.</ion-text>
+    </div>
+  }
+
+  <ion-item>
+    <ion-select label="Tipo de pago" labelPlacement="stacked" name="tipoPagoHabitual"
+    [(ngModel)]="cliente.tipoPagoHabitual">
+        <ion-select-option value="EFECTIVO">EFECTIVO</ion-select-option>
+         <ion-select-option value="TRANSFERENCIA">TRANSFERENCIA</ion-select-option>
+          <ion-select-option value="TARJETA_DEBITO">TARJETA DE DÉBITO</ion-select-option>
+          <ion-select-option value="TARJETA_CREDITO">TARJETA DE CRÉDITO</ion-select-option>
+           <ion-select-option value="MERCADO_PAGO">MERCADO PAGO</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Celular" [(ngModel)]="cliente.celular" name="celular"
+    labelPlacement="stacked" placeholder="Ingrese el celular" #celular="ngModel" required></ion-input>
+  </ion-item>
+
+  @if (celular.invalid && celular.touched) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">El celular es obligatorio.</ion-text>
+    </div>
+  }
+
+  <ion-button expand="block" type="submit" [disabled]="formCliente.invalid">Guardar</ion-button>
+
+</form>
+
+</ion-content>

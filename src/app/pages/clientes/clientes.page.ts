@@ -1,23 +1,143 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonCardHeader, IonGrid, IonRow } from "@ionic/angular/standalone";
-import { Cliente } from 'src/app/models/cliente';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonCardContent, IonCardHeader, IonItem, IonLabel, IonIcon, IonList, IonSearchbar, IonFab, IonFabButton, IonButton } from "@ionic/angular/standalone";
+import { EstadoCliente } from 'src/app/enums/estadoCliente.enum';
+import { PeriodoPago } from 'src/app/enums/periodoPago';
+import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.page.html',
   styleUrls: ['./clientes.page.scss'],
-  imports: [ IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonCard, IonContent, IonTitle, IonToolbar, IonHeader],
+  imports: [IonButton, IonFabButton, IonFab, IonList,  IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle,
+     IonToolbar, IonHeader, IonItem, IonLabel, IonIcon, IonSearchbar, FormsModule],
 })
 export class ClientesPage implements OnInit {
-
+  // Propiedades
   clientes: Cliente[] = [];
 
-  constructor(private clienteService: ClienteService) { }
+  clientesFiltrados: Cliente[] = [];
 
-  ngOnInit(): void {
+  searchTerm = '';
+
+  //  Constructor
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router,
+    private alertController: AlertController
+  ) { }
+
+  //  Ciclos de vida
+  ngOnInit(): void {}
+
+  // Método para refrescar datos, cargar listas
+  ionViewWillEnter(): void {
     this.clientes = this.clienteService.getClientes();
+    this.clientesFiltrados = [...this.clientes]; //creamos una copia superficial del arreglo. Así podemos filtrar la copia sin afectar la lista original.
   }
 
+
+  // Método para normalizar texto
+  public normalizeText(text: string): string {
+    return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+  }
+
+  public getEstadoLabel(estado: string): string {
+
+    switch (estado) {
+    case EstadoCliente.PAGADO:
+      return '🟢 Pagado';
+
+    case EstadoCliente.DEBE:
+      return '🟡 Debe';
+
+    case EstadoCliente.NO_VIENE:
+      return '🔴 No vienen';
+
+    default:
+      return estado;
+    }
+  }
+
+  public getPeriodoPagoLabel(periodo: PeriodoPago): string {
+
+    switch (periodo) {
+      case PeriodoPago.MES:
+        return '📅 Mes';
+
+      case PeriodoPago.MEDIO_MES:
+        return '📅 Medio mes';
+
+      case PeriodoPago.SEMANA:
+        return '📅 Semana';
+
+      case PeriodoPago.DIA:
+        return '📅 Día';   
+        
+      default:
+        return periodo;   
+    }
+  }
+
+  //  Métodos públicos
+  public filterClients(): void {
+
+    if (!this.searchTerm.trim()) {
+      this.clientesFiltrados = [...this.clientes];
+      return;
+    }
+
+    const search = this.normalizeText(this.searchTerm);
+
+    this.clientesFiltrados = this.clientes.filter(cliente => this.normalizeText(cliente.nombre).includes(search)
+    );
+  }
+
+  public goToNuevoCliente(): void {
+    //console.log("Botón + presionado");
+    this.router.navigate(['/clientes/nuevo-cliente']);
+  }
+
+  public editarCliente(cliente: Cliente): void {
+    //console.log("Editar cliente: ", cliente);
+    this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
+  }
+
+  public verHistorialPagos(cliente: Cliente): void {
+    this.router.navigate(['/clientes', cliente.id, 'historial-pagos']);
+  }
+
+  public async eliminarCliente(cliente: Cliente): Promise<void> {
+
+    const alert = await this.alertController.create({
+      header: 'Eliminar cliente',
+      message: `¿Estás seguro que desea eliminar a ${cliente.nombre}?`, // comillas invertidas (backticks)
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this. clienteService.deleteCliente(cliente.id);
+            this.clientes = this.clienteService.getClientes();
+            this.clientesFiltrados = [ ...this.clientes ];
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+    console.log("Cliente eliminado: ", cliente);
+  }
 
 }

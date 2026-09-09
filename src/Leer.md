@@ -46,3 +46,261 @@
           </ion-card-content>
        </ion-card>
       </ion-col>
+
+# Con #formCliente="ngForm" Angular nos permite saber si el formulario es válido.
+<form #formCliente="ngForm" (ngSubmit)="guardarCliente()">
+
+# Mientras falte un dato obligatorio: el botón estará deshabilitado.
+Cuando el formulario sea válido: el botón se habilitará automáticamente.
+[disabled]="formCliente.invalid">Guardar
+
+# #nombre="ngModel"
+Con eso Angular nos permite saber:
+
+si el campo fue tocado (touched),
+si fue modificado (dirty),
+si es válido (valid),
+si es inválido (invalid).
+
+# ¿Por qué primero touched?
+Porque si no lo usamos, la página mostraría todos los errores apenas se abre, incluso antes de que el usuario empiece a escribir.
+
+## Con touched:
+Abrís la pantalla → no aparecen errores.
+Tocás el campo y lo dejás vacío → aparece el mensaje.
+
+# Inyección de dependencia en Angular
+Esa forma de trabajar es la que te va a servir cuando uses:
+
+HttpClient
+ActivatedRoute
+AlertController
+ToastController
+LoadingController
+
+Todos funcionan con el mismo principio. Ej.
+  
+  constructor (
+    private clienteService: ClienteService,
+    private router: Router
+  ) {}
+
+#  Utilizando console.log(); para corroborar
+public editarCliente(cliente: Cliente): void {
+  console.log('Editar cliente:', cliente);
+  this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
+}
+
+O incluso, cuando comprobemos que la navegación funciona, directamente eliminaría el console.log:
+
+public editarCliente(cliente: Cliente): void {
+  this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);
+}
+
+## En producción no solemos dejar console.log() salvo que estemos depurando un problema.
+
+# ¿Qué hace este código?
+1. Obtiene el ID de la URL
+const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+Si la URL es:
+
+/clientes/nuevo-cliente/3
+
+entonces:
+
+id = "3"
+
+Si la URL es:
+
+/clientes/nuevo-cliente
+
+entonces:
+
+id = null
+2. Verifica si hay un ID
+if (id)
+
+Solo entra si estamos editando.
+
+3. Busca el cliente
+const clienteEncontrado = this.clienteService.getClienteById(Number(id));
+
+Usamos Number(id) porque el parámetro de la URL llega como texto (string), pero nuestro método espera un number.
+
+4. Carga los datos en el formulario
+this.cliente = { ...clienteEncontrado };
+
+Fijate que nuevamente usamos el operador de propagación (...).
+
+No hacemos:
+
+this.cliente = clienteEncontrado;
+
+porque eso haría que ambos objetos apuntaran a la misma referencia. Si empezaras a escribir en el formulario, estarías modificando el cliente de la lista incluso antes de guardar.
+
+Con:
+
+     this.cliente = { ...clienteEncontrado };
+
+trabajamos sobre una copia, que es mucho más seguro.
+
+5. Activamos el modo edición
+this.modoEdicion = true;
+
+Más adelante esta variable nos servirá para decidir si el botón debe crear o actualizar un cliente.
+
+# ¿Qué hace este método?
+
+Primero busca en qué posición del arreglo está el cliente:
+
+const index = this.clientes.findIndex(
+  cliente => cliente.id === clienteActualizado.id
+);
+
+Por ejemplo, si el cliente con ID 3 está en la tercera posición del arreglo, index valdrá 2 (porque los arreglos empiezan en 0).
+
+Después verifica que realmente lo encontró:
+
+if (index !== -1)
+
+Y finalmente reemplaza ese cliente por el actualizado:
+
+this.clientes[index] = { ...clienteActualizado };
+
+Fijate que seguimos usando ... para trabajar con una copia del objeto.
+
+🧠 Un concepto nuevo: find() vs findIndex()
+
+Hasta ahora usamos:
+
+this.clientes.find(...)
+
+Eso devuelve el objeto.
+
+En cambio:
+
+this.clientes.findIndex(...)
+
+devuelve la posición del objeto dentro del arreglo.
+
+Ejemplo:
+
+Índice    Cliente
+
+0         César
+1         Dana
+2         Leandro
+3         Cristina
+
+Si buscamos a Leandro:
+
+find()      → devuelve el objeto Leandro
+
+findIndex() → devuelve 2
+
+Y como necesitamos reemplazar un elemento del arreglo, findIndex() es la herramienta adecuada.
+
+# ngOnInit()
+Se ejecuta cuando el componente se crea por primera vez.
+Ideal para:
+
+Configuración inicial.
+Cargar datos que no cambian mientras la página está abierta.
+Inicializar variables.
+
+# ionViewWillEnter()
+Se ejecuta cada vez que la página vuelve a mostrarse.
+Ideal para:
+
+Recargar listas.
+Refrescar datos.
+Consultar nuevamente el backend.
+En una aplicación Ionic se usa muchísimo.
+
+# 🧠 Un concepto importante
+Varios métodos muy útiles de los arreglos:
+
+# Método	    ¿Qué hace?
+find()	      Devuelve un objeto.
+findIndex()	  Devuelve la posición del objeto.
+filter()	    Devuelve un nuevo arreglo filtrado.
+push()	      Agrega un elemento al final.
+
+# Comillas invertidas (backticks)
+`Hola`
+
+Sirven para crear template literals (plantillas de texto), que permiten insertar variables.
+
+Por ejemplo:
+
+const nombre = 'César';
+
+console.log(`Hola ${nombre}`);
+
+Resultado: Hola César
+
+# Lo correcto es usar backticks:
+
+message: `¿Está seguro que desea eliminar a ${cliente.nombre}?`
+
+Así TypeScript reemplaza ${cliente.nombre} por el nombre real del cliente.
+
+Cada vez que veas esta sintaxis:
+
+${ ... }
+
+preguntate: ¿Estoy usando backticks ( )?
+
+Porque ${...} solo funciona dentro de backticks.
+
+# 💡En lugar de escribir:
+
+'Hola ' + nombre + ', bienvenido.'
+
+escribimos: `Hola ${nombre}, bienvenido.`
+
+# Página	Forma de cargar
+Página con NgModule	loadChildren
+Página standalone	loadComponent
+
+# Regla sencilla para recordar
+const → no voy a reasignar el valor
+let   → voy a reasignar el valor
+
+Por ejemplo:
+
+    const profesorId = this.profesorSeleccionadoId;
+
+No lo cambiamos → const ✅
+
+    let totalPagar = 0;
+
+Puede cambiar → let ✅
+
+# Agregá IonIcon a los imports de Ionic y addIcons desde ionicons, junto con los iconos que vamos a utilizar.
+
+peopleOutline → clientes
+checkmarkCircleOutline → pagados
+alertCircleOutline → deben
+closeCircleOutline → no vienen
+calendarOutline → mensuales
+cashOutline → recaudación
+schoolOutline → profesores
+timeOutline → horas
+documentTextOutline → liquidaciones
+walletOutline → a pagar
+
+# SCSS Dashboard:
+
+    border-radius: 16px → tarjetas más modernas
+    box-shadow → profundidad
+    hover → pequeña elevación al pasar el mouse
+    gap → separación correcta entre icono y título
+    número de 34px → más protagonismo
+    opacity → descripción más discreta
+    height: 100% → todas las tarjetas de una fila mantienen altura uniforme
+
+Y seguimos utilizando card.color, así que Ionic mantiene automáticamente los colores primary, success, warning, danger, etc.
+
+# 

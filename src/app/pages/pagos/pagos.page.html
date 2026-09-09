@@ -4,10 +4,51 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-searchbar placeholder="Buscar Pago" [(ngModel)]="searchTerm" (ionInput)="filterPagos()"></ion-searchbar>
+
 <ion-content class="ion-padding">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">💳 Pagos</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+  
+  @for (pago of pagosFiltrados; track pago.id) {
+    
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title> 👤 {{ getNombreCliente(pago.clienteId) }} </ion-card-title>
+      </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item lines="none">
+        <ion-label>Fecha de Último Pago: {{ pago.fecha }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Monto: $ {{ pago.monto }} </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Observación: {{ pago.observacion }} </ion-label>
+      </ion-item>
+
+      <ion-button expand="block" fill="outline" color="primary" (click)="editarPago(pago)">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+         Editar Pago
+      </ion-button>
+
+
+      <ion-button expand="block" fill="solid" color="danger" (click)="eliminarPago(pago)">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Eliminar Pago
+      </ion-button>
+
+    </ion-card-content>
+    </ion-card>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="goToNuevoPago()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+ }
+
+  </ion-list>
 </ion-content>

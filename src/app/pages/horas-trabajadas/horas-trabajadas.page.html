@@ -1,0 +1,181 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Horas Trabajadas</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+ <!--TOTAL DE HORAS-->
+ <ion-card class="ion-margin-top">
+
+  <ion-card-header>
+    <ion-card-title> ⏱️ Total de horas</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <h1>{{ totalHorasFiltradas }} horas</h1>
+  </ion-card-content>
+
+ </ion-card>
+
+  <!--LISTADO-->
+  <h2 class="ion-margin-top">Horas registradas</h2>
+
+  <ion-grid>
+    <ion-row>
+
+      @for (hora of horasFiltradas; track hora.id) {
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+
+                @for (profesor of profesores; track profesor.id) {
+                  @if (profesor.id === hora.profesorId) {
+                    {{ profesor.icono }} {{ profesor.nombre }}
+                  }
+                }
+
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p>📅 {{ hora.fecha }}</p>
+
+              <p>
+                🕐 {{ hora.horaInicio }}
+                →
+                {{ hora.horaFin }}
+              </p>
+
+              <p>
+                ⏱️ {{ hora.horas }} horas
+              </p>
+
+              <p>
+                🏋️ {{ hora.actividad }}
+              </p>
+
+              @if (hora.observacion) {
+                <p>
+                  📝 {{ hora.observacion }}
+                </p>
+              }
+
+              <ion-button expand="block" color="danger" class="ion-margin-top" (click)="eliminarHora(hora.id)">
+                 🗑️ Eliminar 
+              </ion-button>
+            </ion-card-content>
+
+          </ion-card>
+        </ion-col>
+      }
+
+    </ion-row>
+  </ion-grid>
+
+  <!--FILTRO POR PROFESOR-->
+ <ion-item class="ion-margin-top">
+  <ion-label>Filtrar por profesor</ion-label>
+
+  <ion-select [(ngModel)]="profesorFiltroId" (ionChange)="filtrarHoras()" placeholder="Todos">
+    <ion-select-option [value]="null">Todos</ion-select-option>
+
+    @for (profesor of profesores; track profesor.id) {
+
+      <ion-select-option [value]="profesor.id">
+        {{ profesor.icono }} {{ profesor.nombre }}
+      </ion-select-option>
+
+    }
+
+  </ion-select>
+ </ion-item>
+
+ <!--FILTRO POR PERÍODO-->
+ <ion-item>
+  <ion-label position="stacked">Filtrar por período</ion-label>
+
+  <ion-input type="month" [(ngModel)]="periodoFiltro" (ionInput)="filtrarHoras()"></ion-input>
+ </ion-item>
+
+ <ion-button expand="block" color="medium" class="ion-margin-top" (click)="limpiarFiltros()">
+    🧹 Limpiar filtros
+ </ion-button>
+
+  <h2>Registrar horas trabajadas</h2>
+
+  <!--PROFESOR-->
+  <ion-item>
+    <ion-label>Profesor</ion-label>
+
+    <ion-select [(ngModel)]="profesorSeleccionadoId" placeholder="Seleccionar profesor">
+
+      @for (profesor of profesores; track profesor.id) {
+
+        <ion-select-option [value]="profesor.id">
+          {{ profesor.icono }} {{ profesor.nombre }}
+        </ion-select-option>
+      }
+
+    </ion-select>
+  </ion-item>
+
+  <!--FECHA-->
+  <ion-item>
+    <ion-label position="stacked">Fecha</ion-label>
+
+    <ion-input type="date" [(ngModel)]="fecha">
+
+    </ion-input>
+  </ion-item>
+
+  <!--HORA INICIO-->
+  <ion-item>
+    <ion-label position="stacked">Hora inicio</ion-label>
+
+    <ion-input type="time" [(ngModel)]="horaInicio" (ionInput)="calcularHoras()">
+
+    </ion-input>
+  </ion-item>
+
+  <!--HORA FIN-->
+  <ion-item>
+    <ion-label position="stacked">Hora fin</ion-label>
+
+    <ion-input type="time" [(ngModel)]="horaFin" (ionInput)="calcularHoras()">
+
+    </ion-input>
+  </ion-item>
+
+  <!--HORAS CALCULADAS-->
+  <ion-item>
+    <ion-label>Horas trabajadas</ion-label>
+
+    <ion-label slot="end">{{ horas }} horas</ion-label>
+  </ion-item>
+
+  <!--ACTIVIDAD-->
+  <ion-item>
+    <ion-label position="stacked">Actividad</ion-label>
+
+    <ion-input type="text" [(ngModel)]="actividad" placeholder="Ej: Musculación">
+
+    </ion-input>
+  </ion-item>
+
+  <!--OBSERVACIÓN-->
+  <ion-item>
+    <ion-label position="stacked">Observación</ion-label>
+
+    <ion-input type="text" [(ngModel)]="observacion" placeholder="Opcional">
+
+    </ion-input>
+  </ion-item>
+
+  <!--BOTÓN-->
+  <ion-button expand="block" color="success" class="ion-margin-top" (click)="registrarHora()">
+     💾 Registrar hora
+  </ion-button>
+  
+ 
+</ion-content>
