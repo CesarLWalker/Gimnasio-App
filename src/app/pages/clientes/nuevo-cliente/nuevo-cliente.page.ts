@@ -30,7 +30,7 @@ export class NuevoClientePage implements OnInit {
     periodoPago: PeriodoPago.MES,
     fechaUltimoPago: '',
     cuota: Cuota.INDIVIDUAL,
-    monto: 1000,
+    monto: 10000,
     tipoPagoHabitual: TipoPago.EFECTIVO
   };
 

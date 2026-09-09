@@ -4,6 +4,7 @@ import { Cuota } from '../enums/cuota.enum';
 import { TipoPago } from '../enums/tipoPago.enum';
 import { EstadoCliente } from '../enums/estadoCliente.enum';
 import { PeriodoPago } from '../enums/periodoPago';
+import { ActividadService } from './actividad.service';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +58,9 @@ export class ClienteService {
     }
   ];
 
-  constructor() {}
+  constructor(
+    private actividadService: ActividadService
+  ) {}
 
   // =========================================================
   // ESTADO AUTOMÁTICO DE LAS CUOTAS
@@ -224,6 +227,25 @@ export class ClienteService {
   public addCliente(cliente: Cliente): void {
     cliente.id = this.clientes.length + 1;
     this.clientes.push({ ...cliente }); // Así se guarda una copia del objeto
+
+    // Registramos la actividad reciente
+    this.actividadService.agregarActividad({
+      icono: '👤',
+      titulo: 'Nuevo cliente',
+      descripcion: cliente.nombre,
+      fecha: this.obtenerFechaLocal(),
+      ruta: '/clientes'
+    });
+  }
+
+  private obtenerFechaLocal(): string {
+    const hoy = new Date();
+
+    const año = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+
+    return `${año}-${mes}-${dia}`;
   }
 
   public deleteCliente(id: number): void {
@@ -258,7 +280,7 @@ export class ClienteService {
   }
 
   public getClientesNoVienen(): number {
-    
+
     return this.clientes.filter(
       cliente => cliente.estado === EstadoCliente.NO_VIENE
     ).length;
