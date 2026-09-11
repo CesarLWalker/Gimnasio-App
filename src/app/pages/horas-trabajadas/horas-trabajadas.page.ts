@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent,  IonItem, IonLabel, IonSelect, IonSelectOption, IonInput, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from "@ionic/angular/standalone";
 import { HoraTrabajada } from 'src/app/models/horaTrabajada.model';
 import { Profesor } from 'src/app/models/profesor.model';
@@ -12,7 +13,7 @@ import { ProfesorService } from 'src/app/services/profesor.service';
   templateUrl: './horas-trabajadas.page.html',
   styleUrls: ['./horas-trabajadas.page.scss'],
   imports: [FormsModule, IonContent, IonTitle, IonHeader, IonToolbar, IonItem, IonLabel, IonSelect, IonSelectOption,
-     IonInput, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent]
+     IonInput, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent, RouterLink ]
 })
 export class HorasTrabajadasPage implements OnInit {
 
@@ -48,6 +49,11 @@ export class HorasTrabajadasPage implements OnInit {
     this.horasFiltradas = this.horasTrabajadas;
 
     this.calcularTotalHoras();
+    this.filtrarHoras();
+  }
+
+  ionViewWillEnter(): void {
+    this.horasTrabajadas = this.horaTrabajadaService.getHorasTrabajadas();
     this.filtrarHoras();
   }
 

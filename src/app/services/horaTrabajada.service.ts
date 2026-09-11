@@ -83,7 +83,10 @@ export class HoraTrabajadaService {
   }
 
   agregarHora(hora: HoraTrabajada): void {
+    console.log('AGREGANDO HORA: ', hora);
+    console.log('ANTES: ', this.horasTrabajadas.length);
     this.horasTrabajadas.push(hora);
+    console.log('DESPUÉS: ', this.horasTrabajadas.length);
   }
 
   eliminarHora(id: number): void {

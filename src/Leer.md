@@ -303,4 +303,20 @@ walletOutline → a pagar
 
 Y seguimos utilizando card.color, así que Ionic mantiene automáticamente los colores primary, success, warning, danger, etc.
 
+# agregamos:
+
+this.router.navigate(['/horas-trabajadas']);
+
+# Entonces queda:
+
+this.horaTrabajadaService.agregarHora(nuevaHora);
+
+console.log('Horas registradas: ', nuevaHora);
+
+this.router.navigate(['/horas-trabajadas']);
+
+# Así, cuando guarda:
+
+Guardar horas → guarda → vuelve a Horas Trabajadas → aparece el registro. ✅
+
 # 
