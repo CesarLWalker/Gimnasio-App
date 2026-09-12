@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -28,16 +28,26 @@ export class ClientesPage implements OnInit {
     private clienteService: ClienteService,
     private router: Router,
     private alertController: AlertController
-  ) { }
+  ) { 
+    effect(() => {
+      this.clienteService.clientesChanged();
+      this.cargarClientes();
+    });
+  }
+
+  private cargarClientes(): void {
+    this.clientes = this.clienteService.getClientes();
+    this.filterClients();
+  }
 
   //  Ciclos de vida
   ngOnInit(): void {}
 
-  // Método para refrescar datos, cargar listas
+ /* // Método para refrescar datos, cargar listas
   ionViewWillEnter(): void {
     this.clientes = this.clienteService.getClientes();
     this.clientesFiltrados = [...this.clientes]; //creamos una copia superficial del arreglo. Así podemos filtrar la copia sin afectar la lista original.
-  }
+  }*/
 
 
   // Método para normalizar texto
@@ -129,8 +139,6 @@ export class ClientesPage implements OnInit {
           role: 'destructive',
           handler: () => {
             this. clienteService.deleteCliente(cliente.id);
-            this.clientes = this.clienteService.getClientes();
-            this.clientesFiltrados = [ ...this.clientes ];
           }
         }
       ]

@@ -9,6 +9,8 @@ import { Cuota } from 'src/app/enums/cuota.enum';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { PeriodoPago } from 'src/app/enums/periodoPago';
+import { PagoService } from 'src/app/services/pago.service';
+import { Pago } from 'src/app/models/pago.model';
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -38,8 +40,10 @@ export class NuevoClientePage implements OnInit {
 
   constructor(
     private clienteService: ClienteService,
+    private pagoService: PagoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     // Obtiene el ID de la URL
@@ -62,8 +66,28 @@ export class NuevoClientePage implements OnInit {
       this.clienteService.updateCliente(this.cliente); // Actualiza cliente
       console.log('Cliente actualizado: ', this.cliente);
     } else {
-      this.clienteService.addCliente(this.cliente); // Agrega cliente
-      console.log('Cliente agregado: ', this.cliente);
+      const nuevoCliente = this.clienteService.addCliente(this.cliente); // Agrega cliente
+      console.log('Cliente agregado: ', nuevoCliente);
+
+      // Si el cliente está PAGADO y tiene un monto, registramos también su primer pago
+      if (
+        nuevoCliente.estado === EstadoCliente.PAGADO && 
+        nuevoCliente.monto > 0 &&
+        nuevoCliente.fechaUltimoPago
+      ) {
+        
+        const nuevoPago: Pago = {
+          id: 0,
+          clienteId: nuevoCliente.id,
+          fecha: nuevoCliente.fechaUltimoPago,
+          monto: nuevoCliente.monto,
+          tipoPago: nuevoCliente.tipoPagoHabitual,
+          observacion: 'Pago inicial'
+        };
+
+        this.pagoService.addPago(nuevoPago);
+        console.log('Pago inicial registrado: ', nuevoPago);
+      }
     }
 
     this.router.navigate(['/clientes']);

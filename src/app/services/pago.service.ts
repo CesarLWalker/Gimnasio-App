@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { Pago } from "../models/pago.model";
 import { TipoPago } from "../enums/tipoPago.enum";
 import { ClienteService } from "./cliente.service";
@@ -27,6 +27,9 @@ export class PagoService {
       observacion: 'cuota junio'
     }
   ];
+
+  private pagosVersion = signal(0);
+  public readonly pagoChanged = this.pagosVersion.asReadonly();
 
   constructor(
     private clienteService: ClienteService,
@@ -62,6 +65,8 @@ export class PagoService {
       monto: pago.monto,
       ruta: '/pagos'
     });
+
+    this.pagosVersion.update(valor => valor + 1);
   }
 
   // =========================================================
@@ -85,6 +90,9 @@ export class PagoService {
       if (pagoAnterior && pagoAnterior.clienteId !== pagoActualizado.clienteId) {
         this.actualizarFechaUltimoPago(pagoAnterior.clienteId);
       }
+
+      // Avisar cuando actualizamos un pago
+      this.pagosVersion.update(valor => valor + 1);
     }
   }
 
@@ -103,6 +111,9 @@ export class PagoService {
 
     // Despúes de eliminar, buscamos cuál es ahora el último pago
     this.actualizarFechaUltimoPago(pago.clienteId);
+
+    // Avisar cuando eliminamos un pago
+    this.pagosVersion.update(valor => valor + 1);
   }
 
   // =========================================================

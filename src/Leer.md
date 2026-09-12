@@ -319,4 +319,33 @@ this.router.navigate(['/horas-trabajadas']);
 
 Guardar horas → guarda → vuelve a Horas Trabajadas → aparece el registro. ✅
 
+# 4. En eliminar cliente
+
+Dentro del handler, actualmente tenés:
+
+handler: () => {
+  this.clienteService.deleteCliente(cliente.id);
+  this.clientes = this.clienteService.getClientes();
+  this.clientesFiltrados = [...this.clientes];
+}
+
+Ahora dejá solamente:
+
+handler: () => {
+  this.clienteService.deleteCliente(cliente.id);
+}
+
+Porque el servicio avisa mediante la señal y effect() vuelve a cargar la lista automáticamente.
+
+# ionViewWillEnter por effect
+
+Podemos eliminar este método:
+
+ionViewWillEnter(): void {
+  this.pagos = this.pagoService.getPagos();
+  this.pagosFiltrados = [...this.pagos];
+}
+
+Porque effect() se ocupa de cargar los datos.
+
 # 

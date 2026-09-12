@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonCard, IonList, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonButton, IonIcon, IonSearchbar, IonFab, IonFabButton } from "@ionic/angular/standalone";
-import { Cliente } from 'src/app/models/cliente.model';
 import { Pago } from 'src/app/models/pago.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { PagoService } from 'src/app/services/pago.service';
@@ -28,15 +27,19 @@ export class PagosPage implements OnInit {
     private clienteService: ClienteService,
     private router: Router,
     private alertController: AlertController
-  ) { }
+  ) {
+    effect(() => {
+      this.pagoService.pagoChanged();
+      this.cargarPagos();
+    });
+   }
+
+   private cargarPagos(): void {
+    this.pagos = this.pagoService.getPagos();
+    this.filterPagos();
+   }
 
   ngOnInit() {
-  }
-
-   // Método para refrescar datos, cargar listas
-  ionViewWillEnter(): void {
-    this.pagos = this.pagoService.getPagos();
-    this.pagosFiltrados = [...this.pagos]; //creamos una copia superficial del arreglo. Así podemos filtrar la copia sin afectar la lista original.
   }
 
   // Método para normalizar texto
@@ -96,8 +99,6 @@ export class PagosPage implements OnInit {
           role: 'destructive',
           handler: () => {
             this.pagoService.deletePago(pago.id);
-            this.pagos = this.pagoService.getPagos();
-            this.pagosFiltrados = [ ...this.pagos ];
           }
         }
       ]

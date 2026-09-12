@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Cliente } from '../models/cliente.model';
 import { Cuota } from '../enums/cuota.enum';
 import { TipoPago } from '../enums/tipoPago.enum';
@@ -10,6 +10,10 @@ import { ActividadService } from './actividad.service';
   providedIn: 'root',
 })
 export class ClienteService {
+
+  // ================================================
+  // CLIENTES
+  // ================================================
 
   private clientes: Cliente[] = [
     {
@@ -41,7 +45,7 @@ export class ClienteService {
       periodoPago: PeriodoPago.DIA,
       fechaUltimoPago: '2026-07-14',
       cuota: Cuota.FAMILIARx2,
-      monto: 1000,
+      monto: 10000,
       tipoPagoHabitual: TipoPago.TRANSFERENCIA,
       celular: '898681'
     },
@@ -52,11 +56,14 @@ export class ClienteService {
       periodoPago: PeriodoPago.MES,
       fechaUltimoPago: '2026-07-14',
       cuota: Cuota.INDIVIDUAL,
-      monto: 4000,
+      monto: 5000,
       tipoPagoHabitual: TipoPago.TRANSFERENCIA,
       celular: '157802'
     }
   ];
+
+  private clientesVersion = signal(0);
+  public readonly clientesChanged = this.clientesVersion.asReadonly();
 
   constructor(
     private actividadService: ActividadService
@@ -195,7 +202,7 @@ export class ClienteService {
   }
 
   // =========================================================
-  // CLIENTES
+  // OBTENER CLIENTES
   // =========================================================
 
   public getClientes(): Cliente[]{
@@ -210,34 +217,59 @@ export class ClienteService {
   );
   }
 
+  // ==========================================================
+  // OBTENER CLIENTE POR ID
+  // ==========================================================
+
   // Método que recorre el arreglo de clientes y devuelve el primero que tenga el mismo ID.
   public getClienteById(id: number): Cliente | undefined {
     this.actualizarEstados();
     return this.clientes.find(cliente => cliente.id === id);
   }
 
+  // ==========================================================
+  // ACTUALIZAR CLIENTE
+  // ==========================================================
+
   public updateCliente(clienteActualizado: Cliente): void {
     const index = this.clientes.findIndex(cliente => cliente.id === clienteActualizado.id);
 
     if (index !== -1) {
       this.clientes[index] = { ...clienteActualizado };
+
+      this.clientesVersion.update(valor => valor + 1);
     }
   }
 
-  public addCliente(cliente: Cliente): void {
-    cliente.id = this.clientes.length + 1;
-    this.clientes.push({ ...cliente }); // Así se guarda una copia del objeto
+  // ==========================================================
+  // AGREGAR CLIENTE
+  // ==========================================================
+
+  public addCliente(cliente: Cliente): Cliente {
+    
+    // Generamos un ID basado en el mayor ID existente
+    const nuevoId = this.clientes.length > 0 ? Math.max(...this.clientes.map(c => c.id)) + 1 : 1;
+
+    const nuevoCliente: Cliente = {...cliente, id: nuevoId};
+    this.clientes.push(nuevoCliente); // Así se guarda una copia del objeto
 
     // Registramos la actividad reciente
     this.actividadService.agregarActividad({
       icono: '👤',
       titulo: 'Nuevo cliente',
-      descripcion: cliente.nombre,
+      descripcion: nuevoCliente.nombre,
       fecha: this.obtenerFechaLocal(),
       ruta: '/clientes'
     });
+
+    this.clientesVersion.update(valor => valor + 1);
+
+    return nuevoCliente;
   }
 
+  // =============================================
+  // FECHA LOCAL
+  // =============================================
   private obtenerFechaLocal(): string {
     const hoy = new Date();
 
@@ -248,10 +280,19 @@ export class ClienteService {
     return `${año}-${mes}-${dia}`;
   }
 
+  // =============================================
+  // ELIMINAR CLIENTE
+  // =============================================
+
   public deleteCliente(id: number): void {
     this.clientes = this.clientes.filter(cliente => cliente.id !== id);
+
+    this.clientesVersion.update(valor => valor + 1);
   }
 
+  // =============================================
+  // TOTAL DE CLIENTES
+  // =============================================
   public getTotalClientes(): number {
     return this.clientes.length;
   }
@@ -259,6 +300,7 @@ export class ClienteService {
   // =========================================================
   // ESTADOS
   // =========================================================
+
   // Métodos de Estado Cliente
   public getClientesPagados(): number {
     this.actualizarEstados();
