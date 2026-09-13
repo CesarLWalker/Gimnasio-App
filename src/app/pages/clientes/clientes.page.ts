@@ -17,18 +17,24 @@ import { ClienteService } from 'src/app/services/cliente.service';
 })
 export class ClientesPage implements OnInit {
   // Propiedades
+  // Lista completa de clientes
   clientes: Cliente[] = [];
 
+  // Lista que mostramos en pantalla
   clientesFiltrados: Cliente[] = [];
 
+  // Texto del buscador
   searchTerm = '';
+
+  // Estado seleccionado para filtrar
+  estadoFiltro: string = 'TODOS';
 
   //  Constructor
   constructor(
     private clienteService: ClienteService,
     private router: Router,
     private alertController: AlertController
-  ) { 
+  ) {
     effect(() => {
       this.clienteService.clientesChanged();
       this.cargarClientes();
@@ -43,14 +49,8 @@ export class ClientesPage implements OnInit {
   //  Ciclos de vida
   ngOnInit(): void {}
 
- /* // Método para refrescar datos, cargar listas
-  ionViewWillEnter(): void {
-    this.clientes = this.clienteService.getClientes();
-    this.clientesFiltrados = [...this.clientes]; //creamos una copia superficial del arreglo. Así podemos filtrar la copia sin afectar la lista original.
-  }*/
-
-
-  // Método para normalizar texto
+  // Normaliza el texto para que la búsqueda ignore mayúsculas, minúsculas y acentos
+  //
   public normalizeText(text: string): string {
     return text
     .normalize('NFD')
@@ -66,19 +66,21 @@ export class ClientesPage implements OnInit {
       return '🟢 Pagado';
 
     case EstadoCliente.DEBE:
-      return '🟡 Debe';
+      return '🔴 Debe';
 
     case EstadoCliente.NO_VIENE:
-      return '🔴 No vienen';
+      return '⚫ No vienen';
 
     default:
-      return estado;
+      return estado; // 🟡
     }
   }
 
+  // Devuelve el texto visual del período de pago
   public getPeriodoPagoLabel(periodo: PeriodoPago): string {
 
     switch (periodo) {
+
       case PeriodoPago.MES:
         return '📅 Mes';
 
@@ -89,25 +91,36 @@ export class ClientesPage implements OnInit {
         return '📅 Semana';
 
       case PeriodoPago.DIA:
-        return '📅 Día';   
-        
+        return '📅 Día';
+
       default:
-        return periodo;   
+        return periodo;
     }
   }
 
   //  Métodos públicos
-  public filterClients(): void {
 
-    if (!this.searchTerm.trim()) {
-      this.clientesFiltrados = [...this.clientes];
-      return;
-    }
+  // Busca por nombre y aplica el filtro de estado
+  public filterClients(): void {
 
     const search = this.normalizeText(this.searchTerm);
 
-    this.clientesFiltrados = this.clientes.filter(cliente => this.normalizeText(cliente.nombre).includes(search)
-    );
+    this.clientesFiltrados = this.clientes.filter(cliente => {
+
+      // Filtro por nombre
+      const coincideNombre = !search || this.normalizeText(cliente.nombre).includes(search);
+
+      // Filtro por estado
+      const coincideEstado = this.estadoFiltro === 'TODOS' || cliente.estado === this.estadoFiltro;
+
+      return coincideNombre && coincideEstado;
+    });
+  }
+
+  // Cambia el filtro de estado
+  public filtrarPorEstado(estado: string): void {
+    this.estadoFiltro = estado;
+    this.filterClients();
   }
 
   public goToNuevoCliente(): void {

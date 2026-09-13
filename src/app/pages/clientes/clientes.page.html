@@ -4,66 +4,209 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-searchbar placeholder="Buscar Cliente" [(ngModel)]="searchTerm" (ionInput)="filterClients()"></ion-searchbar>
-
 <ion-content class="ion-padding">
+
+  <!-- Buscador -->
+  <ion-searchbar
+    placeholder="Buscar cliente"
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterClients()">
+  </ion-searchbar>
+
+
+  <!-- Filtros por estado -->
+  <div class="filtros">
+
+    <ion-button
+      fill="solid"
+      color="primary"
+      (click)="filtrarPorEstado('TODOS')">
+      Todos
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="success"
+      (click)="filtrarPorEstado('PAGADO')">
+      🟢 Pagados
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="danger"
+      (click)="filtrarPorEstado('DEBE')">
+      🔴 Deben
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="medium"
+      (click)="filtrarPorEstado('NO_VIENE')">
+      ⚫ No vienen
+    </ion-button>
+
+  </div>
+
+
+  <!-- Lista de clientes -->
   <ion-list>
-  @for (cliente of clientesFiltrados; track cliente.id) {
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title> 👤 {{ cliente.nombre }} </ion-card-title>
-      </ion-card-header>
+    @for (cliente of clientesFiltrados; track cliente.id) {
 
+      <ion-card>
 
-    <ion-card-content>
-      <ion-item lines="none">
-        <ion-label>Estado: {{ getEstadoLabel(cliente.estado) }} </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Periodo de Pago: {{ cliente.periodoPago }} </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Fecha de Último Pago: {{ cliente.fechaUltimoPago }} </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Cuota: {{ cliente.cuota }} </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Monto: $ {{ cliente.monto }} </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Tipo de Pago: {{ cliente.tipoPagoHabitual }} </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Celular: 📱{{ cliente.celular }} </ion-label>
-      </ion-item>
-
-      <ion-button expand="block" fill="outline" color="primary" (click)="editarCliente(cliente)">
-        <ion-icon slot="start" name="create-outline"></ion-icon>
-         Editar Cliente
-      </ion-button>
-
-      <ion-button expand="block" fill="outline" color="success" (click)="verHistorialPagos(cliente)">
-        <ion-icon slot="start" name="card-outline"></ion-icon>
-        Historial de Pagos
-      </ion-button>
-
-      <ion-button expand="block" fill="solid" color="danger" (click)="eliminarCliente(cliente)">
-        <ion-icon slot="start" name="trash-outline"></ion-icon>
-        Eliminar Cliente
-      </ion-button>
-
-    </ion-card-content>
-    </ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            👤 {{ cliente.nombre }}
+          </ion-card-title>
+        </ion-card-header>
 
 
-   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button color="primary" (click)="goToNuevoCliente()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-   </ion-fab>
-  }
+        <ion-card-content>
+
+          <ion-item lines="none">
+            <ion-label>
+              Estado: {{ getEstadoLabel(cliente.estado) }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              Periodo de Pago:
+              {{ getPeriodoPagoLabel(cliente.periodoPago) }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              Fecha de Último Pago:
+              {{ cliente.fechaUltimoPago }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              Cuota: {{ cliente.cuota }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              Monto: $ {{ cliente.monto }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              Tipo de Pago: {{ cliente.tipoPagoHabitual }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              Celular: 📱 {{ cliente.celular }}
+            </ion-label>
+          </ion-item>
+
+
+          <!-- Editar -->
+          <ion-button
+            expand="block"
+            fill="outline"
+            color="primary"
+            (click)="editarCliente(cliente)">
+
+            <ion-icon
+              slot="start"
+              name="create-outline">
+            </ion-icon>
+
+            Editar Cliente
+
+          </ion-button>
+
+
+          <!-- Historial -->
+          <ion-button
+            expand="block"
+            fill="outline"
+            color="success"
+            (click)="verHistorialPagos(cliente)">
+
+            <ion-icon
+              slot="start"
+              name="card-outline">
+            </ion-icon>
+
+            Historial de Pagos
+
+          </ion-button>
+
+
+          <!-- Eliminar -->
+          <ion-button
+            expand="block"
+            fill="solid"
+            color="danger"
+            (click)="eliminarCliente(cliente)">
+
+            <ion-icon
+              slot="start"
+              name="trash-outline">
+            </ion-icon>
+
+            Eliminar Cliente
+
+          </ion-button>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    }
 
   </ion-list>
+
+  @if (clientesFiltrados.length === 0) {
+
+    <div class="sin-clientes">
+
+      @if (searchTerm.trim()) {
+        <div class="sin-clientes-icono">🔍</div>
+
+          <h2>Cliente no encontrado</h2>
+
+        <p>
+           No encontramos ningún cliente que coincida con
+           "<strong>{{ searchTerm }}</strong>".
+        </p>
+      } @else {
+         <div class="sin-clientes-icono">📋</div>
+
+         <h2>No hay clientes para mostrar</h2>
+
+         <p>
+            No hay clientes que coincidan con el filtro seleccionado.
+         </p>
+        }
+   </div>
+  }
+
+
+  <!-- Botón agregar cliente -->
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed">
+
+    <ion-fab-button
+      color="primary"
+      (click)="goToNuevoCliente()">
+
+      <ion-icon name="add"></ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
 </ion-content>
