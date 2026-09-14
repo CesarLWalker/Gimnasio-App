@@ -128,6 +128,10 @@ export class ClientesPage implements OnInit {
     this.router.navigate(['/clientes/nuevo-cliente']);
   }
 
+  public verDetalleCliente(cliente: Cliente): void {
+    this.router.navigate(['/clientes/detalle-cliente', cliente.id]);
+  }
+
   public editarCliente(cliente: Cliente): void {
     //console.log("Editar cliente: ", cliente);
     this.router.navigate(['/clientes/nuevo-cliente', cliente.id]);

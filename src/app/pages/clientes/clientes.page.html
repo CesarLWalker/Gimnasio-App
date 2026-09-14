@@ -48,12 +48,12 @@
   </div>
 
 
-  <!-- Lista de clientes -->
+  <!-- Lista resumida de clientes -->
   <ion-list>
 
     @for (cliente of clientesFiltrados; track cliente.id) {
 
-      <ion-card>
+      <ion-card (click)="verDetalleCliente(cliente)">
 
         <ion-card-header>
           <ion-card-title>
@@ -72,92 +72,9 @@
 
           <ion-item lines="none">
             <ion-label>
-              Periodo de Pago:
-              {{ getPeriodoPagoLabel(cliente.periodoPago) }}
+               📅 Último pago: {{ cliente.fechaUltimoPago }}
             </ion-label>
           </ion-item>
-
-          <ion-item lines="none">
-            <ion-label>
-              Fecha de Último Pago:
-              {{ cliente.fechaUltimoPago }}
-            </ion-label>
-          </ion-item>
-
-          <ion-item lines="none">
-            <ion-label>
-              Cuota: {{ cliente.cuota }}
-            </ion-label>
-          </ion-item>
-
-          <ion-item lines="none">
-            <ion-label>
-              Monto: $ {{ cliente.monto }}
-            </ion-label>
-          </ion-item>
-
-          <ion-item lines="none">
-            <ion-label>
-              Tipo de Pago: {{ cliente.tipoPagoHabitual }}
-            </ion-label>
-          </ion-item>
-
-          <ion-item lines="none">
-            <ion-label>
-              Celular: 📱 {{ cliente.celular }}
-            </ion-label>
-          </ion-item>
-
-
-          <!-- Editar -->
-          <ion-button
-            expand="block"
-            fill="outline"
-            color="primary"
-            (click)="editarCliente(cliente)">
-
-            <ion-icon
-              slot="start"
-              name="create-outline">
-            </ion-icon>
-
-            Editar Cliente
-
-          </ion-button>
-
-
-          <!-- Historial -->
-          <ion-button
-            expand="block"
-            fill="outline"
-            color="success"
-            (click)="verHistorialPagos(cliente)">
-
-            <ion-icon
-              slot="start"
-              name="card-outline">
-            </ion-icon>
-
-            Historial de Pagos
-
-          </ion-button>
-
-
-          <!-- Eliminar -->
-          <ion-button
-            expand="block"
-            fill="solid"
-            color="danger"
-            (click)="eliminarCliente(cliente)">
-
-            <ion-icon
-              slot="start"
-              name="trash-outline">
-            </ion-icon>
-
-            Eliminar Cliente
-
-          </ion-button>
 
         </ion-card-content>
 
@@ -167,6 +84,7 @@
 
   </ion-list>
 
+  <!--Mensaje cuando no hay resultados-->
   @if (clientesFiltrados.length === 0) {
 
     <div class="sin-clientes">

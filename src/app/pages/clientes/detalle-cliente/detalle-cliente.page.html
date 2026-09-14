@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()"> ← </ion-button>
+    </ion-buttons>
+
+    <ion-title>Detalle cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if (cliente) {
+   
+    <!--Nombre-->
+    <ion-card>
+    
+    <ion-card-header>
+        <ion-card-title>
+          👤 {{ cliente.nombre }}
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p>
+          <strong>Estado:</strong>
+          {{ cliente.estado }}
+        </p>
+
+        <p>
+          <strong>📱 Celular:</strong>
+          {{ cliente.celular }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información de la cuota -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          💰 Información de la cuota
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p>
+          <strong>Cuota:</strong>
+          {{ cliente.cuota }}
+        </p>
+
+        <p>
+          <strong>💵 Monto:</strong>
+          ${{ cliente.monto }}
+        </p>
+
+        <p>
+          <strong>📅 Período:</strong>
+          {{ cliente.periodoPago }}
+        </p>
+
+        <p>
+          <strong>💳 Tipo de pago habitual:</strong>
+          {{ cliente.tipoPagoHabitual }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Último pago -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          🧾 Último pago
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <p>
+          <strong>Fecha:</strong>
+          {{ cliente.fechaUltimoPago }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Acciones -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title> ⚙️ Acciones </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-button expand="block" color="primary" (click)="editarCliente()">
+             ✏️ Editar cliente
+        </ion-button>
+
+        <ion-button expand="block" color="success" (click)="verHistorialPagos()">
+               🧾 Historial de pagos
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  } @else {
+
+    <div class="sin-cliente">
+      <div class="sin-cliente-icono">
+        🔍
+      </div>
+
+      <h2>Cliente no encontrado</h2>
+
+      <p> No pudimos encontrar la información de este cliente. </p>
+
+      <ion-button expand="block" (click)="volver()">
+            Volver a clientes
+      </ion-button>
+
+    </div>
+
+  }
+
+</ion-content>

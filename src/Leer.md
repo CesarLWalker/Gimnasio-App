@@ -348,4 +348,22 @@ ionViewWillEnter(): void {
 
 Porque effect() se ocupa de cargar los datos.
 
+# 🧠 ¿Qué significa :id?
+
+Es un parámetro dinámico.
+
+Por ejemplo:
+
+/clientes/detalle-cliente/1
+
+significa:
+
+Mostrar el detalle del cliente cuyo id es 1.
+
+Y:
+
+/clientes/detalle-cliente/4
+
+sería el cliente con id = 4.
+
 # 
