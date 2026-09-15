@@ -3,7 +3,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, Ion
 import { FormsModule } from '@angular/forms';
 import { Cliente } from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -20,7 +20,8 @@ export class DetalleClientePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +54,71 @@ export class DetalleClientePage implements OnInit {
     }
 
     this.router.navigate(['/clientes', this.cliente.id, 'historial-pagos']);
+  }
+
+  public async eliminarCliente(cliente: Cliente): Promise<void> {
+
+    const alert = await this.alertController.create({
+      header: 'Eliminar cliente',
+      message: `¿Estás seguro que desea eliminar a ${cliente.nombre}?`, // comillas invertidas (backticks)
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this. clienteService.deleteCliente(cliente.id);
+          }
+        }
+      ]
+    });
+     await alert.present();
+    console.log("Cliente eliminado: ", cliente);
+  }
+
+  public getEstadoLabel(estado: string): string {
+
+    switch (estado) {
+
+      case 'PAGADO':
+        return '🟢 Pagado';
+
+      case 'POR VENCER':
+        return '🟡 Por vencer';
+
+      case 'DEBE':
+        return '🔴 Debe';
+
+      case 'NO VIENE':
+        return '⚫ No viene';
+
+      default:
+        return estado;
+    }
+  }
+
+  public getPeriodoPagoLabel(periodo: string): string {
+
+    switch (periodo) {
+
+      case 'MES':
+        return '📅 Mes';
+
+      case 'MEDIO_MES':
+        return '📅 Medio mes';
+
+      case 'SEMANA':
+        return '📅 Semana';
+
+      case 'DIA':
+        return '📅 Día';
+
+      default:
+        return periodo;
+    }
   }
 
 }

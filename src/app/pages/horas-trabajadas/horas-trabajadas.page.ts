@@ -134,6 +134,20 @@ export class HorasTrabajadasPage implements OnInit {
     this.limpiarFormulario();
   }
 
+  getValorHora(profesorId: number): number {
+
+    const profesor = this.profesores.find(profesor => profesor.id === profesorId);
+
+    return profesor?.valorHora ?? 0;
+  }
+
+  getTotalHora(hora: HoraTrabajada): number {
+
+    const valorHora = this.getValorHora(hora.profesorId);
+
+    return hora.horas * valorHora;
+  }
+
   eliminarHora(id: number): void {
 
     this.horaTrabajadaService.eliminarHora(id);
