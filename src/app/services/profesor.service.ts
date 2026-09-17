@@ -36,7 +36,7 @@ export class ProfesorService {
     {
       id: 3,
       icono: "👨‍🏫",
-      nombre: "Profesor César Walker",
+      nombre: "César Walker",
       celular: "789789",
       especialidad: "Musculación",
       sueldo: 132000,

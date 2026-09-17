@@ -71,7 +71,7 @@ export class LiquidacionesPage implements OnInit {
 
     for (let i = 0; i < 6; i++) {
       const fecha = new Date(
-        fechaActual.getFullYear(), 
+        fechaActual.getFullYear(),
         fechaActual.getMonth() - i, // la i permite retroceder mes por mes
         1
       );
@@ -111,7 +111,19 @@ export class LiquidacionesPage implements OnInit {
       this.filtrarLiquidaciones();
       await this.mostrarMensaje('✅ Liquidación generada correctamente.', 'success');
     } else {
-        await this.mostrarMensaje(`⚠️ Ya existe una liquidación para este profesor en ${this.periodoSeleccionado}.`, 'danger');
+      const periodo = this.periodoSeleccionado.nombre;
+
+      const yaExiste = this.liquidaciones.some(liquidacion =>
+        liquidacion.profesorId === profesorId && liquidacion.periodo === periodo
+      );
+
+      if (yaExiste) {
+        await this.mostrarMensaje(`⚠️ Ya existe una liquidación para este profesor en ${periodo}.`, 'danger');
+      } else {
+        await this.mostrarMensaje(`⚠️ No hay horas trabajadas registradas para este profesor en ${periodo}.`,
+      'warning');
+      }
+        
     }
   }
 

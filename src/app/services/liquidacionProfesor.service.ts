@@ -59,6 +59,9 @@ export class LiquidacionProfesorService {
 
       horas = this.horaTrabajadaService.getTotalHorasByProfesorYPeriodo(profesorId, año, mes);
 
+      if (horas <= 0) {
+        return undefined;
+      }
       totalPagar = horas * profesor.valorHora;
     } else if (profesor.tipoRemuneracion === TipoRemuneracion.SUELDO_FIJO) {
 

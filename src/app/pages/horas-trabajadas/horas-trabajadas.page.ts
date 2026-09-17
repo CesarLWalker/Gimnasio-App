@@ -26,6 +26,7 @@ export class HorasTrabajadasPage implements OnInit {
   profesorFiltroId: number | null = null; // Filtro de la tabla
   horasFiltradas: HoraTrabajada[] = []; // las que mostramos después del filtro
   totalHorasFiltradas = 0;
+  totalAPagarFiltrado = 0;
 
   periodoFiltro = '';
 
@@ -58,7 +59,7 @@ export class HorasTrabajadasPage implements OnInit {
   }
 
   filtrarHoras(): void {
-     
+
     this.horasFiltradas = this.horasTrabajadas.filter(hora => {
 
       const coincideProfesor = this.profesorFiltroId === null || hora.profesorId === this.profesorFiltroId;
@@ -74,6 +75,8 @@ export class HorasTrabajadasPage implements OnInit {
   calcularTotalHoras(): void {
 
     this.totalHorasFiltradas = this.horasFiltradas.reduce((total, hora) => total + hora.horas, 0);
+
+    this.totalAPagarFiltrado = this.horasFiltradas.reduce((total, hora) => total + this.getTotalHora(hora), 0);
   }
 
   calcularHoras(): void {
