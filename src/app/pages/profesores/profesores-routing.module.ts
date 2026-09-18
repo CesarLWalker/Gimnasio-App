@@ -12,7 +12,11 @@ const routes: Routes = [
   {
     path: 'nuevo-profesor',
     component: NuevoProfesorComponent
+  },  {
+    path: 'detalle-profesor',
+    loadChildren: () => import('./detalle-profesor/detalle-profesor.module').then( m => m.DetalleProfesorPageModule)
   }
+
 ];
 
 @NgModule({

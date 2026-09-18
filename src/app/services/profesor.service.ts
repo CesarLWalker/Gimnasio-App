@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { ActividadService } from './actividad.service';
+import { Injectable, signal } from "@angular/core";
 import { EstadoProfesor } from "../enums/estadoProfesor.enum";
 import { Profesor } from "../models/profesor.model";
 import { TipoRemuneracion } from "../enums/tipoRemuneracion.enum";
@@ -59,7 +60,12 @@ export class ProfesorService {
     }
   ];
 
-  constructor() {}
+  private profesoresVersion = signal(0);
+  public readonly profesoresChanged = this.profesoresVersion.asReadonly();
+
+  constructor(
+    private actividadService: ActividadService
+  ) {}
 
   getProfesores(): Profesor[] {
     return this.profesores;
@@ -81,8 +87,14 @@ export class ProfesorService {
     }
   }
 
-  eliminarProfesor(id: number): void {
+  // =============================================
+  // ELIMINAR PROFESOR
+  // =============================================
+
+  public deleteProfesor(id: number): void {
     this.profesores = this.profesores.filter(profesor => profesor.id !== id);
+
+    this.profesoresVersion.update(valor => valor + 1);
   }
 
 }
