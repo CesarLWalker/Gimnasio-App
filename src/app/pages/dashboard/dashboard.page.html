@@ -5,26 +5,265 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>¡Bienvenido César! 👋</h2>
-  <p>Resumen del gimnasio</p>
+  <div class="dashboard-header">
+      <h2>¡Bienvenido César! 👋</h2>
+      <p>Resumen del gimnasio</p>
+  </div>
 
-  <ion-grid>
-    <ion-row>
+  <!--RESUMEN GENERAL-->
+    <h2 class="section-title">📊 Resumen general</h2>
 
-      @for (card of cards; track card) {
-      <ion-col size="6">
-        <ion-card [color]="card.color">
-          <ion-card-header>
-            <ion-card-title>  {{ card.icono }} {{ card.titulo }}</ion-card-title>
-          </ion-card-header>
+      <ion-row class="summary-row">
+
+        <!-- 👥 TOTAL CLIENTES -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/clientes">
+            <div class="summary-icon">👥</div>
+            <div class="summary-info">
+              <span>Total Clientes</span>
+              <strong> {{ clienteService.getTotalClientes() }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+         <!-- 💰 RECAUDACIÓN -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/pagos">
+            <div class="summary-icon">💰</div>
+            <div class="summary-info">
+              <span>Recaudación</span>
+              <strong> $ {{ clienteService.getRecaudacionTotal().toLocaleString('es-AR') }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+         <!-- ⚠️ PENDIENTE -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/pagos">
+            <div class="summary-icon">⚠️</div>
+            <div class="summary-info">
+              <span>Pendiente de cobro</span>
+              <strong> $ {{ clienteService.getMontoPendiente().toLocaleString('es-AR') }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- ⏱️ HORAS TRABAJADAS -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="summary-card summary-clickable" routerLink="/horas-trabajadas">
+            <div class="summary-icon">⏱️</div>
+            <div class="summary-info">
+              <span>Horas trabajadas</span>
+              <strong> {{ horaTrabajadaService.getTotalHoras() }}</strong>
+            </div>
+          </div>
+        </ion-col>
+
+      </ion-row>
+
+      <!-- ⚡ACCIONES RÁPIDAS-->
+      <h2 class="section-title">⚡Acciones rápidas</h2>
+
+      <ion-row class="quick-actions-row">
+
+        <!--➕ NUEVO CLIENTE-->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="quick-action" routerLink="/clientes/nuevo-cliente">
+            <div class="quick-action-icon">➕</div>
+            <div>
+               <strong>Nuevo cliente</strong>
+               <span>Agregar cliente</span>
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- 💵 REGISTRAR PAGO -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="quick-action" routerLink="/pagos/nuevo-pago">
+            <div class="quick-action-icon">💵</div>
+            <div>
+              <strong>Registrar pago</strong>
+              <span>Cargar un pago</span>
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- 👨‍🏫 NUEVO PROFESOR -->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="quick-action" routerLink="/profesores/nuevo-profesor">
+            <div class="quick-action-icon">👨‍🏫</div>
+            <div>
+              <strong>Nuevo profesor</strong>
+              <span>Agregar profesor</span>
+            </div>
+          </div>
+        </ion-col>
+
+        <!--⏱️REGISTRAR HORAS-->
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="quick-action" routerLink="/horas-trabajadas">
+            <div class="quick-action-icon">⏱️</div>
+            <div>
+              <strong>Registrar horas</strong>
+              <span>Cargar horas trabajadas</span>
+            </div>
+          </div>
+        </ion-col>
+
+      </ion-row>
+
+      <!--🕐 ACTIVIDAD RECIENTE-->
+      <h2 class="section-title">🕐 Actividad reciente</h2>
+
+      <ion-row class="activity-row">
+
+        @for (actividad of actividadesRecientes; track actividad.titulo + actividad.fecha) {
+
+          <ion-col size="12" size-md="6">
+            <div class="activity-item" [routerLink]="actividad.ruta">
+              <div class="activity-icon">
+                {{ actividad.icono }}
+              </div>
+
+              <div class="activity-info">
+                <strong>{{ actividad.titulo }}</strong>
+                <span>{{ actividad.descripcion }}</span>
+                <small>
+                  {{ formatearFecha(actividad.fecha) }}
+                  @if (actividad.monto !== undefined) {
+                    . $ {{ actividad.monto.toLocaleString('es-AR') }}
+                  }
+                </small>
+              </div>
+
+            </div>
+          </ion-col>
+        }
+
+      </ion-row>
+<ion-grid>
+
+     <!-- 👥 CLIENTES -->
+     <h2 class="section-title">👥 Clientes</h2>
+
+  <ion-row>
+    @for (card of cards; track card.titulo) {
+      @if (card.seccion === 'clientes') {
+        <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+          <ion-card [color]="card.color" [routerLink]="card.ruta" [class.card-clickable]="card.ruta">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon [name]="card.icono"></ion-icon>
+                {{ card.titulo }}
+              </ion-card-title>
+            </ion-card-header>
+
             <ion-card-content>
-              <h1> {{ card.valor }}</h1>
-              <p> {{ card.descripcion }}</p>
+              <h1>{{ card.valor }}</h1>
+              <p>{{ card.descripcion }}</p>
             </ion-card-content>
-        </ion-card>
-      </ion-col>
+          </ion-card>
+        </ion-col>
       }
+    }
+  </ion-row>
 
+
+  <!-- 👨‍🏫 PROFESORES -->
+  <h2 class="section-title">👨‍🏫 Profesores</h2>
+
+  <ion-row>
+    @for (card of cards; track card.titulo) {
+      @if (card.seccion === 'profesores') {
+        <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+          <ion-card [color]="card.color" [routerLink]="card.ruta" [class.card-clickable]="card.ruta">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon [name]="card.icono"></ion-icon>
+                {{ card.titulo }}
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <h1>{{ card.valor }}</h1>
+              <p>{{ card.descripcion }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      }
+    }
+  </ion-row>
+
+
+  <!-- 💰 FINANZAS -->
+  <h2 class="section-title">💰 Finanzas</h2>
+
+  <ion-row>
+    @for (card of cards; track card.titulo) {
+      @if (card.seccion === 'finanzas') {
+        <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+          <ion-card [color]="card.color" [routerLink]="card.ruta" [class.card-clickable]="card.ruta">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon [name]="card.icono"></ion-icon>
+                {{ card.titulo }}
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <h1>{{ card.valor }}</h1>
+              <p>{{ card.descripcion }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      }
+    }
     </ion-row>
-  </ion-grid>
+
+
+      <!--📈 RECAUDACIÓN MENSUAL-->
+      <h2 class="section-title">📈 Recaudación mensual</h2>
+
+      <ion-row>
+        <ion-col size="12">
+
+      <div class="chart-card">
+
+      <div class="chart-header">
+        <div>
+          <h3>Ingresos</h3>
+          <p>Historial de recaudación</p>
+        </div>
+      </div>
+
+      <div class="chart">
+        @for (dato of recaudacionPorMes; track dato.mes) {
+
+          <div class="chart-column">
+
+            <div
+              class="chart-bar"
+              [style.height.px]="maxRecaudacion > 0 ? (dato.total / maxRecaudacion) * 180 : 10">
+            </div>
+
+            <span class="chart-value">
+              $ {{ dato.total.toLocaleString('es-AR') }}
+            </span>
+
+            <span class="chart-month">
+              {{ dato.mes }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      </div>
+
+     </ion-col>
+    </ion-row>
+
+</ion-grid>
 </ion-content>
