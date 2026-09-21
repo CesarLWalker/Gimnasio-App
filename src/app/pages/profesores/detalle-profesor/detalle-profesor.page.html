@@ -1,13 +1,126 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>detalle-profesor</ion-title>
+<ion-header>
+  <ion-toolbar color="warning">
+
+     <ion-buttons slot="start">
+      <ion-button (click)="volver()" aria-label="Volver a clientes">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Detalle Profesor</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">detalle-profesor</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+   @if (profesor) {
+
+    <!--Nombre-->
+    <ion-card>
+
+    <ion-card-header>
+        <ion-card-title>
+           👨‍🏫{{ profesor.nombre }}
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p>
+          <strong>Estado: </strong>
+          <span 
+                class="estado-badge"
+                [class.activo]="profesor.estado === 'ACTIVO'"
+                [class.inactivo]="profesor.estado === 'INACTIVO'"> {{ getEstadoLabel(profesor.estado) }}
+          </span>
+        </p>
+
+        <p>
+          <strong>📱 Celular:</strong>
+          {{ profesor.celular }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información de la cuota -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          💰 Sueldo a cobrar
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p>
+          <strong>💰Sueldo:</strong>
+          {{ profesor.sueldo }}
+        </p>
+
+        <p>
+          <strong>💵 Valor por hora:</strong>
+          ${{ profesor.valorHora }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Último cobro -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          🧾 Último cobro {{ getUltimoCobro(profesor.id) }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <p>Tipo de Remuneración: </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Acciones -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title> ⚙️ Acciones </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-button expand="block" color="primary" (click)="editarProfesor()">
+             ✏️ Editar profesor
+        </ion-button>
+
+        <ion-button expand="block" color="success" (click)="verHistorialCobros()">
+               🧾 Historial de cobros
+        </ion-button>
+
+        <ion-button expand="block" color="danger" (click)="eliminarProfesor(profesor)">
+          🗑️ Eliminar profesor
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  } @else {
+
+    <div class="sin-profesor">
+      <div class="sin-profesor-icono">
+        🔍
+      </div>
+
+      <h2>Profesor no encontrado</h2>
+
+      <p> No pudimos encontrar la información de este profesor. </p>
+
+      <ion-button expand="block" (click)="volver()">
+            Volver a profesores
+      </ion-button>
+
+    </div>
+
+  }
+
 </ion-content>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ProfesoresPage } from './pages/profesores/profesores.page';
 
 const routes: Routes = [
   {
@@ -17,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'profesores',
-    loadChildren: () => import('./pages/profesores/profesores.module').then( m => m.ProfesoresPageModule)
+    loadChildren: () => import('./pages/profesores/profesores-routing.module').then( m => m.ProfesoresPageRoutingModule)
   },
   {
     path: 'pagos',

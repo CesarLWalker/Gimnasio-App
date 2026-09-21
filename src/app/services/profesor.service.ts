@@ -84,6 +84,9 @@ export class ProfesorService {
 
     if (index !== -1) {
       this.profesores[index] = profesorActualizado;
+
+      // Avisamos que hubo un cambio
+      this.profesoresVersion.update(valor => valor + 1);
     }
   }
 

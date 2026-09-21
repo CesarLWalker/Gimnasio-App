@@ -13,8 +13,8 @@ import { DetalleProfesorPage } from './detalle-profesor.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DetalleProfesorPageRoutingModule
-  ],
-  declarations: [DetalleProfesorPage]
+    DetalleProfesorPageRoutingModule,
+    DetalleProfesorPage
+  ]
 })
 export class DetalleProfesorPageModule {}

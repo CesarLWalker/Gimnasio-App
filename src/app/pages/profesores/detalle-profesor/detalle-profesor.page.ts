@@ -8,6 +8,7 @@ import { ProfesorService } from 'src/app/services/profesor.service';
 
 @Component({
   selector: 'app-detalle-profesor',
+  standalone: true,
   templateUrl: './detalle-profesor.page.html',
   styleUrls: ['./detalle-profesor.page.scss'],
   imports: [ IonButton, IonButtons, IonFabButton, IonFab, IonList,  IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle,
@@ -16,6 +17,7 @@ import { ProfesorService } from 'src/app/services/profesor.service';
 export class DetalleProfesorPage implements OnInit {
 
   profesor: Profesor | undefined;
+  getUltimoCobro: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,15 +39,42 @@ export class DetalleProfesorPage implements OnInit {
   }
 
   // Editar profesor
-  editar(): void {
+  editarProfesor(): void {
 
     if (!this.profesor) {
       return;
     }
 
-    this.router.navigate(['/profesores/', 'nuevo-profesor', this.profesor.id]);
+    this.router.navigate(['/profesores/nuevo-profesor', this.profesor.id]);
   }
 
+   // Estado profesor
+  public getEstadoLabel(estado: string): string {
+
+    switch (estado) {
+
+      case 'ACTIVO':
+        return '🟢 Activo';
+
+      case 'INACTIVO':
+        return '🔴 Inactivo';
+
+      default:
+        return estado;
+    }
+  }
+
+  // Ver historial de cobros
+  verHistorialCobros(): void {
+
+    if (!this.profesor) {
+      return;
+    }
+
+    this.router.navigate(['/profesores', this.profesor.id, '/liquidaciones']);
+  }
+
+  // Eliminar profesor
    public async eliminarProfesor(profesor: Profesor): Promise<void> {
   
       const alert = await this.alertController.create({
@@ -68,4 +97,5 @@ export class DetalleProfesorPage implements OnInit {
        await alert.present();
       console.log("Profesor eliminado: ", profesor);
     }
+
 }

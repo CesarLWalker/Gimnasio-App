@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonCardContent, IonCard, IonCardTitle, IonCardHeader, IonItem, IonLabel, IonInput, IonSelect, IonButton, IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { EstadoProfesor } from 'src/app/enums/estadoProfesor.enum';
 import { TipoRemuneracion } from 'src/app/enums/tipoRemuneracion.enum';
@@ -25,8 +25,8 @@ export class NuevoProfesorComponent  implements OnInit {
 
   tipoRemuneracion: TipoRemuneracion = TipoRemuneracion.POR_HORA;
 
-  valorHora: number = 0;
-  sueldo: number = 0;
+  valorHora: number | null = null;
+  sueldo: number | null = null;
 
   estado: EstadoProfesor = EstadoProfesor.ACTIVO;
 
@@ -40,39 +40,93 @@ export class NuevoProfesorComponent  implements OnInit {
   constructor(
     private profesorService: ProfesorService,
     private actividadService: ActividadService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.profesorEditandoId = Number(id);
+
+      const profesor = this.profesorService.getProfesores().find(p => p.id === this.profesorEditandoId);
+
+      if (profesor) {
+        this.nombre = profesor.nombre;
+        this.celular = profesor.celular;
+        this.especialidad = profesor.especialidad;
+        this.tipoRemuneracion = profesor.tipoRemuneracion;
+        this.valorHora = profesor.valorHora;
+        this.sueldo = profesor.sueldo;
+        this.estado = profesor.estado;
+      }
+    }
+  }
 
   agregarProfesor(): void {
 
-    const nuevoProfesor: Profesor = {
-      id: this.generarNuevoId(),
+  // ============================
+  // MODO EDICIÓN
+  // ============================
+  if (this.profesorEditandoId !== null) {
+
+    const profesorActualizado: Profesor = {
+      id: this.profesorEditandoId,
       icono: '👨‍🏫',
       nombre: this.nombre,
       celular: this.celular,
       especialidad: this.especialidad,
-      sueldo: this.sueldo,
-      valorHora: this.valorHora,
+      sueldo: this.sueldo ?? 0,
+      valorHora: this.valorHora ?? 0,
       tipoRemuneracion: this.tipoRemuneracion,
       estado: this.estado,
       color: 'black'
     };
 
-    this.profesorService.agregarProfesor(nuevoProfesor);
+    this.profesorService.actualizarProfesor(profesorActualizado);
 
-    this.actividadService.agregarActividad({
-      icono: '👨‍🏫',
-      titulo: 'Nuevo profesor',
-      descripcion: nuevoProfesor.nombre,
-      fecha: this.obtenerFechaLocal(),
-      ruta: '/profesores/nuevo-profesor'
-    });
+    console.log('Profesor actualizado:', profesorActualizado);
 
-    console.log('Profesor agregado: ', nuevoProfesor);
     this.router.navigate(['/profesores']);
+
+    return;
   }
+
+
+  // ============================
+  // MODO NUEVO PROFESOR
+  // ============================
+
+  const nuevoProfesor: Profesor = {
+    id: this.generarNuevoId(),
+    icono: '👨‍🏫',
+    nombre: this.nombre,
+    celular: this.celular,
+    especialidad: this.especialidad,
+    sueldo: this.sueldo ?? 0,
+    valorHora: this.valorHora ?? 0,
+    tipoRemuneracion: this.tipoRemuneracion,
+    estado: this.estado,
+    color: 'black'
+  };
+
+  this.profesorService.agregarProfesor(nuevoProfesor);
+
+  this.actividadService.agregarActividad({
+    icono: '👨‍🏫',
+    titulo: 'Nuevo profesor',
+    descripcion: nuevoProfesor.nombre,
+    fecha: this.obtenerFechaLocal(),
+    ruta: '/profesores/nuevo-profesor'
+  });
+
+  console.log('Profesor agregado:', nuevoProfesor);
+
+  this.router.navigate(['/profesores']);
+}
+   
 
   private obtenerFechaLocal(): string {
     const hoy = new Date();

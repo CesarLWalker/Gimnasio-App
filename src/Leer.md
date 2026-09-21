@@ -366,4 +366,13 @@ Y:
 
 sería el cliente con id = 4.
 
+# Pero el ProfesorPage que me mostraste tiene:
+
+standalone: true,
+
+Ahí tenemos una mezcla de dos sistemas:
+
+profesores.module.ts → arquitectura tradicional con NgModule
+ProfesorPage → componente standalone
+
 # 
