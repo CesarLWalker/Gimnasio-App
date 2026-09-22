@@ -76,7 +76,7 @@ export class DashboardPage implements OnInit {
   this.horaTrabajadaService.getHorasTrabajadas().forEach(hora => {
 
     const profesor =
-      this.profesorService.getPofesorById(hora.profesorId);
+      this.profesorService.getProfesorById(hora.profesorId);
 
     if (!profesor) {
       return;
@@ -99,7 +99,7 @@ export class DashboardPage implements OnInit {
   this.liquidacionProfesorService.getLiquidaciones().forEach(liquidacion => {
 
     const profesor =
-      this.profesorService.getPofesorById(liquidacion.profesorId);
+      this.profesorService.getProfesorById(liquidacion.profesorId);
 
     if (!profesor || !liquidacion.fechaLiquidacion) {
       return;

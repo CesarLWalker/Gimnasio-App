@@ -118,7 +118,7 @@ export class HorasTrabajadasPage implements OnInit {
 
     const nuevaHora: HoraTrabajada = {
 
-      id: this.horasTrabajadas.length + 1,
+      id: this.generarNuevoId(),
       profesorId: this.profesorSeleccionadoId,
       fecha: this.fecha,
       horaInicio: this.horaInicio,
@@ -135,6 +135,15 @@ export class HorasTrabajadasPage implements OnInit {
     this.filtrarHoras();
 
     this.limpiarFormulario();
+  }
+
+  private generarNuevoId(): number {
+
+    if (this.horasTrabajadas.length === 0) {
+      return 1;
+    }
+
+    return Math.max(...this.horasTrabajadas.map(hora => hora.id)) + 1;
   }
 
   getValorHora(profesorId: number): number {

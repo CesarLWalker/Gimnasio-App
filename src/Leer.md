@@ -375,4 +375,12 @@ Ahí tenemos una mezcla de dos sistemas:
 profesores.module.ts → arquitectura tradicional con NgModule
 ProfesorPage → componente standalone
 
+# Íconos
+⏱️ Horas
+💵 Valor hora
+💰 Monto
+✏️ Editar
+🗑️ Eliminar
+💰 Generar liquidación
+
 # 

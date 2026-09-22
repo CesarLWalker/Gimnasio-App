@@ -55,53 +55,124 @@ export class HoraTrabajadaService {
     private profesorService: ProfesorService
   ) {}
 
+  // ==========================================
+  // OBTENER TODAS LAS HORAS
+  // ==========================================
   getHorasTrabajadas(): HoraTrabajada[] {
     return this.horasTrabajadas;
   }
 
+  // ==========================================
+  // OBTENER UNA HORA POR ID
+  // ==========================================
+  getHorasById(id: number): HoraTrabajada | undefined {
+    return this.horasTrabajadas.find(hora => hora.id === id);
+  }
+
+  // ==========================================
+  // TOTAL DE HORAS
+  // ==========================================
   getTotalHoras(): number {
     return this.horasTrabajadas.reduce((total, hora) => total + hora.horas, 0);
   }
 
+  // ==========================================
+  // HORAS DE UN PROFESOR
+  // ==========================================
   getHorasByProfesor(profesorId: number): HoraTrabajada[] {
     return this.horasTrabajadas.filter(hora => hora.profesorId === profesorId);
   }
 
+  // ==========================================
+  // TOTAL HORAS DE UN PROFESOR
+  // ==========================================
   getTotalHorasByProfesor(profesorId: number): number {
     return this.horasTrabajadas
        .filter(hora => hora.profesorId === profesorId)
        .reduce((total, hora) => total + hora.horas, 0);
   }
-  getTotalHorasByProfesorYPeriodo(profesorId: number, año: number, mes: number): number {
+
+  // ==========================================
+  // HORAS DE UN PROFESOR EN UN PERÍODO
+  // ==========================================
+  getHorasByProfesorYPeriodo(profesorId: number, año: number, mes: number): HoraTrabajada[] {
     return this.horasTrabajadas.filter(hora => {
 
       const fecha = new Date(hora.fecha);
 
       return (hora.profesorId === profesorId && fecha.getFullYear() === año && fecha.getMonth() + 1 === mes);
-    })
-    .reduce((total, hora) => total + hora.horas, 0);
+    });
+    //.reduce((total, hora) => total + hora.horas, 0);
   }
 
+  // ==========================================
+  // TOTAL HORAS DE UN PROFESOR EN UN PERÍODO
+  // ==========================================
+  getTotalHorasByProfesorYPeriodo(profesorId: number, año: number, mes: number): number {
+
+    return this.getHorasByProfesorYPeriodo(profesorId, año, mes).reduce((total, hora) => total + hora.horas, 0);
+  }
+
+  // ==========================================
+  // AGREGAR HORAS
+  // ==========================================
   agregarHora(hora: HoraTrabajada): void {
     console.log('AGREGANDO HORA: ', hora);
-    console.log('ANTES: ', this.horasTrabajadas.length);
+    
     this.horasTrabajadas.push(hora);
-    console.log('DESPUÉS: ', this.horasTrabajadas.length);
   }
 
+  // ==========================================
+  // EDITAR HORAS
+  // ==========================================
+  editarHora(horaActualizada: HoraTrabajada): void {
+    const indice = this.horasTrabajadas.findIndex(hora => hora.id === horaActualizada.id);
+
+    if (indice === -1) {
+      console.log('No se encontró la hora: ', horaActualizada.id);
+      return;
+    }
+
+    this.horasTrabajadas[indice] = horaActualizada;
+
+    console.log('HORA ACTUALIZADA: ', horaActualizada);
+  }
+
+  // ==========================================
+  // ELIMINAR HORAS
+  // ==========================================
   eliminarHora(id: number): void {
     this.horasTrabajadas = this.horasTrabajadas.filter(hora => hora.id !== id);
   }
 
+  // ==========================================
+  // MONTO TOTAL DE UN PROFESOR
+  // ==========================================
   getTotalAPagarByProfesor(profesorId: number): number {
 
-    const profesor = this.profesorService.getPofesorById(profesorId);
+    const profesor = this.profesorService.getProfesorById(profesorId);
 
     if (!profesor) {
       return 0;
     }
 
     const totalHoras = this.getTotalHorasByProfesor(profesorId);
+
+    return totalHoras * profesor.valorHora;
+  }
+
+  // ==========================================
+  // MONTO DE UN PROFESOR EN UN PERÍODO
+  // ==========================================
+  getTotalAPagarByProfesorYPeriodo(profesorId: number, año: number, mes: number): number {
+
+    const profesor = this.profesorService.getProfesorById(profesorId);
+
+    if (!profesor) {
+      return 0;
+    }
+
+    const totalHoras = this.getTotalHorasByProfesorYPeriodo(profesorId, año, mes);
 
     return totalHoras * profesor.valorHora;
   }

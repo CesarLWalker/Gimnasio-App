@@ -71,7 +71,7 @@ export class ProfesorService {
     return this.profesores;
   }
 
-  getPofesorById(id: number): Profesor | undefined {
+  getProfesorById(id: number): Profesor | undefined {
     return this.profesores.find(profesor => profesor.id === id);
   }
 

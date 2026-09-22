@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Registrar horas</ion-title>
+    <ion-title>{{ modoEdicion ? 'Editar horas' : 'Registrar horas' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,19 +9,19 @@
   <ion-card class="ion-margin-top">
 
     <ion-card-header>
-      <ion-card-title>⏱️ Registrar horas trabajadas</ion-card-title>
+      <ion-card-title> {{ modoEdicion ? '✏️ Editar horas trabajadas' : '⏱️ Registrar horas trabajadas' }}</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content (keydown.enter)="agregarHora()">
+    <ion-card-content (keydown.enter)="guardarHora()">
 
       <!--PROFESOR-->
       <ion-item>
         <ion-label>Profesor</ion-label>
-        <ion-select [(ngModel)]="profesorId" placeholder="Seleccionar profesor">
+        <ion-select [(ngModel)]="profesorId" placeholder="Seleccionar profesor" (ionChange)="seleccionarProfesor()">
 
           @for (profesor of profesores; track profesor.id) {
 
-            <ion-select-option [value]="profesor.id">{{ profesor.nombre }}</ion-select-option>
+            <ion-select-option [value]="profesor.id">{{ profesor.icono }} {{ profesor.nombre }}</ion-select-option>
           }
 
         </ion-select>
@@ -55,6 +55,19 @@
         <ion-input type="number" [value]="horas" readonly></ion-input>
       </ion-item>
 
+      <!-- VALOR POR HORA -->
+      <ion-item>
+        <ion-label position="stacked">Valor por hora</ion-label>
+
+        <ion-input type="number" [value]="valorHora" readonly></ion-input>
+      </ion-item>
+
+      <!-- MONTO GENERADO -->
+       <ion-item>
+        <ion-label position="stacked">Monto generado</ion-label>
+
+        <ion-input type="number" [value]="montoGenerado" readonly></ion-input>
+       </ion-item>
 
       <!-- ACTIVIDAD -->
       <ion-item>
@@ -75,10 +88,15 @@
 
 
       <!-- BOTÓN -->
-      <ion-button expand="block" color="success" class="ion-margin-top" (click)="agregarHora()">
-           💾 Guardar horas
+      <ion-button expand="block" color="success" class="ion-margin-top" (click)="guardarHora()">
+           {{ modoEdicion ? '💾 Guardar cambios' : '💾 Guardar horas' }}
       </ion-button>
 
+      <!-- BOTÓN CANCELAR -->
+      <ion-button expand="block" color="medium" fill="outline"
+        class="ion-margin-top" routerLink="/horas-trabajadas">
+                  ← Cancelar
+      </ion-button>
 
     </ion-card-content>
 

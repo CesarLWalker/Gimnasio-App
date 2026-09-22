@@ -73,6 +73,9 @@
                 </p>
               }
 
+              <ion-button expand="block" color="primary" class="ion-margin-top" [routerLink]="['registrar-horas', hora.id]">
+                 ✏️ Editar
+              </ion-button>
               <ion-button expand="block" color="danger" class="ion-margin-top" (click)="eliminarHora(hora.id)">
                  🗑️ Eliminar
               </ion-button>

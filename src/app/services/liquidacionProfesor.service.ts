@@ -40,7 +40,7 @@ export class LiquidacionProfesorService {
   }
 
   generarLiquidacion(profesorId: number, periodo: string, año: number, mes: number): LiquidacionProfesor | undefined {
-    const profesor = this.profesorService.getPofesorById(profesorId);
+    const profesor = this.profesorService.getProfesorById(profesorId);
 
     if (!profesor) {
       return undefined;
