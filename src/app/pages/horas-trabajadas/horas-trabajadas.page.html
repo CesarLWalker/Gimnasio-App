@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Horas Trabajadas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+ <!--REGISTRAR HORAS-->
+  <ion-button expand="block" color="success" class="ion-margin-top" routerLink="registrar-horas">
+    ➕ Registrar horas
+  </ion-button>
+
+   <!-- FILTROS -->
+
+  <h2 class="ion-margin-top">🔎 Filtrar horas</h2>
+
+   <!--FILTRO POR PROFESOR-->
+ <ion-item class="ion-margin-top">
+  <ion-label>Filtrar por profesor</ion-label>
+
+  <ion-select [(ngModel)]="profesorFiltroId" (ionChange)="filtrarHoras()" placeholder="Todos">
+    <ion-select-option [value]="null">Todos</ion-select-option>
+
+    @for (profesor of profesores; track profesor.id) {
+
+      <ion-select-option [value]="profesor.id">
+        {{ profesor.icono }} {{ profesor.nombre }}
+      </ion-select-option>
+
+    }
+
+  </ion-select>
+ </ion-item>
+
+ <!--FILTRO POR PERÍODO-->
+ <ion-item>
+  <ion-label position="stacked">Filtrar por período</ion-label>
+
+  <ion-input type="month" [(ngModel)]="periodoFiltro" (ionInput)="filtrarHoras()"></ion-input>
+ </ion-item>
+
+ <ion-button expand="block" color="medium" class="ion-margin-top" (click)="limpiarFiltros()">
+    🧹 Limpiar filtros
+ </ion-button>
+
+ <!-- RESUMEN -->
+ <ion-card class="ion-margin-top">
+
+  <ion-card-header>
+    <ion-card-title> ⏱️ Total de horas  📊 Resumen</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <h1>⏱️ {{ totalHorasFiltradas }} horas</h1>
+    <h2>💵 Total a cobrar: $ {{ totalAPagarFiltrado }}</h2>
+  </ion-card-content>
+
+ </ion-card>
+
+  <!-- GENERAR LIQUIDACIÓN -->
+  <ion-button expand="block" color="warning" class="ion-margin-top" (click)="generarLiquidacion()">
+    💰 Generar liquidación
+  </ion-button>
+
+  <!--LISTADO-->  <!-- HORAS REGISTRADAS -->
+  <h2 class="ion-margin-top"> 📋 Horas registradas</h2>
+
+  <ion-grid>
+    <ion-row>
+
+      @for (hora of horasFiltradas; track hora.id) {
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+
+                @for (profesor of profesores; track profesor.id) {
+                  @if (profesor.id === hora.profesorId) {
+                    {{ profesor.icono }} {{ profesor.nombre }}
+                  }
+                }
+
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p>📅 {{ hora.fecha }}</p>
+
+              <p>
+                🕐 {{ hora.horaInicio }}
+                →
+                {{ hora.horaFin }}
+              </p>
+
+              <p>
+                ⏱️ {{ hora.horas }} horas
+              </p>
+
+              <p>
+                💰 Valor hora: ${{ getValorHora(hora.profesorId) }}
+              </p>
+
+              <p>
+                   💵 A cobrar: ${{ getTotalHora(hora) }}
+              </p>
+
+              <p>
+                🏋️ {{ hora.actividad }}
+              </p>
+
+              @if (hora.observacion) {
+                <p>
+                  📝 {{ hora.observacion }}
+                </p>
+              }
+
+               <!-- EDITAR -->
+              <ion-button expand="block" color="primary" class="ion-margin-top" [routerLink]="['registrar-horas', hora.id]">
+                 ✏️ Editar
+              </ion-button>
+
+               <!-- ELIMINAR -->
+              <ion-button expand="block" color="danger" class="ion-margin-top" (click)="eliminarHora(hora.id)">
+                 🗑️ Eliminar
+              </ion-button>
+            </ion-card-content>
+
+          </ion-card>
+        </ion-col>
+      }
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

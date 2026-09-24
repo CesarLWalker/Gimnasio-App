@@ -5,16 +5,126 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Bienvenido</ion-card-title>
-      <ion-card-subtitle>Sistema de Gestión del Gimnasio</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      Esta será la pantalla donde administraremos todos los clientes.
-    </ion-card-content>
-  </ion-card>
+
+  <!-- Buscador -->
+  <ion-searchbar
+    placeholder="Buscar cliente"
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterClients()">
+  </ion-searchbar>
 
 
+  <!-- Filtros por estado -->
+  <div class="filtros">
+
+    <ion-button
+      fill="solid"
+      color="primary"
+      (click)="filtrarPorEstado('TODOS')">
+      Todos
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="success"
+      (click)="filtrarPorEstado('PAGADO')">
+      🟢 Pagados
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="danger"
+      (click)="filtrarPorEstado('DEBE')">
+      🔴 Deben
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="medium"
+      (click)="filtrarPorEstado('NO VIENE')">
+      ⚫ No vienen
+    </ion-button>
+
+  </div>
+
+
+  <!-- Lista resumida de clientes -->
+  <ion-list>
+
+    @for (cliente of clientesFiltrados; track cliente.id) {
+
+      <ion-card (click)="verDetalleCliente(cliente)">
+
+        <ion-card-header>
+          <ion-card-title>
+            👤 {{ cliente.nombre }}
+          </ion-card-title>
+        </ion-card-header>
+
+
+        <ion-card-content>
+
+          <ion-item lines="none">
+            <ion-label>
+              Estado: {{ getEstadoLabel(cliente.estado) }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+               📅 Último pago: {{ cliente.fechaUltimoPago }}
+            </ion-label>
+          </ion-item>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    }
+
+  </ion-list>
+
+  <!--Mensaje cuando no hay resultados-->
+  @if (clientesFiltrados.length === 0) {
+
+    <div class="sin-clientes">
+
+      @if (searchTerm.trim()) {
+        <div class="sin-clientes-icono">🔍</div>
+
+          <h2>Cliente no encontrado</h2>
+
+        <p>
+           No encontramos ningún cliente que coincida con
+           "<strong>{{ searchTerm }}</strong>".
+        </p>
+      } @else {
+         <div class="sin-clientes-icono">📋</div>
+
+         <h2>No hay clientes para mostrar</h2>
+
+         <p>
+            No hay clientes que coincidan con el filtro seleccionado.
+         </p>
+        }
+   </div>
+  }
+
+
+  <!-- Botón agregar cliente -->
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed" class="fab-agregar">
+
+    <ion-fab-button
+      color="primary"
+      (click)="goToNuevoCliente()">
+
+      <ion-icon name="add"> ➕</ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
 
 </ion-content>

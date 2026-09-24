@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ modoEdicion ? 'Editar horas' : 'Registrar horas' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card class="ion-margin-top">
+
+    <ion-card-header>
+      <ion-card-title> {{ modoEdicion ? '✏️ Editar horas trabajadas' : '⏱️ Registrar horas trabajadas' }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content (keydown.enter)="guardarHora()">
+
+      <!--PROFESOR-->
+      <ion-item>
+        <ion-label>Profesor</ion-label>
+        <ion-select [(ngModel)]="profesorId" placeholder="Seleccionar profesor" (ionChange)="seleccionarProfesor()">
+
+          @for (profesor of profesores; track profesor.id) {
+
+            <ion-select-option [value]="profesor.id">{{ profesor.icono }} {{ profesor.nombre }}</ion-select-option>
+          }
+
+        </ion-select>
+      </ion-item>
+
+      <!--FECHA-->
+      <ion-item>
+        <ion-label position="stacked">Fecha</ion-label>
+
+        <ion-input type="date" [(ngModel)]="fecha"></ion-input>
+      </ion-item>
+
+      <!--HORA INICIO-->
+      <ion-item>
+        <ion-label position="stacked">Hora de inicio</ion-label>
+
+        <ion-input type="time" [(ngModel)]="horaInicio" (ionInput)="calcularHoras()"></ion-input>
+      </ion-item>
+
+      <!--HORA FIN-->
+      <ion-item>
+        <ion-label position="stacked">Hora de fin</ion-label>
+
+        <ion-input type="time" [(ngModel)]="horaFin" (ionInput)="calcularHoras()"></ion-input>
+      </ion-item>
+
+      <!-- HORAS CALCULADAS -->
+      <ion-item>
+        <ion-label position="stacked">Horas trabajadas</ion-label>
+
+        <ion-input type="number" [value]="horas" readonly></ion-input>
+      </ion-item>
+
+      <!-- VALOR POR HORA -->
+      <ion-item>
+        <ion-label position="stacked">Valor por hora</ion-label>
+
+        <ion-input type="number" [value]="valorHora" readonly></ion-input>
+      </ion-item>
+
+      <!-- MONTO GENERADO -->
+       <ion-item>
+        <ion-label position="stacked">Monto generado</ion-label>
+
+        <ion-input type="number" [value]="montoGenerado" readonly></ion-input>
+       </ion-item>
+
+      <!-- ACTIVIDAD -->
+      <ion-item>
+        <ion-label>Actividad</ion-label>
+
+        <ion-select [(ngModel)]="actividad" placeholder="Seleccionar actividad">
+
+          <ion-select-option value="Musculación"> 🏋️ Musculación</ion-select-option>
+          
+          <ion-select-option value="Pilates">🧘 Pilates</ion-select-option>
+
+          <ion-select-option value="Funcional">  💪 Funcional</ion-select-option>
+
+          <ion-select-option value="Spinning"> 🚴 Spinning </ion-select-option>
+
+          <ion-select-option value="Yoga"> 🧘 Yoga</ion-select-option>
+
+          <ion-select-option value="Recepción">🧑‍💼 Recepción </ion-select-option>
+
+          <ion-select-option value="Limpieza"> 🧹 Limpieza</ion-select-option>
+
+          <ion-select-option value="Otra"> ➕ Otra</ion-select-option>
+
+        </ion-select>
+        
+      </ion-item>
+
+      <!-- TURNO -->
+
+      <ion-item>
+        <ion-label>Turno</ion-label>
+
+          <ion-select [(ngModel)]="observacion" placeholder="Seleccionar turno">
+
+          <ion-select-option value="Turno mañana"> 🌅 Turno mañana </ion-select-option>
+
+          <ion-select-option value="Turno tarde"> ☀️ Turno tarde</ion-select-option>
+
+          <ion-select-option value="Turno noche"> 🌙 Turno noche</ion-select-option>
+
+          <ion-select-option value="Jornada completa">🕐 Jornada completa </ion-select-option>
+
+          <ion-select-option value="Otro"> ➕ Otro </ion-select-option>
+          </ion-select>
+      </ion-item>
+
+
+      <!-- OBSERVACIÓN -->
+      <ion-item>
+        <ion-label position="stacked">Observación</ion-label>
+
+        <ion-input type="text" [(ngModel)]="observacion">
+        </ion-input>
+      </ion-item>
+
+
+      <!-- BOTÓN -->
+      <ion-button expand="block" color="success" class="ion-margin-top" (click)="guardarHora()">
+           {{ modoEdicion ? '💾 Guardar cambios' : '💾 Guardar horas' }}
+      </ion-button>
+
+      <!-- BOTÓN CANCELAR -->
+      <ion-button expand="block" color="medium" fill="outline"
+        class="ion-margin-top" routerLink="/horas-trabajadas">
+                  ← Cancelar
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

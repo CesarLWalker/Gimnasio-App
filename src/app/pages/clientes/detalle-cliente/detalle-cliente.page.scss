@@ -1,0 +1,34 @@
+.estado-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.estado-badge.pagado {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.estado-badge.por-vencer {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.estado-badge.debe {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.estado-badge.no-viene {
+  background: #e5e7eb;
+  color: #374151;
+}

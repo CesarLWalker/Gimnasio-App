@@ -1,11 +1,9 @@
 export enum EstadoCliente {
 
   PAGADO = 'PAGADO',
+  POR_VENCER = 'POR VENCER',
   DEBE = 'DEBE',
-  NO = 'NO',
-  MEDIO_MES = 'MEDIO MES',
-  SEMANA = 'SEMANA',
-  DIA = 'DIA'
+  NO_VIENE = 'NO VIENE'
 }
 
 
