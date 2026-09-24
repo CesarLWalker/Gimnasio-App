@@ -66,13 +66,17 @@
               <p> 📅 {{ liquidacion.periodo }}</p>
               <p> 👨‍🏫 Tipo: {{ liquidacion.tipoRemuneracion }}</p>
 
-              @if (liquidacion.totalHoras > 0) {
+              @if (liquidacion.tipoRemuneracion === TipoRemuneracion.POR_HORA) {
 
-                <p> ⏱ Horas trabajadas: {{ liquidacion.totalHoras }}</p>
+                <p>⏱️ Horas trabajadas: {{ liquidacion.totalHoras }}</p>
                 <p>💰 Valor hora: ${{ liquidacion.valorHora }}</p>
                 <p>
                  🧮 {{ liquidacion.totalHoras }} horas x $ {{ liquidacion.valorHora }}
                 </p>
+              } 
+
+              @if (liquidacion.tipoRemuneracion === TipoRemuneracion.SUELDO_FIJO) {
+                <p>📋 Modalidad: Sueldo fijo mensual</p>
               }
 
               <h2>💵 Total: ${{ liquidacion.totalPagar }}</h2>
@@ -96,4 +100,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-

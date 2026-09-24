@@ -5,15 +5,18 @@ import { LiquidacionProfesorService } from 'src/app/services/liquidacionProfesor
 import { ProfesorService } from 'src/app/services/profesor.service';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonGrid, IonButton, IonRow, IonCol, IonCardHeader, IonCard, IonCardTitle, IonCardContent, IonBadge, ToastController } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
+import { TipoRemuneracion } from 'src/app/enums/tipoRemuneracion.enum';
 
 @Component({
   selector: 'app-liquidaciones',
   standalone: true,
   templateUrl: './liquidaciones.page.html',
   styleUrls: ['./liquidaciones.page.scss'],
-  imports: [ FormsModule, IonBadge, IonCardContent, IonCardTitle, IonCard, IonCardHeader, IonCol, IonRow, IonButton, IonGrid, IonLabel, IonItem, IonContent, IonTitle, IonHeader, IonToolbar, IonSelect, IonSelectOption],
+  imports: [FormsModule, IonCardContent, IonCardTitle, IonCard, IonCardHeader, IonCol, IonRow, IonButton, IonGrid, IonLabel, IonItem, IonContent, IonTitle, IonHeader, IonToolbar, IonSelect, IonSelectOption, IonBadge],
 })
 export class LiquidacionesPage implements OnInit {
+
+  TipoRemuneracion = TipoRemuneracion;
 
   profesores: Profesor[] = [];
 
@@ -46,6 +49,11 @@ export class LiquidacionesPage implements OnInit {
     this.profesores = this.profesorService.getProfesores();
     this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
     this.generarPeriodos();
+    this.filtrarLiquidaciones();
+  }
+
+  ionViewWillEnter(): void {
+    this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
     this.filtrarLiquidaciones();
   }
 
@@ -123,7 +131,7 @@ export class LiquidacionesPage implements OnInit {
         await this.mostrarMensaje(`⚠️ No hay horas trabajadas registradas para este profesor en ${periodo}.`,
       'warning');
       }
-        
+
     }
   }
 
