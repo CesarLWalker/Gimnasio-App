@@ -110,13 +110,14 @@ export class RegistrarHorasComponent  implements OnInit {
     this.horaInicio = hora.horaInicio;
     this.horaFin = hora.horaFin;
     this.horas = hora.horas;
+    this.valorHora = hora.valorHora;
     this.actividad = hora.actividad;
     this.observacion = hora.observacion ?? '';
 
-    // Cargamos valor hora y monto
-    this.seleccionarProfesor();
+    // Recalculamos el monto con el valor hora guardado
+    this.calcularMonto();
 
-    // Recalculamos por seguridad
+    // Recalculamos las horas por seguridad
     this.calcularHoras();
   }
 
@@ -208,6 +209,7 @@ export class RegistrarHorasComponent  implements OnInit {
         horaInicio: this.horaInicio,
         horaFin: this.horaFin,
         horas: this.horas,
+        valorHora: this.valorHora,
         actividad: this.actividad,
         observacion: this.observacion || undefined
       };
@@ -234,6 +236,7 @@ export class RegistrarHorasComponent  implements OnInit {
         horaInicio: this.horaInicio,
         horaFin: this.horaFin,
         horas: this.horas,
+        valorHora: this.valorHora,
         actividad: this.actividad,
         observacion: this.observacion || undefined
       };

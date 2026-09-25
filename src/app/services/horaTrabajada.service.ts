@@ -16,6 +16,7 @@ export class HoraTrabajadaService {
       horaInicio: '18:00',
       horaFin: '20:00',
       horas: 2,
+      valorHora: 12000,
       actividad: 'Musculación',
       observacion: 'Turno tarde'
     },
@@ -26,6 +27,7 @@ export class HoraTrabajadaService {
       horaInicio: '15:00',
       horaFin: '20:00',
       horas: 5,
+      valorHora: 12000,
       actividad: 'Musculación',
       observacion: 'Turno tarde'
     },
@@ -36,6 +38,7 @@ export class HoraTrabajadaService {
       horaInicio: '08:00',
       horaFin: '12:00',
       horas: 4,
+      valorHora: 12000,
       actividad: 'Musculación',
       observacion: 'Turno mañana'
     },
@@ -46,6 +49,7 @@ export class HoraTrabajadaService {
       horaInicio: '08:00',
       horaFin: '12:00',
       horas: 4,
+      valorHora: 12000,
       actividad: 'Musculación',
       observacion: 'Turno mañana'
     }
@@ -150,15 +154,9 @@ export class HoraTrabajadaService {
   // ==========================================
   getTotalAPagarByProfesor(profesorId: number): number {
 
-    const profesor = this.profesorService.getProfesorById(profesorId);
+    const horas = this.getHorasByProfesor(profesorId);
 
-    if (!profesor) {
-      return 0;
-    }
-
-    const totalHoras = this.getTotalHorasByProfesor(profesorId);
-
-    return totalHoras * profesor.valorHora;
+    return horas.reduce((total, hora) => total + (hora.horas * hora.valorHora), 0);
   }
 
   // ==========================================
@@ -166,14 +164,8 @@ export class HoraTrabajadaService {
   // ==========================================
   getTotalAPagarByProfesorYPeriodo(profesorId: number, año: number, mes: number): number {
 
-    const profesor = this.profesorService.getProfesorById(profesorId);
+    const horas = this.getHorasByProfesorYPeriodo(profesorId, año, mes);
 
-    if (!profesor) {
-      return 0;
-    }
-
-    const totalHoras = this.getTotalHorasByProfesorYPeriodo(profesorId, año, mes);
-
-    return totalHoras * profesor.valorHora;
+    return horas.reduce((total, hora) => total + (hora.horas * hora.valorHora), 0);
   }
 }

@@ -59,7 +59,7 @@
       <ion-item>
         <ion-label position="stacked">Valor por hora</ion-label>
 
-        <ion-input type="number" [value]="valorHora" readonly></ion-input>
+        <ion-input type="number" [(ngModel)]="valorHora" (ionInput)="calcularMonto()"></ion-input>
       </ion-item>
 
       <!-- MONTO GENERADO -->

@@ -71,12 +71,12 @@ export class DetalleProfesorPage implements OnInit {
       return;
     }
 
-    this.router.navigate(['/profesores', this.profesor.id, '/liquidaciones']);
+    this.router.navigate(['/profesores', this.profesor.id, 'liquidaciones']);
   }
 
   // Eliminar profesor
    public async eliminarProfesor(profesor: Profesor): Promise<void> {
-  
+
       const alert = await this.alertController.create({
         header: 'Eliminar profesor',
         message: `¿Estás seguro que desea eliminar a ${profesor.nombre}?`, // comillas invertidas (backticks)

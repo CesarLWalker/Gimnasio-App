@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar color="warning">
-    <ion-title>Liquidaciones</ion-title>
+    <ion-title>
+      @if (profesorIdDesdeRuta !== null) {
+        Historial de cobros
+      } @else {
+        Liquidaciones
+      }
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,17 +15,24 @@
   <h2>Liquidación de Profesores</h2>
 
   <!--SELECCIONAR PROFESOR-->
-  <ion-item>
-    <ion-label>Profesor</ion-label>
-    <ion-select [(ngModel)]="profesorSeleccionadoId" placeholder="Seleccionar profesor">
+  @if (profesorIdDesdeRuta === null) {
 
-      @for (profesor of profesores; track profesor.id) {
+    <ion-item>
+      <ion-label>Profesor</ion-label>
 
-        <ion-select-option [value]="profesor.id">{{ profesor.nombre }}</ion-select-option>
-      }
+      <ion-select [(ngModel)]="profesorSeleccionadoId" placeholder="Seleccionar profesor">
+        @for (profesor of profesores; track profesor.id) {
 
-    </ion-select>
-  </ion-item>
+          <ion-select-option [value]="profesor.id">
+            {{ profesor.nombre }}
+          </ion-select-option>
+        }
+
+      </ion-select>
+    </ion-item>
+
+  }
+  
 
   <!--PERÍODO-->
   <ion-item>
@@ -36,11 +49,25 @@
     </ion-select>
   </ion-item>
 
-  <!--BOTÓN-->
-  <ion-button expand="block" color="primary" class="ion-margin-top" (click)="generarLiquidacion()">
+  <!--BOTÓN GENERAR LIQUIDACIÓN-->
+  @if (profesorIdDesdeRuta === null) {
+    <ion-button expand="block" color="primary" class="ion-margin-top" (click)="generarLiquidacion()">
      💰 Generar liquidación
   </ion-button>
+  }
 
+  <!-- MENSAJE SIN LIQUIDACIONES -->
+   @if (liquidacionesFiltradas.length === 0) {
+
+    <ion-card>
+      <ion-card-content class="ion-text-center">
+        <h3>📭 No hay cobros registrados</h3>
+        <p>No hay liquidaciones para este período.</p>
+      </ion-card-content>
+    </ion-card>
+
+   }
+   
   <!--LIQUIDACIONES-->
   <ion-grid>
     <ion-row>

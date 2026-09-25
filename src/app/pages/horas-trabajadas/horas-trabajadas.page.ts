@@ -36,6 +36,7 @@ export class HorasTrabajadasPage implements OnInit {
   horaInicio = '';
   horaFin = '';
   horas = 0;
+  valorHora = 0;
   actividad = '';
   observacion = '';
 
@@ -116,6 +117,7 @@ export class HorasTrabajadasPage implements OnInit {
       !this.horaInicio ||
       !this.horaFin ||
       this.horas <= 0 ||
+      this.valorHora <= 0 ||
       !this.actividad
     ) {
       return;
@@ -129,6 +131,7 @@ export class HorasTrabajadasPage implements OnInit {
       horaInicio: this.horaInicio,
       horaFin: this.horaFin,
       horas: this.horas,
+      valorHora: this.valorHora,
       actividad: this.actividad,
       observacion: this.observacion || undefined
     };
@@ -160,9 +163,7 @@ export class HorasTrabajadasPage implements OnInit {
 
   getTotalHora(hora: HoraTrabajada): number {
 
-    const valorHora = this.getValorHora(hora.profesorId);
-
-    return hora.horas * valorHora;
+    return hora.horas * hora.valorHora;
   }
 
   async eliminarHora(id: number): Promise<void> {
@@ -205,6 +206,7 @@ export class HorasTrabajadasPage implements OnInit {
     this.horaInicio = '';
     this.horaFin = '';
     this.horas = 0;
+    this.valorHora = 0;
     this.actividad = '';
     this.observacion = '';
   }

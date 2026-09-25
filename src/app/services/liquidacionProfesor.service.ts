@@ -54,18 +54,26 @@ export class LiquidacionProfesorService {
 
     let horas = 0;
     let totalPagar = 0;
+    let valorHoraLiquidacion = 0;
 
     if (profesor.tipoRemuneracion === TipoRemuneracion.POR_HORA) {
 
-      horas = this.horaTrabajadaService.getTotalHorasByProfesorYPeriodo(profesorId, año, mes);
+      const horasTrabajadas = this.horaTrabajadaService.getHorasByProfesorYPeriodo(profesorId, año, mes);
 
-      if (horas <= 0) {
+      if (horasTrabajadas.length === 0) {
         return undefined;
       }
-      totalPagar = horas * profesor.valorHora;
-    } else if (profesor.tipoRemuneracion === TipoRemuneracion.SUELDO_FIJO) {
+    
+      horas = 0;
+      totalPagar = 0;
 
-      totalPagar = profesor.sueldo;
+      for (const hora of horasTrabajadas) {
+        horas += hora.horas;
+        totalPagar += hora.horas * hora.valorHora;
+      }
+
+      const ultimoRegistro = horasTrabajadas[horasTrabajadas.length - 1];
+      valorHoraLiquidacion = ultimoRegistro.valorHora;
     }
 
     const liquidacion: LiquidacionProfesor = {
@@ -74,7 +82,7 @@ export class LiquidacionProfesorService {
       profesorId: profesorId,
       periodo: periodo,
       totalHoras: horas,
-      valorHora: profesor.valorHora,
+      valorHora: valorHoraLiquidacion,
       tipoRemuneracion: profesor.tipoRemuneracion,
       totalPagar: totalPagar,
       estado: EstadoLiquidacion.PENDIENTE,

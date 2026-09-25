@@ -6,6 +6,7 @@ import { ProfesorService } from 'src/app/services/profesor.service';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonGrid, IonButton, IonRow, IonCol, IonCardHeader, IonCard, IonCardTitle, IonCardContent, IonBadge, ToastController } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { TipoRemuneracion } from 'src/app/enums/tipoRemuneracion.enum';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-liquidaciones',
@@ -26,6 +27,10 @@ export class LiquidacionesPage implements OnInit {
 
   profesorSeleccionadoId: any;
 
+  profesorIdDesdeRuta: number | null = null;
+
+  profesorActual: Profesor | undefined;
+
   periodos: {
     nombre: string;
     mes: number;
@@ -41,10 +46,18 @@ export class LiquidacionesPage implements OnInit {
   constructor(
     private profesorService: ProfesorService,
     private liquidacionProfesorService: LiquidacionProfesorService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.profesorIdDesdeRuta = Number(id);
+
+      this.profesorActual = this.profesorService.getProfesores().find(profesor => profesor.id === this.profesorIdDesdeRuta);
+    }
 
     this.profesores = this.profesorService.getProfesores();
     this.liquidaciones = this.liquidacionProfesorService.getLiquidaciones();
@@ -136,7 +149,13 @@ export class LiquidacionesPage implements OnInit {
   }
 
   filtrarLiquidaciones(): void {
-    this.liquidacionesFiltradas = this.liquidaciones.filter(liquidacion => liquidacion.periodo === this.periodoSeleccionado.nombre);
+    this.liquidacionesFiltradas = this.liquidaciones.filter(liquidacion => {
+
+      const coincidePeriodo = liquidacion.periodo === this.periodoSeleccionado.nombre;
+      const coincideProfesor = this.profesorIdDesdeRuta === null || liquidacion.profesorId === this.profesorIdDesdeRuta;
+
+      return coincidePeriodo && coincideProfesor;
+    });
   }
 
   marcarComoPagado(id: number): void {

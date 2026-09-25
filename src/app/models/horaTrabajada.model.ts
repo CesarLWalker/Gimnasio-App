@@ -6,6 +6,7 @@ export interface HoraTrabajada {
   horaInicio: string;
   horaFin: string;
   horas: number;
+  valorHora: number;
   actividad: string;
   observacion?: string;
 }
