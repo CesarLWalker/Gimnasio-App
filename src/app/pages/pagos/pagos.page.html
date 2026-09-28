@@ -8,9 +8,9 @@
 
 <ion-content class="ion-padding">
   <ion-list>
-  
+
   @for (pago of pagosFiltrados; track pago.id) {
-    
+
     <ion-card>
       <ion-card-header>
         <ion-card-title> 👤 {{ getNombreCliente(pago.clienteId) }} </ion-card-title>
@@ -42,13 +42,50 @@
     </ion-card-content>
     </ion-card>
 
+}
+
+ @if (pagosFiltrados.length === 0) {
+
+    <div class="sin-pagos">
+
+      @if (searchTerm.trim()) {
+
+        <div class="sin-pagos-icono">🔍</div>
+
+        <h2>Pago no encontrado</h2>
+
+        <p>
+          No encontramos ningún pago que coincida con
+          "<strong>{{ searchTerm }}</strong>".
+        </p>
+
+      } @else {
+
+        <div class="sin-pagos-icono">💰</div>
+
+        <h2>No hay pagos registrados</h2>
+
+        <p>
+          Todavía no hay pagos efectuados para mostrar.
+        </p>
+
+      }
+
+    </div>
+
+  }
+
+</ion-list>
+
+
+<!-- Botón agregar pago -->
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary" (click)="goToNuevoPago()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
- }
 
-  </ion-list>
+
+  
 </ion-content>

@@ -50,8 +50,7 @@
 
   <!-- Lista resumida de clientes -->
   <ion-list>
-
-    @for (cliente of clientesFiltrados; track cliente.id) {
+       @for (cliente of clientesFiltrados; track cliente.id) {
 
       <ion-card (click)="verDetalleCliente(cliente)">
 
@@ -106,8 +105,10 @@
          <p>
             No hay clientes que coincidan con el filtro seleccionado.
          </p>
+
+         
         }
-   </div>
+     </div>
   }
 
 

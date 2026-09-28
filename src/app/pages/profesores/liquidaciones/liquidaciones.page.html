@@ -32,7 +32,7 @@
     </ion-item>
 
   }
-  
+
 
   <!--PERÍODO-->
   <ion-item>
@@ -59,15 +59,23 @@
   <!-- MENSAJE SIN LIQUIDACIONES -->
    @if (liquidacionesFiltradas.length === 0) {
 
-    <ion-card>
-      <ion-card-content class="ion-text-center">
-        <h3>📭 No hay cobros registrados</h3>
-        <p>No hay liquidaciones para este período.</p>
-      </ion-card-content>
-    </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-card>
+           <ion-card-content class="ion-text-center">
+            <div class="sin-liquidaciones-icono"></div>
+             <h3>📭 No hay cobros registrados</h3>
+             <p>No hay liquidaciones para este período.</p>
+           </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
 
    }
-   
+
   <!--LIQUIDACIONES-->
   <ion-grid>
     <ion-row>
@@ -100,7 +108,7 @@
                 <p>
                  🧮 {{ liquidacion.totalHoras }} horas x $ {{ liquidacion.valorHora }}
                 </p>
-              } 
+              }
 
               @if (liquidacion.tipoRemuneracion === TipoRemuneracion.SUELDO_FIJO) {
                 <p>📋 Modalidad: Sueldo fijo mensual</p>

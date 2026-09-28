@@ -130,6 +130,43 @@
         </ion-col>
       }
 
+       <!-- ESTADO VACÍO -->
+      @if (horasFiltradas.length === 0) {
+
+        <ion-col size="12">
+
+          <div class="sin-horas ion-text-center ion-padding">
+
+            @if (profesorFiltroId || periodoFiltro) {
+
+              <div class="sin-horas-icono">🔍</div>
+
+              <h2>No hay horas encontradas</h2>
+
+              <p>
+                No existen horas registradas que coincidan
+                con los filtros seleccionados.
+              </p>
+
+            } @else {
+
+              <div class="sin-horas-icono">⏱️</div>
+
+              <h2>No hay horas registradas</h2>
+
+              <p>
+                Registrá las horas trabajadas de un profesor
+                para comenzar.
+              </p>
+
+            }
+
+          </div>
+
+        </ion-col>
+
+      }
+
     </ion-row>
   </ion-grid>
 
