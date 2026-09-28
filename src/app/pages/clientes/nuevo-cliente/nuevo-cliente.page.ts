@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader } from "@ionic/angular/standalone";
+import { AlertController } from "@ionic/angular";
 import { IonicModule } from "@ionic/angular";
 import { FormsModule } from '@angular/forms';
 import { Cliente } from 'src/app/models/cliente.model';
@@ -42,7 +42,8 @@ export class NuevoClientePage implements OnInit {
     private clienteService: ClienteService,
     private pagoService: PagoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private alertController: AlertController
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +61,42 @@ export class NuevoClientePage implements OnInit {
     }
   }
 
-  public guardarCliente(): void {
+  private celularValido(): boolean {
+    const celular = this.cliente.celular?.trim() || '';
+
+    const patron = /^[0-9+\-() ]{8,20}$/;
+
+    return patron.test(celular);
+  }
+
+  public async guardarCliente(): Promise<void> {
+
+    if (!this.celularValido()) {
+      
+      const alert = await this.alertController.create({
+        header: 'Gym Manager',
+        message: 'Ingrese un número de celular válido.',
+        buttons: ['OK']
+      });
+
+      await alert.present();
+      return;
+    }
+
+    if (
+      this.cliente.estado === EstadoCliente.PAGADO &&
+      !this.cliente.fechaUltimoPago
+    ) {
+
+      const alert = await this.alertController.create({
+        header: 'Gym Manager',
+        message: 'Para un cliente PAGADO debes ingresar la fecha del último pago.',
+        buttons: ['OK']
+      });
+
+      await alert.present();
+      return;
+    }
 
     if (this.modoEdicion) {
       this.clienteService.updateCliente(this.cliente); // Actualiza cliente

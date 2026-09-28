@@ -85,12 +85,19 @@
 
   <ion-item>
     <ion-input label="Celular" [(ngModel)]="cliente.celular" name="celular"
-    labelPlacement="stacked" placeholder="Ingrese el celular" #celular="ngModel" required></ion-input>
+    labelPlacement="stacked" placeholder="Ingrese el celular" #celular="ngModel" required
+    pattern="^[0-9+\-() ]{8,20}$"></ion-input>
   </ion-item>
 
   @if (celular.invalid && celular.touched) {
     <div class="ion-padding-start">
       <ion-text color="danger">El celular es obligatorio.</ion-text>
+    </div>
+  }
+
+  @if (celular.touched && celular.errors?.['pattern']) {
+    <div class="ion-padding-start">
+      <ion-text color="danger">Ingrese un número de celular válido.</ion-text>
     </div>
   }
 
