@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ProfesoresPage } from './pages/profesores/profesores.page';
 
 const routes: Routes = [
   {
@@ -17,11 +18,19 @@ const routes: Routes = [
   },
   {
     path: 'profesores',
-    loadChildren: () => import('./pages/profesores/profesores.module').then( m => m.ProfesoresPageModule)
+    loadChildren: () => import('./pages/profesores/profesores-routing.module').then( m => m.ProfesoresPageRoutingModule)
   },
   {
     path: 'pagos',
     loadChildren: () => import('./pages/pagos/pagos.module').then( m => m.PagosPageModule)
+  },
+  {
+    path: 'liquidaciones',
+    loadChildren: () => import('./pages/profesores/liquidaciones/liquidaciones.module').then( m => m.LiquidacionesPageModule)
+  },
+  {
+    path: 'horas-trabajadas',
+    loadChildren: () => import('./pages/horas-trabajadas/horas-trabajadas.module').then( m => m.HorasTrabajadasPageModule)
   }
 ];
 

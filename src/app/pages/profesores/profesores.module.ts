@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProfesoresPageRoutingModule } from './profesores-routing.module';
 
-import { ProfesorPage } from './profesores.page';
+import { ProfesoresPage } from './profesores.page';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { ProfesorPage } from './profesores.page';
     FormsModule,
     IonicModule,
     ProfesoresPageRoutingModule,
-    ProfesorPage
+    ProfesoresPage
   ]
 })
 export class ProfesoresPageModule {}
