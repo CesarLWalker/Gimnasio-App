@@ -3,6 +3,7 @@ package com.pesguicom.gimnasio_backend.service;
 import com.pesguicom.gimnasio_backend.dto.request.ClienteRequest;
 import com.pesguicom.gimnasio_backend.dto.response.ClienteResponse;
 import com.pesguicom.gimnasio_backend.entity.Cliente;
+import com.pesguicom.gimnasio_backend.exception.ResourceNotFoundException;
 import com.pesguicom.gimnasio_backend.mapper.ClienteMapper;
 import com.pesguicom.gimnasio_backend.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ClienteService {
     public ClienteResponse buscarPorId(Long id) {
         return clienteRepository.findById(id)
                 .map(clienteMapper::toResponse)
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente con id " + id + " no encontrado"));
     }
 
     public ClienteResponse guardarCliente(ClienteRequest clienteRequest) {

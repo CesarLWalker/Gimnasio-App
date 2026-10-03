@@ -45,6 +45,6 @@ public class Cliente {
     @NotNull(message = "El monto es obligatorio")
     @Positive(message = "El monto no puede ser negativo ni cero, debe ser mayor a 0")
     private Long monto;
-    
+
     private LocalDate fechaUltimoPago;
 }
