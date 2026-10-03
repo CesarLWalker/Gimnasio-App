@@ -21,7 +21,7 @@ export class NuevoProfesorComponent  implements OnInit {
   // CAMPOS DEL FORMULARIO
   nombre: string = '';
   celular: string = '';
-  especialidad: string = '';
+  actividad: string = '';
 
   tipoRemuneracion: TipoRemuneracion = TipoRemuneracion.POR_HORA;
 
@@ -56,7 +56,7 @@ export class NuevoProfesorComponent  implements OnInit {
       if (profesor) {
         this.nombre = profesor.nombre;
         this.celular = profesor.celular;
-        this.especialidad = profesor.especialidad;
+        this.actividad = profesor.actividad;
         this.tipoRemuneracion = profesor.tipoRemuneracion;
         this.valorHora = profesor.valorHora;
         this.sueldo = profesor.sueldo;
@@ -77,7 +77,7 @@ export class NuevoProfesorComponent  implements OnInit {
       icono: '👨‍🏫',
       nombre: this.nombre,
       celular: this.celular,
-      especialidad: this.especialidad,
+      actividad: this.actividad,
       sueldo: this.sueldo ?? 0,
       valorHora: this.valorHora ?? 0,
       tipoRemuneracion: this.tipoRemuneracion,
@@ -104,7 +104,7 @@ export class NuevoProfesorComponent  implements OnInit {
     icono: '👨‍🏫',
     nombre: this.nombre,
     celular: this.celular,
-    especialidad: this.especialidad,
+    actividad: this.actividad,
     sueldo: this.sueldo ?? 0,
     valorHora: this.valorHora ?? 0,
     tipoRemuneracion: this.tipoRemuneracion,
@@ -126,7 +126,7 @@ export class NuevoProfesorComponent  implements OnInit {
 
   this.router.navigate(['/profesores']);
 }
-   
+
 
   private obtenerFechaLocal(): string {
     const hoy = new Date();

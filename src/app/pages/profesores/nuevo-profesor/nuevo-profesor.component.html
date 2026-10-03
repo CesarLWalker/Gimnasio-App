@@ -14,7 +14,7 @@
           profesorEditandoId !== null
             ? '✏️ Editar profesor'
             : '➕ Agregar profesor'
-         }} 
+         }}
       </ion-card-title>
     </ion-card-header>
 
@@ -34,10 +34,29 @@
         <ion-input type="tel" [(ngModel)]="celular" name="celular" placeholder="Ej: 3492 123456"></ion-input>
       </ion-item>
 
-      <!--ESPECIALIDAD-->
+      <!--ACTIVIDAD-->
       <ion-item>
-        <ion-label position="stacked">Especialidad</ion-label>
-        <ion-input type="text" [(ngModel)]="especialidad" name="especialidad" placeholder="Ej: musculación"></ion-input>
+        <ion-label position="stacked">Actividad</ion-label>
+
+        <ion-select [(ngModel)]="actividad" placeholder="Seleccionar actividad">
+
+          <ion-select-option value="Musculación"> 🏋️ Musculación</ion-select-option>
+
+          <ion-select-option value="Pilates">🧘 Pilates</ion-select-option>
+
+          <ion-select-option value="Funcional">  💪 Funcional</ion-select-option>
+
+          <ion-select-option value="Spinning"> 🚴 Spinning </ion-select-option>
+
+          <ion-select-option value="Yoga"> 🧘 Yoga</ion-select-option>
+
+          <ion-select-option value="Recepción">🧑‍💼 Recepción </ion-select-option>
+
+          <ion-select-option value="Limpieza"> 🧹 Limpieza</ion-select-option>
+
+          <ion-select-option value="Otra"> ➕ Otra</ion-select-option>
+
+        </ion-select>
       </ion-item>
 
       <!--TIPO REMUNERACIÓN-->
@@ -80,7 +99,7 @@
       <ion-button type="submit" expand="block" color="success" class="ion-margin-top">
         {{
           profesorEditandoId !== null
-          ?  '✏️ Actualizar profesor' 
+          ?  '✏️ Actualizar profesor'
           : '💾 Guardar profesor'
         }}
       </ion-button>
@@ -89,4 +108,4 @@
 
     </ion-card-content>
   </ion-card>
-</ion-content>  
+</ion-content>

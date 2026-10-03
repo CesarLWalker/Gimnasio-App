@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
+@Table(name = "profesores")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
@@ -28,9 +29,9 @@ public class Profesor {
 
   private String especialidad;
 
-  private Long sueldo;
+  private Double sueldo;
 
-  private Long valorHora;
+  private Double valorHora;
 
   @Enumerated(EnumType.STRING)
   private TipoRemuneracion tipoRemuneracion;

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public record ClienteRequest(
+
         @NotBlank(message = "El nombre es obligatorio")
         String nombre,
         @NotBlank(message = "El celular es obligatorio")

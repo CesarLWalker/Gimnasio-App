@@ -35,7 +35,7 @@ export class ProfesoresPage implements OnInit {
  icono = '👨‍🏫';
  nombre = '';
  celular = '';
- especialidad = '';
+ actividad = '';
  sueldo = 0;
  valorHora = 0;
 

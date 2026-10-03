@@ -13,6 +13,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "clientes")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

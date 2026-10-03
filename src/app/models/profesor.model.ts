@@ -7,7 +7,7 @@ export interface Profesor {
   icono: string;
   nombre: string;
   celular: string;
-  especialidad: string;
+  actividad: string;
   sueldo: number;
   valorHora: number;
   tipoRemuneracion: TipoRemuneracion;
