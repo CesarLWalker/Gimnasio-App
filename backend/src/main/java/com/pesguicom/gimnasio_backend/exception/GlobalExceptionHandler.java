@@ -1,10 +1,15 @@
 package com.pesguicom.gimnasio_backend.exception;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,29 +29,29 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponse> handleValidationErrors(
+  public ResponseEntity<ValidationErrorResponse> handleValidationErrors(
     MethodArgumentNotValidException exception
   ) {
 
-    String message = exception.getBindingResult()
+    Map<String, String> errors = exception.getBindingResult()
       .getFieldErrors()
       .stream()
-      .map(error -> error.getField() + ": " + error.getDefaultMessage())
-      .findFirst()
-      .orElse("Error de validación");
+      .collect(Collectors.toMap(
+        FieldError::getField,
+        error -> error.getDefaultMessage() != null ? error.getDefaultMessage() :  "Error de validación",
+        (mensajeExistente, nuevoMensaje) -> mensajeExistente
+      ));
 
-
-    ErrorResponse errorResponse = new ErrorResponse(
+    ValidationErrorResponse errorResponse = new ValidationErrorResponse(
       HttpStatus.BAD_REQUEST.value(),
       "Error de validación",
-      message
+      "Hay errores en los datos enviados",
+      errors
     );
 
     return ResponseEntity
       .status(HttpStatus.BAD_REQUEST)
-        .
-
-      body(errorResponse);
+      .body(errorResponse);
   }
 
   @ExceptionHandler(Exception.class)

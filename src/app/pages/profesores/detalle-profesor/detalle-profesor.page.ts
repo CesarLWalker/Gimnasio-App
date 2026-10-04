@@ -11,8 +11,8 @@ import { ProfesorService } from 'src/app/services/profesor.service';
   standalone: true,
   templateUrl: './detalle-profesor.page.html',
   styleUrls: ['./detalle-profesor.page.scss'],
-  imports: [ IonButton, IonButtons, IonFabButton, IonFab, IonList,  IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle,
-       IonToolbar, IonHeader, IonItem, IonLabel, IonIcon, IonSearchbar, FormsModule ],
+  imports: [ IonButton, IonButtons, IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonContent, IonTitle,
+       IonToolbar, IonHeader, IonIcon, FormsModule ],
 })
 export class DetalleProfesorPage implements OnInit {
 

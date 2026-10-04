@@ -14,8 +14,8 @@ import { LiquidacionProfesorService } from 'src/app/services/liquidacionProfesor
   standalone: true,
   templateUrl: './profesores.page.html',
   styleUrls: ['./profesores.page.scss'],
-  imports: [IonList, IonIcon, IonFabButton, IonFab, FormsModule, IonButton, IonInput, IonItem, IonLabel, IonCardContent, IonCardHeader, IonCard, IonCol, IonRow,
-    IonGrid, IonCardTitle, IonContent, IonTitle, IonToolbar, IonHeader, IonSelect, IonSearchbar],
+  imports: [IonList, IonIcon, IonFabButton, IonFab, FormsModule, IonButton, IonItem, IonLabel, IonCardContent, IonCardHeader, IonCard,
+    IonCardTitle, IonContent, IonTitle, IonToolbar, IonHeader, IonSearchbar],
 })
 export class ProfesoresPage implements OnInit {
 

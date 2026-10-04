@@ -4,6 +4,7 @@ import com.pesguicom.gimnasio_backend.enums.EstadoProfesor;
 import com.pesguicom.gimnasio_backend.enums.TipoRemuneracion;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 
 public record ProfesorRequest(
@@ -12,6 +13,10 @@ public record ProfesorRequest(
   String nombre,
 
   @NotBlank(message = "El celular es obligatorio")
+  @Pattern(
+    regexp = "^[0-9+()\\- ]{8,20}$",
+    message = "El celular no tiene un formato válido"
+  )
   String celular,
 
   @NotBlank(message = "La especialidad es obligatoria")
