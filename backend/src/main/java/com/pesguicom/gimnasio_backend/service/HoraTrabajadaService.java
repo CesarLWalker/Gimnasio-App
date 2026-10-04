@@ -71,6 +71,32 @@ public class HoraTrabajadaService {
     return horaTrabajadaMapper.toResponse(horaTrabajada);
   }
 
+  public HoraTrabajadaResponse actualizar(Long id, HoraTrabajadaRequest request) {
+
+    HoraTrabajada horaTrabajada = horaTrabajadaRepository.findById(id)
+      .orElseThrow(() -> new ResourceNotFoundException("Hora trabajada no encontrada para id: " + id));
+
+    Profesor profesor = profesorRepository.findById(request.profesorId())
+      .orElseThrow(() -> new ResourceNotFoundException("Profesor no encontrado con id: " + request.profesorId()));
+
+    validarHorarios(request);
+
+    double horasTotales = calcularHoras(
+      request.horaEntrada(),
+      request.horaSalida()
+    );
+
+    horaTrabajada.setProfesor(profesor);
+    horaTrabajada.setFecha(request.fecha());
+    horaTrabajada.setHoraEntrada(request.horaEntrada());
+    horaTrabajada.setHoraSalida(request.horaSalida());
+    horaTrabajada.setHorasTotales(horasTotales);
+
+    HoraTrabajada actualizada = horaTrabajadaRepository.save(horaTrabajada);
+
+    return horaTrabajadaMapper.toResponse(actualizada);
+  }
+
   public void eliminar(Long id) {
 
     if (!horaTrabajadaRepository.existsById(id)) {

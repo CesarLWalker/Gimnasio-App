@@ -40,6 +40,14 @@ public class HoraTrabajadaController {
     return ResponseEntity.ok(horaTrabajadaService.buscarPorId(id));
   }
 
+  @PutMapping("/{id}")
+  public ResponseEntity<HoraTrabajadaResponse> actualizar(@PathVariable Long id,
+                                                          @Valid @RequestBody HoraTrabajadaRequest request) {
+    HoraTrabajadaResponse response = horaTrabajadaService.actualizar(id, request);
+
+    return ResponseEntity.ok(response);
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> eliminar(@PathVariable Long id) {
     horaTrabajadaService.eliminar(id);
