@@ -22,3 +22,9 @@ Este componente será el encargado de capturar las excepciones y convertirlas en
         .body(errorResponse);
 Spring devolverá una respuesta HTTP 404 Not Found junto con nuestro ErrorResponse.
 
+# Clases
+Mapper -> transforma datos de un formato a otro
+Request → datos que entran
+Response → datos que salen
+Entity → datos que persisten
+
