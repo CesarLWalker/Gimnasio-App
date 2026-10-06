@@ -28,3 +28,18 @@ Request → datos que entran
 Response → datos que salen
 Entity → datos que persisten
 
+# La diferencia:
+
+Request → lo que necesitamos recibir
+
+    profesorId
+
+Response → lo que queremos mostrar
+
+    profesorId
+    profesorNombre
+
+Eso es justamente lo que buscamos con los DTOs: no exponer directamente nuestras entidades JPA.
+
+# 
+
