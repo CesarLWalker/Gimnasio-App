@@ -8,7 +8,7 @@ import { ProfesorService } from "./profesor.service";
 export class HoraTrabajadaService {
 
   horasTrabajadas: HoraTrabajada[] = [
-
+    /*
     {
       id: 1,
       profesorId: 1,
@@ -20,39 +20,7 @@ export class HoraTrabajadaService {
       actividad: 'Musculación',
       observacion: 'Turno tarde'
     },
-    {
-      id: 2,
-      profesorId: 1,
-      fecha: '2026-08-21',
-      horaInicio: '15:00',
-      horaFin: '20:00',
-      horas: 5,
-      valorHora: 12000,
-      actividad: 'Musculación',
-      observacion: 'Turno tarde'
-    },
-    {
-      id: 3,
-      profesorId: 2,
-      fecha: '2026-08-22',
-      horaInicio: '08:00',
-      horaFin: '12:00',
-      horas: 4,
-      valorHora: 12000,
-      actividad: 'Musculación',
-      observacion: 'Turno mañana'
-    },
-    {
-      id: 4,
-      profesorId: 3,
-      fecha: '2026-08-15',
-      horaInicio: '08:00',
-      horaFin: '12:00',
-      horas: 4,
-      valorHora: 12000,
-      actividad: 'Musculación',
-      observacion: 'Turno mañana'
-    }
+    */
   ];
 
   constructor(

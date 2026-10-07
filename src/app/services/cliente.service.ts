@@ -16,6 +16,7 @@ export class ClienteService {
   // ================================================
 
   private clientes: Cliente[] = [
+    /*
     {
       id: 1,
       nombre: 'AC/DC',
@@ -27,39 +28,7 @@ export class ClienteService {
       tipoPagoHabitual: TipoPago.EFECTIVO,
       celular: '123456'
     },
-    {
-      id: 2,
-      nombre: 'Dana Walker',
-      estado: EstadoCliente.PAGADO,
-      periodoPago: PeriodoPago.MEDIO_MES,
-      fechaUltimoPago: '2026-09-04',
-      cuota: Cuota.INDIVIDUAL,
-      monto: 10000,
-      tipoPagoHabitual: TipoPago.MERCADO_PAGO,
-      celular: '451525'
-    },
-    {
-      id: 3,
-      nombre: 'Leandro Walker',
-      estado: EstadoCliente.PAGADO,
-      periodoPago: PeriodoPago.DIA,
-      fechaUltimoPago: '2026-09-14',
-      cuota: Cuota.FAMILIARx2,
-      monto: 10000,
-      tipoPagoHabitual: TipoPago.TRANSFERENCIA,
-      celular: '898681'
-    },
-    {
-      id: 4,
-      nombre: 'Cristina Bovier',
-      estado: EstadoCliente.NO_VIENE,
-      periodoPago: PeriodoPago.MES,
-      fechaUltimoPago: '2026-07-14',
-      cuota: Cuota.INDIVIDUAL,
-      monto: 5000,
-      tipoPagoHabitual: TipoPago.TRANSFERENCIA,
-      celular: '157802'
-    }
+    */  
   ];
 
   private clientesVersion = signal(0);

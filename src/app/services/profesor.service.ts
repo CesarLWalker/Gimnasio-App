@@ -10,30 +10,7 @@ import { TipoRemuneracion } from "../enums/tipoRemuneracion.enum";
 export class ProfesorService {
 
    profesores: Profesor[] = [
-    {
-      id: 1,
-      icono: "👨‍🏫",
-      nombre: "Profesora A",
-      celular: "123456",
-      actividad: "Musculación",
-      sueldo: 150000,
-      valorHora: 12000,
-      tipoRemuneracion: TipoRemuneracion.SUELDO_FIJO,
-      estado: EstadoProfesor.ACTIVO,
-      color: "gray"
-    },
-    {
-      id: 2,
-      icono: "👨‍🏫",
-      nombre: "Profesora B",
-      celular: "456789",
-      actividad: "Musculación",
-      sueldo: 140000,
-      valorHora: 12000,
-      tipoRemuneracion: TipoRemuneracion.POR_HORA,
-      estado: EstadoProfesor.ACTIVO,
-      color: "black"
-    },
+    /*
     {
       id: 3,
       icono: "👨‍🏫",
@@ -45,19 +22,7 @@ export class ProfesorService {
       tipoRemuneracion: TipoRemuneracion.POR_HORA,
       estado: EstadoProfesor.INACTIVO,
       color: "black"
-    },
-    {
-      id: 4,
-      icono: "👨‍🏫",
-      nombre: "Profesora C",
-      celular: "102030",
-      actividad: "Funcional",
-      sueldo: 40000,
-      valorHora: 12000,
-      tipoRemuneracion: TipoRemuneracion.SUELDO_FIJO,
-      estado: EstadoProfesor.INACTIVO,
-      color: "gray"
-    }
+    },*/
   ];
 
   private profesoresVersion = signal(0);

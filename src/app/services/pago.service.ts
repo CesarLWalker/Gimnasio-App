@@ -9,24 +9,7 @@ import { ActividadService } from "./actividad.service";
 })
 export class PagoService {
 
-  private pagos: Pago[] = [
-    {
-      id: 1,
-      clienteId: 2,
-      fecha: '2026-06-05',
-      monto: 17000,
-      tipoPago: TipoPago.EFECTIVO,
-      observacion: 'cuota junio'
-    },
-    {
-      id: 4,
-      clienteId: 4,
-      fecha: '2026-06-03',
-      monto: 15000,
-      tipoPago: TipoPago.TARJETA_DEBITO,
-      observacion: 'cuota junio'
-    }
-  ];
+  private pagos: Pago[] = [];
 
   private pagosVersion = signal(0);
   public readonly pagoChanged = this.pagosVersion.asReadonly();
