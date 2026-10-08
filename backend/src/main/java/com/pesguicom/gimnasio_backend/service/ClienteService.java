@@ -50,7 +50,6 @@ public class ClienteService {
 
         clienteExistente.setNombre(clienteRequest.nombre());
         clienteExistente.setCelular(clienteRequest.celular());
-        clienteExistente.setCelular(clienteRequest.celular());
         clienteExistente.setEstado(clienteRequest.estado());
         clienteExistente.setFechaUltimoPago(clienteRequest.fechaUltimoPago());
 

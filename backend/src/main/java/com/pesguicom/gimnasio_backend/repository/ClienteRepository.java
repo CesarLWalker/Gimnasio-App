@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-  long countByEstado(EstadoCliente estado);
+  long countByEstado(EstadoCliente estadoCliente);
 }

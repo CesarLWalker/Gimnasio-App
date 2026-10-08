@@ -3,6 +3,7 @@ package com.pesguicom.gimnasio_backend.service;
 import com.pesguicom.gimnasio_backend.dto.response.DashboardResponse;
 import com.pesguicom.gimnasio_backend.enums.EstadoCliente;
 import com.pesguicom.gimnasio_backend.enums.EstadoLiquidacion;
+import com.pesguicom.gimnasio_backend.enums.EstadoProfesor;
 import com.pesguicom.gimnasio_backend.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,26 +36,31 @@ public class DashboardService {
 
     long totalClientes = clienteRepository.count();
     long totalProfesores = profesorRepository.count();
-    double totalHorasTrabajadas = horaTrabajadaRepository.sumarHorasTotales();
     long totalLiquidaciones = liquidacionRepository.count();
+
+    long liquidacionesPendientes = liquidacionRepository.countByEstadoLiquidacion(EstadoLiquidacion.PENDIENTE);
+    long liquidacionesPagadas = liquidacionRepository.countByEstadoLiquidacion(EstadoLiquidacion.PAGADA);
+
+    long profesoresActivos = profesorRepository.countByEstadoProfesor(EstadoProfesor.ACTIVO);
+    long profesoresInactivos = profesorRepository.countByEstadoProfesor(EstadoProfesor.INACTIVO);
 
     long clientesPagados = clienteRepository.countByEstado(EstadoCliente.PAGADO);
     long clientesDeudores = clienteRepository.countByEstado(EstadoCliente.DEBE);
 
-    long liquidacionesPendientes = liquidacionRepository.countByEstado(EstadoLiquidacion.PENDIENTE);
-    long liquidacionesPagadas = liquidacionRepository.countByEstado(EstadoLiquidacion.PAGADA);
-
+    double horasTotales = horaTrabajadaRepository.sumarHorasTotales();
     double recaudacionTotal = pagoRepository.sumarMontos();
 
     return new DashboardResponse(
       totalClientes,
-      clientesPagados,
-      clientesDeudores,
       totalProfesores,
-      totalHorasTrabajadas,
       totalLiquidaciones,
       liquidacionesPendientes,
       liquidacionesPagadas,
+      profesoresActivos,
+      profesoresInactivos,
+      clientesPagados,
+      clientesDeudores,
+      horasTotales,
       recaudacionTotal
     );
   }

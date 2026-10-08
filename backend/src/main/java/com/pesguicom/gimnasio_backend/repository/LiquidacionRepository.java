@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LiquidacionRepository extends JpaRepository<Liquidacion, Long> {
 
-  long countByEstado(EstadoLiquidacion estado);
+  long countByEstadoLiquidacion(EstadoLiquidacion estadoLiquidacion);
 }
