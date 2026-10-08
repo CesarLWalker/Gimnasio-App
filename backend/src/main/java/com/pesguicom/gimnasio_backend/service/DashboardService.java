@@ -1,6 +1,8 @@
 package com.pesguicom.gimnasio_backend.service;
 
 import com.pesguicom.gimnasio_backend.dto.response.DashboardResponse;
+import com.pesguicom.gimnasio_backend.enums.EstadoCliente;
+import com.pesguicom.gimnasio_backend.enums.EstadoLiquidacion;
 import com.pesguicom.gimnasio_backend.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,17 +35,16 @@ public class DashboardService {
 
     long totalClientes = clienteRepository.count();
     long totalProfesores = profesorRepository.count();
-    long totalHorasTrabajadas = horaTrabajadaRepository.count();
+    double totalHorasTrabajadas = horaTrabajadaRepository.sumarHorasTotales();
     long totalLiquidaciones = liquidacionRepository.count();
 
-    long clientesPagados = 0;
-    long clientesDeudores = 0;
+    long clientesPagados = clienteRepository.countByEstado(EstadoCliente.PAGADO);
+    long clientesDeudores = clienteRepository.countByEstado(EstadoCliente.DEBE);
 
-    long liquidacionesPendientes = 0;
-    long liquidacionesPagadas = 0;
+    long liquidacionesPendientes = liquidacionRepository.countByEstado(EstadoLiquidacion.PENDIENTE);
+    long liquidacionesPagadas = liquidacionRepository.countByEstado(EstadoLiquidacion.PAGADA);
 
-    double totalHoras = 0;
-    double recaudacionTotal = 0;
+    double recaudacionTotal = pagoRepository.sumarMontos();
 
     return new DashboardResponse(
       totalClientes,
