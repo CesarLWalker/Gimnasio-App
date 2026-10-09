@@ -8,7 +8,7 @@ Mapper
 Controller
 Validaciones
 Manejo de errores
-## Profesor ⏭️
+## Profesor ✅
 Entity
 Repository
 Service
@@ -16,36 +16,36 @@ DTO
 Mapper
 Controller
 Validaciones
-## HorasTrabajadas
+## HorasTrabajadas ✅
 Registrar horas
 Asociarlas a un profesor
 Calcular horas trabajadas
 Valor hora
-## Liquidaciones
+## Liquidaciones ✅
 Generar liquidación
 Calcular total a pagar
 Asociarla al profesor
 Estado de liquidación
-## Pagos
+## Pagos ✅
 Registrar pagos de clientes
 Historial
 Relación con Cliente
-## Actividades / Dashboard
+## Actividades / Dashboard ✅
 Llevar al backend lo que corresponda del dashboard.
-## Tests 🧪
+## Tests 🧪 ⏭️
 Unitarios
 Integración
 Controller/API
-## Spring Security + JWT 🔐
+## Spring Security + JWT 🔐 ⏭️
 Login
 Usuarios
 Roles
 Protección de endpoints
-## Docker 🐳
+## Docker 🐳 ⏭️
 Backend
 Base de datos
 docker-compose
-## GitHub + Deploy 🚀
+## GitHub + Deploy 🚀 ⏭️
 Dejar el proyecto presentable
 README profesional
 Variables de entorno
