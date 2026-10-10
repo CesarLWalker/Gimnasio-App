@@ -78,4 +78,10 @@ todavía no comprueba individualmente que cada campo haya cambiado. Podemos agre
 - Que la operación se ejecute sin lanzar una excepción.
   Observá que tu servicio usa delete(profesor), no deleteById(id). Por eso verificamos exactamente el método que implementaste.
 
+# ¿Qué estamos verificando?
+- Optional.empty() simula que el profesor no existe.
+- assertThrows() comprueba que se lance la excepción esperada.
+- assertEquals() verifica el mensaje.
+- never() garantiza que el repositorio no intente eliminar un profesor inexistente.
+
 # 

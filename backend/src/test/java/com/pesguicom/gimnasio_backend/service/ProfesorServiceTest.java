@@ -270,4 +270,24 @@ public class ProfesorServiceTest {
     verify(profesorRepository).findById(id);
     verify(profesorRepository).delete(profesor);
   }
+
+  @Test
+  void eliminar_CuandoProfesorNoExiste_DebeLanzarException() {
+
+    // Arrange
+    Long id = 999L;
+
+    when(profesorRepository.findById(id)).thenReturn(Optional.empty());
+
+    // Act y Assert
+    ResourceNotFoundException exception = assertThrows(
+      ResourceNotFoundException.class, () -> profesorService.eliminar(id)
+    );
+
+    assertEquals("Profesor con id " + id + " no encontrado", exception.getMessage());
+
+    // Verify
+    verify(profesorRepository).findById(id);
+    verify(profesorRepository, never()).delete(any(Profesor.class));
+  }
 }
