@@ -84,4 +84,32 @@ todavía no comprueba individualmente que cada campo haya cambiado. Podemos agre
 - assertEquals() verifica el mensaje.
 - never() garantiza que el repositorio no intente eliminar un profesor inexistente.
 
+# ¿Qué estamos haciendo?
+- @ExtendWith(MockitoExtension.class): integra Mockito con JUnit 5.
+- @Mock: crea simulaciones del repositorio y del mapper. No accedemos a MySQL.
+- @InjectMocks: crea PagoService e inyecta esas simulaciones.
+- @Test: identifica cada prueba que agregaremos.
+- assertEquals, assertThrows y similares: permiten verificar resultados y errores.
+- verify(...): permite comprobar que el servicio haya llamado al repositorio como corresponde.
+  El método setUp() está vacío porque Mockito ya inicializa las dependencias mediante las anotaciones. 
+- Podemos quitarlo más adelante; lo dejamos por ahora para que veas la estructura.
+
+# ¿Qué aprendemos con este test?
+- List.of(...) prepara una lista con dos pagos simulados.
+- findAll() simula la consulta al repositorio.
+- El mapper transforma cada Pago en su correspondiente PagoResponse.
+- assertEquals(2, resultado.size()) verifica que se devuelvan dos elementos.
+- assertSame(...) comprueba que cada posición contenga exactamente la respuesta simulada esperada.
+
+# ¿Qué aprendemos?
+- Optional.empty() simula que el repositorio no encuentra el pago.
+- assertThrows() verifica que se lance la excepción esperada.
+- assertEquals() comprueba que el mensaje sea correcto.
+- verifyNoInteractions(pagoMapper) verifica que el mapper no se utilice, porque el servicio se detiene antes de convertir el pago.
+
+# ¿Qué comprobamos?
+- existsById(pagoId) simula que el pago existe.
+- pagoService.eliminar(pagoId) ejecuta el método real del servicio.
+- verify(...) comprueba que se verifique la existencia y que se invoque la eliminación.
+
 # 
