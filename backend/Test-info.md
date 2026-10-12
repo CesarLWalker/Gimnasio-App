@@ -120,4 +120,14 @@ todavía no comprueba individualmente que cada campo haya cambiado. Podemos agre
 - verify(...): confirma que se consultó el repositorio y se utilizó el mapper.
   La diferencia con el test de listar() es que ahora buscamos un único registro mediante su ID.
 
+# ¿Qué aprendemos con estos tests?
+- toEntity() transforma los datos del request en una entidad.
+- save() simula el guardado en la base de datos; no guarda datos reales.
+- assertSame() comprueba que el servicio devuelve exactamente la respuesta simulada.
+- verifyNoInteractions() comprueba que, si el profesor no existe, no se intenta convertir ni guardar la liquidación.
+
+# ¿Por qué usamos mock(Liquidacion.class)?
+Porque queremos verificar que el servicio invoque los cinco setters de la liquidación. 
+Al simular la entidad, Mockito puede registrar esas llamadas mediante verify().
+
 # 
