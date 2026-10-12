@@ -130,4 +130,8 @@ todavía no comprueba individualmente que cada campo haya cambiado. Podemos agre
 Porque queremos verificar que el servicio invoque los cinco setters de la liquidación. 
 Al simular la entidad, Mockito puede registrar esas llamadas mediante verify().
 
+# ¿Qué hace verifyNoMoreInteractions()?
+Comprueba que no se hayan realizado otras llamadas a los mocks además de las que ya verificamos.
+Es una validación adicional, aunque no siempre es necesaria en todos los tests. En este caso sirve para practicar cómo controlar las interacciones con Mockito.
+
 # 
