@@ -112,4 +112,12 @@ todavía no comprueba individualmente que cada campo haya cambiado. Podemos agre
 - pagoService.eliminar(pagoId) ejecuta el método real del servicio.
 - verify(...) comprueba que se verifique la existencia y que se invoque la eliminación.
 
+# ¿Qué estamos comprobando?
+- Optional.of(hora): simula que el registro existe.
+- buscarPorId(1L): ejecuta el método real del servicio.
+- assertNotNull(resultado): verifica que recibamos una respuesta.
+- assertSame(response, resultado): comprueba que el servicio devuelva la respuesta preparada por el mapper.
+- verify(...): confirma que se consultó el repositorio y se utilizó el mapper.
+  La diferencia con el test de listar() es que ahora buscamos un único registro mediante su ID.
+
 # 
