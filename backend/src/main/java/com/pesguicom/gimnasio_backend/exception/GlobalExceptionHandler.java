@@ -1,18 +1,22 @@
 package com.pesguicom.gimnasio_backend.exception;
 
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+  private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException exception) {
@@ -56,6 +60,9 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleGeneralException(Exception exception) {
+
+    logger.error("Error interno del servidor", exception);
+
     ErrorResponse errorResponse = new ErrorResponse(
       HttpStatus.INTERNAL_SERVER_ERROR.value(),
       "Error interno del servidor",
@@ -64,6 +71,19 @@ public class GlobalExceptionHandler {
 
     return ResponseEntity
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .body(errorResponse);
+  }
+
+  @ExceptionHandler(NoResourceFoundException.class)
+  public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException exception) {
+
+    ErrorResponse errorResponse = new ErrorResponse(
+      HttpStatus.NOT_FOUND.value(), "Recurso no encontrado", //"La ruta solicitada no existe"
+      "Haz escrito mal la ruta de la url"
+    );
+
+    return ResponseEntity
+      .status(HttpStatus.NOT_FOUND)
       .body(errorResponse);
   }
 
