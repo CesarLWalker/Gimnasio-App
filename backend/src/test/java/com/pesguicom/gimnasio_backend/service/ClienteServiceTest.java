@@ -3,6 +3,10 @@ package com.pesguicom.gimnasio_backend.service;
 import com.pesguicom.gimnasio_backend.dto.request.ClienteRequest;
 import com.pesguicom.gimnasio_backend.dto.response.ClienteResponse;
 import com.pesguicom.gimnasio_backend.entity.Cliente;
+import com.pesguicom.gimnasio_backend.enums.PeriodoPago;
+import com.pesguicom.gimnasio_backend.enums.TipoPago;
+import com.pesguicom.gimnasio_backend.enums.Cuota;
+import com.pesguicom.gimnasio_backend.enums.EstadoCliente;
 import com.pesguicom.gimnasio_backend.exception.ResourceNotFoundException;
 import com.pesguicom.gimnasio_backend.mapper.ClienteMapper;
 import com.pesguicom.gimnasio_backend.repository.ClienteRepository;
@@ -32,22 +36,14 @@ public class ClienteServiceTest {
 
   @Test
   void listarClientes_CuandoHayClientes_DebeRetornarListaDeClientes() {
-
     // Arrange: preparamos los datos
-    Cliente cliente1 = Cliente.builder()
-      .id(1L)
-      .build();
+    Cliente cliente1 = Cliente.builder().id(1L).build();
+    Cliente cliente2 = Cliente.builder().id(2L).build();
 
-    Cliente cliente2 = Cliente.builder()
-      .id(2L)
-      .build();
-
-    ClienteResponse respuesta1 = new ClienteResponse(1L, "César Walker", "3492123456", null, null);
-
-    ClienteResponse respuesta2 = new ClienteResponse(2L, "Leandro Walker", "3492203040", null, null);
+    ClienteResponse respuesta1 = new ClienteResponse(1L, "César Walker", "3492123456", null, null, null, null, null, null);
+    ClienteResponse respuesta2 = new ClienteResponse(2L, "Leandro Walker", "3492203040", null, null, null, null, null, null);
 
     when(clienteRepository.findAll()).thenReturn(List.of(cliente1, cliente2));
-
     when(clienteMapper.toResponse(cliente1)).thenReturn(respuesta1);
     when(clienteMapper.toResponse(cliente2)).thenReturn(respuesta2);
 
@@ -66,12 +62,11 @@ public class ClienteServiceTest {
 
   @Test
   void listarClientes_CuandoNoHayClientes_DebeRetornarListaVacia() {
-
     // Arrange: preparamos el escenario
     when(clienteRepository.findAll()).thenReturn(List.of());
 
     // Act: ejecutamos el método que queremos probar
-    var resultado = clienteService.listarClientes();
+    List<ClienteResponse> resultado = clienteService.listarClientes();
 
     // Assert: comprobamos el resultado
     assertTrue(resultado.isEmpty());
@@ -82,24 +77,17 @@ public class ClienteServiceTest {
 
   @Test
   void buscarPorId_CuandoClienteExiste_DebeRetornarCliente() {
-
     // Arrange
     Long id = 1L;
 
-    Cliente cliente = Cliente.builder()
-      .id(id)
-      .build();
+    Cliente cliente = Cliente.builder().id(id).build();
 
     ClienteResponse respuestaEsperada = new ClienteResponse(
-      id,
-      "César",
-      "3492123456",
-      null,
-      null
+      id, "César", "3492123456",
+      null, null, null, null, null, null
     );
 
     when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
-
     when(clienteMapper.toResponse(cliente)).thenReturn(respuestaEsperada);
 
     // Act
@@ -113,7 +101,6 @@ public class ClienteServiceTest {
 
   @Test
   void buscarPorId_CuandoClienteNoExiste_DebeLanzarException() {
-
     // Arrange
     Long id = 999L;
 
@@ -129,29 +116,18 @@ public class ClienteServiceTest {
 
   @Test
   void guardarCliente_DebeGuardarYRetornarClienteResponse() {
-
     // Arrange: preparamos los datos
     ClienteRequest request = new ClienteRequest(
-      "César Walker",
-      "3492123456",
-      null,
-      null
+      "César Walker", "3492123456",
+      null, null, null, null, null, null
     );
 
-    Cliente cliente = Cliente.builder()
-      .id(1L)
-      .build();
-
-    Cliente clienteGuardado = Cliente.builder()
-      .id(1L)
-      .build();
+    Cliente cliente = Cliente.builder().id(1L).build();
+    Cliente clienteGuardado = Cliente.builder().id(1L).build();
 
     ClienteResponse respuestaEsperada = new ClienteResponse(
-      1L,
-      "César Walker",
-      "3492123456",
-      null,
-      null
+      1L, "César Walker", "3492123456",
+      null, null, null, null, null, null
     );
 
     when(clienteMapper.toEntity(request)).thenReturn(cliente);
@@ -173,31 +149,20 @@ public class ClienteServiceTest {
 
   @Test
   void actualizarCliente_CuandoClienteExiste_DebeActualizarYRetornarRespuesta() {
-
     // Arrange
     Long id = 1L;
 
     ClienteRequest request = new ClienteRequest(
-      "César Actualizado",
-      "3492999999",
-      null,
-      null
+      "César Actualizado", "3492999999",
+      null, null, null, null, null, null
     );
 
-    Cliente clienteExistente = Cliente.builder()
-      .id(id)
-      .build();
-
-    Cliente clienteActualizado = Cliente.builder()
-      .id(id)
-      .build();
+    Cliente clienteExistente = Cliente.builder().id(id).build();
+    Cliente clienteActualizado = Cliente.builder().id(id).build();
 
     ClienteResponse respuestaEsperada = new ClienteResponse(
-      id,
-      "César Actualizado",
-      "3492999999",
-      null,
-      null
+      id, "César Actualizado", "3492999999",
+      null, null, null, null, null, null
     );
 
     when(clienteRepository.findById(id)).thenReturn(Optional.of(clienteExistente));
@@ -219,15 +184,12 @@ public class ClienteServiceTest {
 
   @Test
   void actualizarCliente_CuandoClienteNoExiste_DebeRetornarNull() {
-
     // Arrange
     Long id = 999L;
 
     ClienteRequest request = new ClienteRequest(
-      "César Walker",
-      "3492123456",
-      null,
-      null
+      "César Walker", "3492123456",
+      null, null, null, null, null, null
     );
 
     when(clienteRepository.findById(id)).thenReturn(Optional.empty());
@@ -246,7 +208,6 @@ public class ClienteServiceTest {
 
   @Test
   void eliminarCliente_DebeLlamarAlRepositorioConElIdCorrecto() {
-
     // Arrange
     Long id = 1L;
 

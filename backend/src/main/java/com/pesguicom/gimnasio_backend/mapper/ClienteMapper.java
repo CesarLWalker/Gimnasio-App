@@ -15,6 +15,10 @@ public class ClienteMapper {
         cliente.setCelular(request.celular());
         cliente.setEstado(request.estado());
         cliente.setFechaUltimoPago(request.fechaUltimoPago());
+        cliente.setCuota(request.cuota());
+        cliente.setTipoPago(request.tipoPago());
+        cliente.setPeriodoPago(request.periodoPago());
+        cliente.setMonto(request.monto());
 
         return cliente;
     }
@@ -26,7 +30,11 @@ public class ClienteMapper {
                 cliente.getNombre(),
                 cliente.getCelular(),
                 cliente.getEstado(),
-                cliente.getFechaUltimoPago()
+                cliente.getFechaUltimoPago(),
+                cliente.getCuota(),
+                cliente.getTipoPago(),
+                cliente.getPeriodoPago(),
+                cliente.getMonto()
         );
     }
 }

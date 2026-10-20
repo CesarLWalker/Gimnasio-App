@@ -41,30 +41,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     final String jwt = authorizationHeader.substring(7);
-    final String username;
 
     try {
-      username = jwtService.extractUsername(jwt);
-    } catch (io.jsonwebtoken.JwtException | IllegalArgumentException exception) {
-      filterChain.doFilter(request, response);
-      return;
-    }
+      String username = jwtService.extractUsername(jwt);
 
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+      if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-      try {
-        if (jwtService.isTokenValid(jwt, userDetails)) {
+        if (userDetails.isEnabled() && jwtService.isTokenValid(jwt, userDetails)) {
+
           UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-            userDetails, null, userDetails.getAuthorities());
+            userDetails, null, userDetails.getAuthorities()
+          );
 
           authenticationToken.setDetails(
-            new WebAuthenticationDetailsSource().buildDetails(request));
+            new WebAuthenticationDetailsSource()
+              .buildDetails(request)
+          );
+
           SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
-      } catch (io.jsonwebtoken.JwtException | IllegalArgumentException exception) {
-        // El token es inválido: la petición seguirá sin autenticar.
       }
+    } catch (io.jsonwebtoken.JwtException
+    | IllegalArgumentException
+    | org.springframework.security.core.AuthenticationException exception) {
+      // El token no es válido o el usuario no puede autenticarse.
+      // La petición continúa sin autenticar.
     }
 
     filterChain.doFilter(request, response);
