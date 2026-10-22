@@ -1,4 +1,4 @@
-Nuestro plan de trabajo
+Plan de trabajo
 
 ## Etapa 1. Backend funcional
 En desarrollo avanzado
