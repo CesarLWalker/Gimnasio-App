@@ -19,6 +19,19 @@ En desarrollo avanzado
 - Protección de endpoints.
 - Pruebas de autenticación y autorización.
 
+- Próximos pasos
+1. Tests automatizados
+Completado: Maven terminó con BUILD SUCCESS.
+
+2. Revisar autenticación y permisos JWT
+Comprobar que los endpoints administrativos estén protegidos y que los usuarios comunes no puedan acceder.
+
+3. Revisar CORS y conexión con Ionic/Angular
+Verificar los orígenes permitidos y que las peticiones con el token funcionen correctamente.
+
+4. Revisar manejo de errores
+Confirmar las respuestas 401 y 403 y evitar exponer información sensible.
+
 ## Etapa 4. Docker
 - Dockerfile para Spring Boot.
 - Contenedor de MySQL.

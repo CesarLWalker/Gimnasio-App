@@ -2,14 +2,20 @@ package com.pesguicom.gimnasio_backend.security;
 
 import com.pesguicom.gimnasio_backend.service.CustomUserDetailsService;
 import com.pesguicom.gimnasio_backend.service.DashboardService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Date;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +36,9 @@ class SecurityConfigTest {
 
   @MockitoBean
   private CustomUserDetailsService customUserDetailsService;
+
+  @Value("${app.jwt.secret}")
+  private String jwtSecret;
 
   @Test
   void dashboardSinTokenDebeRetornar401() throws Exception {
@@ -143,5 +152,50 @@ class SecurityConfigTest {
 
     mockMvc.perform(get("/api/liquidaciones")
       .header("Authorization", "Bearer " + token)).andExpect(status().isOk());
+  }
+
+  @Test
+  void dashboardConTokenInvalidoDebeRetornar401() throws Exception {
+    mockMvc.perform(get("/api/dashboard")
+      .header("Authorization", "Bearer token-inválido"))
+      .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void dashboardConTokenVencidoDebeRetornar401() throws Exception {
+   long ahora = System.currentTimeMillis();
+
+    String tokenVencido = Jwts.builder()
+      .subject("admin-test")
+      .issuedAt(new Date(ahora - 120_000))
+      .expiration(new Date(ahora - 60_000))
+      .signWith(
+        Keys.hmacShaKeyFor(
+          Decoders.BASE64.decode(jwtSecret)
+        )
+      )
+      .compact();
+
+    mockMvc.perform(get("/api/dashboard")
+      .header("Authorization", "Bearer " + tokenVencido))
+      .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void dashboardConUsuarioDesactivadoDebeRetornar401() throws Exception {
+    UserDetails usuarioDesactivado = User.withUsername("usuario-inactivo")
+      .password("password")
+      .roles("ADMIN")
+      .disabled(true)
+      .build();
+
+    when(customUserDetailsService.loadUserByUsername("usuario-inactivo"))
+      .thenReturn(usuarioDesactivado);
+
+    String token = jwtService.generateToken(usuarioDesactivado);
+
+    mockMvc.perform(get("/api/dashboard")
+      .header("Authorization", "Bearer " + token))
+      .andExpect(status().isUnauthorized());
   }
 }
