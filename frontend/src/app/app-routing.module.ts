@@ -31,6 +31,10 @@ const routes: Routes = [
   {
     path: 'horas-trabajadas',
     loadChildren: () => import('./pages/horas-trabajadas/horas-trabajadas.module').then( m => m.HorasTrabajadasPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   }
 ];
 
