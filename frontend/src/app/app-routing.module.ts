@@ -1,0 +1,47 @@
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ProfesoresPage } from './pages/profesores/profesores.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: 'clientes',
+    loadChildren: () => import('./pages/clientes/clientes.module').then( m => m.ClientesPageModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'profesores',
+    loadChildren: () => import('./pages/profesores/profesores-routing.module').then( m => m.ProfesoresPageRoutingModule)
+  },
+  {
+    path: 'pagos',
+    loadChildren: () => import('./pages/pagos/pagos.module').then( m => m.PagosPageModule)
+  },
+  {
+    path: 'liquidaciones',
+    loadChildren: () => import('./pages/profesores/liquidaciones/liquidaciones.module').then( m => m.LiquidacionesPageModule)
+  },
+  {
+    path: 'horas-trabajadas',
+    loadChildren: () => import('./pages/horas-trabajadas/horas-trabajadas.module').then( m => m.HorasTrabajadasPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  }
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+  ],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}

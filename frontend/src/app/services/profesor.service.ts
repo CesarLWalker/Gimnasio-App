@@ -1,0 +1,68 @@
+import { ActividadService } from './actividad.service';
+import { Injectable, signal } from "@angular/core";
+import { EstadoProfesor } from "../enums/estadoProfesor.enum";
+import { Profesor } from "../models/profesor.model";
+import { TipoRemuneracion } from "../enums/tipoRemuneracion.enum";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProfesorService {
+
+   profesores: Profesor[] = [
+    /*
+    {
+      id: 3,
+      icono: "👨‍🏫",
+      nombre: "César Walker",
+      celular: "789789",
+      actividad: "Musculación",
+      sueldo: 132000,
+      valorHora: 12000,
+      tipoRemuneracion: TipoRemuneracion.POR_HORA,
+      estado: EstadoProfesor.INACTIVO,
+      color: "black"
+    },*/
+  ];
+
+  private profesoresVersion = signal(0);
+  public readonly profesoresChanged = this.profesoresVersion.asReadonly();
+
+  constructor(
+    private actividadService: ActividadService
+  ) {}
+
+  getProfesores(): Profesor[] {
+    return this.profesores;
+  }
+
+  getProfesorById(id: number): Profesor | undefined {
+    return this.profesores.find(profesor => profesor.id === id);
+  }
+
+  agregarProfesor(profesor: Profesor): void {
+    this.profesores.push(profesor);
+  }
+
+  actualizarProfesor(profesorActualizado: Profesor): void {
+    const index = this.profesores.findIndex(profesor => profesor.id === profesorActualizado.id);
+
+    if (index !== -1) {
+      this.profesores[index] = profesorActualizado;
+
+      // Avisamos que hubo un cambio
+      this.profesoresVersion.update(valor => valor + 1);
+    }
+  }
+
+  // =============================================
+  // ELIMINAR PROFESOR
+  // =============================================
+
+  public deleteProfesor(id: number): void {
+    this.profesores = this.profesores.filter(profesor => profesor.id !== id);
+
+    this.profesoresVersion.update(valor => valor + 1);
+  }
+
+}
