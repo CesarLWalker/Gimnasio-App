@@ -5,7 +5,7 @@ import { ProfesoresPage } from './pages/profesores/profesores.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
