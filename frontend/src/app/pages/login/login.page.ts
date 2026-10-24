@@ -4,37 +4,62 @@ import { Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { barbellOutline } from 'ionicons/icons';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  imports: [ FormsModule, IonIcon, IonButton, IonToolbar, IonHeader, IonTitle, IonHeader, IonContent, IonInput, IonItem, IonLabel ],
+  imports: [ FormsModule, IonIcon, IonButton, IonToolbar, IonHeader, IonTitle, IonContent, IonInput, IonItem ],
 })
 export class LoginPage implements OnInit {
-  email: string = '';
+  username: string = '';
   password: string = '';
+  cargando = false;
 
-  constructor(private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     addIcons({ barbellOutline });
    }
 
   ngOnInit() {
   }
 
-  iniciarSesion() {
-    
-    if (!this.email.trim() || !this.password) {
-      alert('Ingresá tu correo y contraseña.');
+  iniciarSesion(): void {
+
+    if (!this.username.trim() || !this.password) {
+      alert('Ingresá tu usuario y contraseña.');
       return;
     }
 
-    // Temporal: todavía no valida las credenciales con el backend.
-    console.log('Formulario de login completado');
+    if (this.cargando) {
+      return;
+    }
 
-    alert('El formulario funciona. Próximo paso: conectar con el backend.');
+    this.cargando = true;
+
+    this.authService.login({
+      username: this.username.trim(),
+      password: this.password
+    }).subscribe({next: () => {
+      this.cargando = false;
+      this.router.navigateByUrl('/dashboard');
+    },
+  error: (error) => {
+    this.cargando = false;
+    console.log('Error al iniciar sesión:', error);
+
+    if (error.status === 0) {
+      alert('No se pudo conectar con el servidor. Verificá que el backend esté funcionando.');
+    } else if (error.status === 401) {
+      alert('Usuario o contraseña incorrectos.');
+    } else {
+      alert(error.error?.message || 'Ocurrió un error al iniciar sesión.');
+    }
+  }})
+
   }
- 
-
 }

@@ -33,7 +33,8 @@ public class AuthService {
     );
 
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    String token = jwtService.generateToken(userDetails);
+      assert userDetails != null;
+      String token = jwtService.generateToken(userDetails);
 
     return new LoginResponse(
       token, "Bearer", expirationMs / 1000);

@@ -14,8 +14,8 @@
 
     <form (ngSubmit)="iniciarSesion()">
       <ion-item>
-        <ion-input label="Correo electrónico" labelPlacement="stacked" type="email"
-        placeholder="tu@email.com" [(ngModel)]="email" name="email" required>
+        <ion-input label="Usuario" labelPlacement="stacked" type="text"
+        placeholder="Ingresá tu usuario" [(ngModel)]="username" name="username" required>
 
         </ion-input>
       </ion-item>
@@ -25,7 +25,9 @@
         placeholder="Ingresá tu contraseña" [(ngModel)]="password" name="password" required></ion-input>
       </ion-item>
 
-      <ion-button expand="block" type="submit" class="login-button">Iniciar sesión</ion-button>
+      <ion-button expand="block" type="submit" class="login-button" [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+      </ion-button>
 
     </form>
 
