@@ -50,7 +50,7 @@ public class SecurityConfig {
 
     configuration.setAllowedOrigins(List.of(
       "http://localhost:4200",
-      "http://localhost:8101"
+      "http://localhost:8100"
     ));
 
     configuration.setAllowedMethods(List.of(
