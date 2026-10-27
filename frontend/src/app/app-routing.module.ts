@@ -42,6 +42,11 @@ const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./pages/horas-trabajadas/horas-trabajadas.module').then( m => m.HorasTrabajadasPageModule)
   },
+  {
+    path: 'rutinas',
+    canActivate: [authGuard],
+    loadChildren: () => import('./pages/rutinas/rutinas.module').then( m => m.RutinasPageModule)
+  },
 
 ];
 
