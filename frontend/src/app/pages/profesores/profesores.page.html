@@ -1,0 +1,135 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-title>Profesores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Buscador -->
+  <ion-searchbar
+    placeholder="Buscar profesor"
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterProfesores()">
+  </ion-searchbar>
+
+
+  <!-- Filtros por estado -->
+  <div class="filtros">
+
+    <ion-button
+      fill="solid"
+      color="primary"
+      (click)="filtrarPorEstado('TODOS')">
+      Todos
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="success"
+      (click)="filtrarPorEstado('ACTIVO')">
+      🟢 Activos
+    </ion-button>
+
+    <ion-button
+      fill="outline"
+      color="danger"
+      (click)="filtrarPorEstado('INACTIVO')">
+      🔴 Inactivos
+    </ion-button>
+
+  </div>
+
+
+  <!-- Lista de profesores -->
+  <ion-list>
+
+    @for (profesor of profesoresFiltrados; track profesor.id) {
+
+      <ion-card (click)="verDetalleProfesor(profesor)">
+
+        <ion-card-header>
+
+          <ion-card-title>
+            👨‍🏫 {{ profesor.nombre }}
+          </ion-card-title>
+
+        </ion-card-header>
+
+        <ion-card-content>
+
+          <ion-item lines="none">
+            <ion-label>
+              Estado: {{ getEstadoLabel(profesor.estado) }}
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              📅 Último cobro:
+            </ion-label>
+          </ion-item>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    }
+
+  </ion-list>
+
+
+  <!-- Mensaje cuando no hay resultados -->
+  @if (profesoresFiltrados.length === 0) {
+
+    <div class="sin-clientes">
+
+      @if (searchTerm.trim()) {
+
+        <div class="sin-clientes-icono">
+          🔍
+        </div>
+
+        <h2>Profesor no encontrado</h2>
+
+        <p>
+          No encontramos ningún profesor que coincida con
+          "<strong>{{ searchTerm }}</strong>".
+        </p>
+
+      } @else {
+
+        <div class="sin-profesores-icono">
+          📋
+        </div>
+
+        <h2>No hay profesores para mostrar</h2>
+
+        <p>
+          No hay profesores que coincidan con el filtro seleccionado.
+        </p>
+
+      }
+
+    </div>
+
+  }
+
+
+  <!-- Botón agregar profesor -->
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed" class="fab-agregar">
+
+    <ion-fab-button
+      color="primary"
+      (click)="goToNuevoProfesor()">
+
+      <ion-icon name="add">➕</ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+</ion-content>

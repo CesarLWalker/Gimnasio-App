@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Rutinas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Agregar ejercicio</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Nombre del ejercicio</ion-label>
+        <ion-input [(ngModel)]="nombreEjercicio" placeholder="Ej. Press banca plano"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Series</ion-label>
+        <ion-input type="number" min="1" [(ngModel)]="series"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Repeticiones</ion-label>
+        <ion-input [(ngModel)]="repeticiones" placeholder="Ej. 15.12.10"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="ion-margin-top" (click)="agregarEjercicio()">Agregar ejercicio</ion-button>
+
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header>Ejercicios de la rutina</ion-list-header>
+
+    @if (ejercicios.length === 0) {
+      <ion-item>
+        <ion-label>Todavía no agregaste ejercicios</ion-label>
+      </ion-item>
+    }
+
+    @for (ejercicio of ejercicios; track ejercicio.id) {
+      <ion-item>
+        <ion-label>
+          <h2>{{ ejercicio.nombre }}</h2>
+          <p>
+            {{ ejercicio.series }} series x
+            {{ ejercicio.repeticiones }} repeticiones
+          </p>
+        </ion-label>
+
+        <ion-button slot="end" fill="clear" color="danger" (click)="eliminarEjercicio(ejercicio.id)">Eliminar</ion-button>
+      </ion-item>
+    }
+    
+  </ion-list>
+</ion-content>

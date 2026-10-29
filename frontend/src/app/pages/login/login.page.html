@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gym Manager</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <div class="login-header">
+      <ion-icon name="barbell-outline" class="login-icon"></ion-icon>
+      <h1>¡Bienvenido!</h1>
+      <p>Ingresá a tu cuenta para continuar</p>
+    </div>
+
+    <form (ngSubmit)="iniciarSesion()">
+      <ion-item>
+        <ion-input label="Usuario" labelPlacement="stacked" type="text"
+        placeholder="Ingresá tu usuario" [(ngModel)]="username" name="username" required>
+
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Contraseña" labelPlacement="stacked" type="password"
+        placeholder="Ingresá tu contraseña" [(ngModel)]="password" name="password" required></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" class="login-button" [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+      </ion-button>
+
+    </form>
+
+  </div>
+</ion-content>
