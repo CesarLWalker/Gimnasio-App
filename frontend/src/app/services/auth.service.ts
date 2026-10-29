@@ -18,7 +18,7 @@ export interface LoginResponse {
 })
 export class AuthService {
 
-  private readonly apiUrl = 'http://localhost:8083/api/auth';
+  private readonly apiUrl = 'http://localhost:8083/api/auth'; //   'http://192.168.0.211:8083/api/auth'
 
   constructor(private http: HttpClient) {}
 
