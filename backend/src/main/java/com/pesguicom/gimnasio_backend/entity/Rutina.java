@@ -3,6 +3,9 @@ package com.pesguicom.gimnasio_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "rutinas")
 @NoArgsConstructor
@@ -18,12 +21,16 @@ public class Rutina {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable = false)
-    private Integer series;
-
-    @Column(nullable = false, length = 100)
-    private String repeticiones;
+    @Column(length = 500)
+    private String descripcion;
 
     @Column(length = 500)
-    private String observaciones;
+    private String diasEntrenamiento;
+
+    @Column(nullable = false)
+    private Integer diasPorSemana;
+
+    @OneToMany(mappedBy = "rutina", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<EjercicioRutina> ejercicios = new ArrayList<>();
 }

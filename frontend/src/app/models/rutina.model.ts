@@ -1,6 +1,12 @@
+import { EjercicioRutina } from "./ejercicioRutina.model";
+
 export interface Rutina {
-  id: number;
+  id?: number;
   nombre: string;
+  descripcion?: string;
   series: number;
-  repeticiones: number;
+  repeticiones: string;
+  diasEntrenamiento: string [];
+  diasPorSemana: number;
+  ejercicios: EjercicioRutina[];
 }

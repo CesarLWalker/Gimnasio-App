@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonToolbar, IonContent, IonList, IonIcon, IonFabButton, IonFab, IonButton, IonItem, IonLabel, IonCardContent, IonCardHeader, IonCard, IonCardTitle,  IonTitle, IonSearchbar, IonListHeader, IonInput } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
-
-interface EjercicioRutina {
-  id: number;
-  nombre: string;
-  series: number;
-  repeticiones: string | any;
-}
+import { EjercicioRutina } from 'src/app/models/ejercicioRutina.model';
+import { Rutina } from 'src/app/models/rutina.model';
 
 @Component({
   selector: 'app-rutinas',
@@ -19,13 +14,15 @@ interface EjercicioRutina {
 })
 export class RutinasPage implements OnInit {
 
+  private ejercicioRutina: EjercicioRutina;
+  private rutina: Rutina;
   private readonly claveStorage = 'gym-manager-rutinas';
 
   nombreEjercicio = '';
-  series = 3;
+  series = 0;
   repeticiones = '';
 
-  ejercicios: EjercicioRutina[] = [
+  ejercicioRutina: EjercicioRutina[] = [
     { id: 1, nombre: 'Sentadilla', series: 4, repeticiones: '12.10.8.6' },
     { id: 2, nombre: 'Press banca plano', series: 4, repeticiones: '12.10.8.6' },
     { id: 3, nombre: 'Vuelos laterales', series: 4, repeticiones: '15.15.12.12' },
@@ -74,7 +71,7 @@ export class RutinasPage implements OnInit {
     ];
 
     this.nombreEjercicio = '';
-    this.series = 3;
+    this.series = 4;
     this.repeticiones = '';
 
     this.guardarEjercicios();

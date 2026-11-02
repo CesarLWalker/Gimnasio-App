@@ -3,6 +3,7 @@ package com.pesguicom.gimnasio_backend.service;
 import com.pesguicom.gimnasio_backend.dto.request.RutinaRequest;
 import com.pesguicom.gimnasio_backend.dto.response.RutinaResponse;
 import com.pesguicom.gimnasio_backend.entity.Rutina;
+import com.pesguicom.gimnasio_backend.exception.ResourceNotFoundException;
 import com.pesguicom.gimnasio_backend.mapper.RutinaMapper;
 import com.pesguicom.gimnasio_backend.repository.RutinaRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class RutinaService {
     @Transactional(readOnly = true)
     public RutinaResponse buscarPorId(Long id) {
         Rutina rutina = rutinaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró la rutina con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la rutina con ID: " + id));
         return rutinaMapper.toResponse(rutina);
     }
 
@@ -47,7 +48,7 @@ public class RutinaService {
 
     public RutinaResponse actualizar(Long id, RutinaRequest request) {
         Rutina rutina = rutinaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró la rutina con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la rutina con ID: " + id));
 
         rutinaMapper.updateEntity(request, rutina);
 
@@ -58,7 +59,7 @@ public class RutinaService {
 
     public void eliminar(Long id) {
         Rutina rutina = rutinaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró la rutina con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la rutina con ID: " + id));
 
         rutinaRepository.delete(rutina);
     }
