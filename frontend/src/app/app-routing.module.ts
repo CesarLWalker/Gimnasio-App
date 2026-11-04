@@ -47,6 +47,11 @@ const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./pages/rutinas/rutinas.module').then( m => m.RutinasPageModule)
   },
+  {
+    path: 'crear-rutinas',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/crear-rutina/crear-rutina.page').then( m => m.CrearRutinaPage)
+  },
 
 ];
 

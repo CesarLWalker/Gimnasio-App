@@ -13,6 +13,7 @@ public class EjercicioRutinaMapper {
         EjercicioRutina ejercicio = new EjercicioRutina();
 
         ejercicio.setNombre(request.nombre());
+        ejercicio.setSeries(request.series());
         ejercicio.setRepeticiones(request.repeticiones());
         ejercicio.setOrden(request.orden());
         ejercicio.setRutina(rutina);
@@ -24,6 +25,7 @@ public class EjercicioRutinaMapper {
         return new EjercicioRutinaResponse(
                 ejercicio.getId(),
                 ejercicio.getNombre(),
+                ejercicio.getSeries(),
                 ejercicio.getRepeticiones(),
                 ejercicio.getOrden()
         );

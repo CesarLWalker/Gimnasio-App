@@ -18,6 +18,9 @@ public class EjercicioRutina {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @Column(nullable = false)
+    private Integer series;
+
     @Column(nullable = false, length = 255)
     private String repeticiones;
 

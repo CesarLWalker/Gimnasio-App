@@ -35,25 +35,25 @@
   <ion-list>
     <ion-list-header>Ejercicios de la rutina</ion-list-header>
 
-    @if (ejercicios.length === 0) {
+    @if (ejercicioRutina.length === 0) {
       <ion-item>
         <ion-label>Todavía no agregaste ejercicios</ion-label>
       </ion-item>
     }
 
-    @for (ejercicio of ejercicios; track ejercicio.id) {
+    @for (ejercicio of ejercicioRutina; track ejercicio.id) {
       <ion-item>
         <ion-label>
           <h2>{{ ejercicio.nombre }}</h2>
           <p>
             {{ ejercicio.series }}  x
-            {{ ejercicio.repeticiones }} 
+            {{ ejercicio.repeticiones }}
           </p>
         </ion-label>
 
-        <ion-button slot="end" fill="clear" color="danger" (click)="eliminarEjercicio(ejercicio.id)">Eliminar</ion-button>
+        <ion-button slot="end" fill="clear" color="danger" (click)="eliminarEjercicio(ejercicio.id!)">Eliminar</ion-button>
       </ion-item>
     }
-    
+
   </ion-list>
 </ion-content>

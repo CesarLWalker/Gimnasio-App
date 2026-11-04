@@ -1,7 +1,7 @@
 export interface EjercicioRutina {
-  id: number;
+  id?: number;
   nombre: string;
   series: number;
-  repeticiones: string | any;
+  repeticiones: string;
   orden?: number;
 }

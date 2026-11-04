@@ -13,6 +13,7 @@ import { logOutOutline } from 'ionicons/icons';
 export class AppComponent {
   public appPages = [
     { title: 'Dashboard', url: '/dashboard', icon: 'home' },
+    { title: 'Crear rutinas', url: '/crear-rutinas', icon: 'barbell' },
     { title: 'Rutinas', url: '/rutinas', icon: 'barbell' },
     { title: 'Clientes', url: '/clientes', icon: 'people' },
     { title: 'Pagos', url: '/pagos', icon: 'cash' },

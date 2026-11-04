@@ -14,19 +14,13 @@ import { Rutina } from 'src/app/models/rutina.model';
 })
 export class RutinasPage implements OnInit {
 
-  private ejercicioRutina: EjercicioRutina;
-  private rutina: Rutina;
   private readonly claveStorage = 'gym-manager-rutinas';
 
   nombreEjercicio = '';
   series = 0;
   repeticiones = '';
 
-  ejercicioRutina: EjercicioRutina[] = [
-    { id: 1, nombre: 'Sentadilla', series: 4, repeticiones: '12.10.8.6' },
-    { id: 2, nombre: 'Press banca plano', series: 4, repeticiones: '12.10.8.6' },
-    { id: 3, nombre: 'Vuelos laterales', series: 4, repeticiones: '15.15.12.12' },
-  ];
+  ejercicioRutina: EjercicioRutina[] = [];
 
   constructor() { }
 
@@ -35,7 +29,7 @@ export class RutinasPage implements OnInit {
 
     if (guardados !== null) {
       try {
-        this.ejercicios = JSON.parse(guardados) as EjercicioRutina[];
+        this.ejercicioRutina = JSON.parse(guardados) as EjercicioRutina[];
       } catch {
         this.guardarEjercicios();
       }
@@ -65,8 +59,8 @@ export class RutinasPage implements OnInit {
       return;
     }
 
-    this.ejercicios = [
-      ...this.ejercicios,
+    this.ejercicioRutina = [
+      ...this.ejercicioRutina,
       { id: Date.now(), nombre, series: cantidadSeries, repeticiones: cantidadRepeticiones },
     ];
 
@@ -78,12 +72,12 @@ export class RutinasPage implements OnInit {
   }
 
   eliminarEjercicio(id: number): void {
-    this.ejercicios = this.ejercicios.filter(ejercicio => ejercicio.id !== id);
+    this.ejercicioRutina = this.ejercicioRutina.filter(ejercicio => ejercicio.id !== id);
     this.guardarEjercicios();
   }
 
   private guardarEjercicios(): void {
-    localStorage.setItem(this.claveStorage, JSON.stringify(this.ejercicios));
+    localStorage.setItem(this.claveStorage, JSON.stringify(this.ejercicioRutina));
   }
 
 }
