@@ -1,0 +1,150 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Crear Rutina</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!--Datos generales-->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Datos de la rutina</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Nombre de la rutina</ion-label>
+        <ion-input [(ngModel)]="nombre" placeholder="Ej. Rutina 1 - Pecho y tríceps"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-input [(ngModel)]="descripcion" placeholder="Descripción opcional"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Días por semana</ion-label>
+        <ion-select [(ngModel)]="diasPorSemana">
+          <ion-select-option [value]="1">1 día</ion-select-option>
+          <ion-select-option [value]="2">2 días</ion-select-option>
+          <ion-select-option [value]="3">3 días</ion-select-option>
+          <ion-select-option [value]="4">4 días</ion-select-option>
+          <ion-select-option [value]="5">5 días</ion-select-option>
+          <ion-select-option [value]="6">6 días</ion-select-option>
+          <ion-select-option [value]="7">7 días</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Días de entrenamiento</ion-label>
+        </ion-list-header>
+
+        @for (dia of diasDisponibles; track dia) {
+          <ion-item>
+            <ion-checkbox [checked]="diasSeleccionados.includes(dia)"
+            (ionChange)="agregarDia(dia, $event.detail.checked)">{{ dia }}</ion-checkbox>
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!--Selección de músculos-->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Seleccionar grupo muscular</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Grupo muscular</ion-label>
+        <ion-select placeholder="Elegir músculo" [(ngModel)]="musculoSeleccionado">
+
+          @for (musculo of musculos; track musculo) {
+            <ion-select-option [value]="musculo">{{ musculo }}</ion-select-option>
+          }
+
+        </ion-select>
+      </ion-item>
+
+      @if (musculoSeleccionado) {
+        <h3>Ejercicios de {{ musculoSeleccionado }}</h3>
+
+        <ion-list>
+          @for (ejercicio of ejerciciosPorMusculo[musculoSeleccionado]; track ejercicio) {
+            <ion-item>
+              <ion-label>{{ ejercicio }}</ion-label>
+              <ion-button slot="end" size="small" fill="outline" (click)="nombreEjercicio = ejercicio">Seleccionar</ion-button>
+            </ion-item>
+          }
+        </ion-list>
+      }
+    </ion-card-content>
+  </ion-card>
+
+  <!--Agregar ejercicio-->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Configurar ejercicios</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Nombre del ejercicio</ion-label>
+        <ion-input [(ngModel)]="nombreEjercicio" placeholder="Seleccioná o escribí un ejercicio">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Series</ion-label>
+        <ion-input type="number" min="1" [(ngModel)]="series"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Repeticiones</ion-label>
+        <ion-input [(ngModel)]="repeticiones" placeholder="Ej. 12.10.8.6"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="ion-margin-top" (click)="agregarEjercicio()">
+        Agregar ejercicio
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!--Ejercicios agregados-->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ejercicios de la rutina</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      @if (ejercicios.length === 0) {
+        <p>Todavía no agregaste ejercicios.</p>
+      }
+
+      @for (ejercicio of ejercicios; track $index) {
+        <ion-item>
+          <ion-label>
+            <h2>{{ ejercicio.orden }}. {{ ejercicio.nombre }}</h2>
+            <p>
+              {{ ejercicio.series }} series x
+              {{ ejercicio.repeticiones }} repeticiones
+            </p>
+          </ion-label>
+
+          <ion-button slot="end" color="danger" fill="clear" (click)="eliminarEjercicio($index)">
+            Eliminar
+          </ion-button>
+        </ion-item>
+      }
+    </ion-card-content>
+  </ion-card>
+
+  <!--Guardar rutina-->
+  <ion-button expand="block" color="success" class="ion-margin-bottom" (click)="guardarRutina()">
+    Guardar rutina
+  </ion-button>
+
+</ion-content>

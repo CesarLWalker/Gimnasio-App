@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()" aria-label="Volver a clientes">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Detalle cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if (cliente) {
+
+    <!--Nombre-->
+    <ion-card>
+
+    <ion-card-header>
+        <ion-card-title>
+          👤 {{ cliente.nombre }}
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p>
+          <strong>Estado: </strong>
+          <span 
+                class="estado-badge"
+                [class.pagado]="cliente.estado === 'PAGADO'"
+                [class.por-vencer]="cliente.estado === 'POR VENCER'"
+                [class.debe]="cliente.estado === 'DEBE'"
+                [class.no-viene]="cliente.estado === 'NO VIENE'">
+                
+              {{ getEstadoLabel(cliente.estado) }}
+          </span>
+        </p>
+
+        <p>
+          <strong>📱 Celular:</strong>
+          {{ cliente.celular }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información de la cuota -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          💰 Información de la cuota
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p>
+          <strong>Cuota:</strong>
+          {{ cliente.cuota }}
+        </p>
+
+        <p>
+          <strong>💵 Monto:</strong>
+          ${{ cliente.monto }}
+        </p>
+
+        <p>
+          <strong>📅 Período:</strong>
+          {{ getPeriodoPagoLabel(cliente.periodoPago) }}
+        </p>
+
+        <p>
+          <strong>💳 Tipo de pago habitual:</strong>
+          {{ cliente.tipoPagoHabitual }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Último pago -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          🧾 Último pago
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <p>
+          <strong>Fecha:</strong>
+          {{ cliente.fechaUltimoPago }}
+        </p>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Acciones -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title> ⚙️ Acciones </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-button expand="block" color="primary" (click)="editarCliente()">
+             ✏️ Editar cliente
+        </ion-button>
+
+        <ion-button expand="block" color="success" (click)="verHistorialPagos()">
+               🧾 Historial de pagos
+        </ion-button>
+
+        <ion-button expand="block" color="danger" (click)="eliminarCliente(cliente)">
+          🗑️ Eliminar cliente
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  } @else {
+
+    <div class="sin-cliente">
+      <div class="sin-cliente-icono">
+        🔍
+      </div>
+
+      <h2>Cliente no encontrado</h2>
+
+      <p> No pudimos encontrar la información de este cliente. </p>
+
+      <ion-button expand="block" (click)="volver()">
+            Volver a clientes
+      </ion-button>
+
+    </div>
+
+  }
+
+</ion-content>

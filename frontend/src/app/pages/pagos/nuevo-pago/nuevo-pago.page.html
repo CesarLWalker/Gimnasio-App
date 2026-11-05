@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Nuevo pago</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-select label="Cliente" labelPlacement="stacked" [(ngModel)]="pago.clienteId" name="clienteId">
+      @for (cliente of clientes; track cliente.id) {
+        <ion-select-option [value]="cliente.id"> {{ cliente.nombre }} </ion-select-option>
+      }
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Fecha" labelPlacement="stacked" type="date" [(ngModel)]="pago.fecha" name="fecha"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Monto" labelPlacement="stacked" type="number" [(ngModel)]="pago.monto" name="monto"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Tipo de Pago" labelPlacement="stacked" [(ngModel)]="pago.tipoPago" name="tipoPago">
+      <ion-select-option [value]="TipoPago.EFECTIVO">EFECTIVO</ion-select-option>
+      <ion-select-option [value]="TipoPago.TRANSFERENCIA">TRANSFERENCIA</ion-select-option>
+      <ion-select-option [value]="TipoPago.TARJETA_DEBITO">TARJETA DE DÉBITO</ion-select-option>
+      <ion-select-option [value]="TipoPago.TARJETA_CREDITO">TARJETA DE CRÉDITO</ion-select-option>
+      <ion-select-option [value]="TipoPago.MERCADO_PAGO">MERCADO PAGO</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea label="Observación" labelPlacement="stacked" [(ngModel)]="pago.observacion" name="observacion"></ion-textarea>
+  </ion-item>
+
+  <ion-button expand="block" color="success" (click)="guardarPago()">Guardar Pago</ion-button>
+
+</ion-content>
