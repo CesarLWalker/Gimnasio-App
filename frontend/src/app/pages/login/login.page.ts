@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { barbellOutline } from 'ionicons/icons';
+import { barbellOutline, eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -22,10 +22,16 @@ export class LoginPage implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    addIcons({ barbellOutline });
+    addIcons({ barbellOutline, eyeOutline, eyeOffOutline });
    }
 
   ngOnInit() {
+  }
+
+  mostrarPassword = false;
+
+  alternarPassword(): void {
+  this.mostrarPassword = !this.mostrarPassword;
   }
 
   iniciarSesion(): void {

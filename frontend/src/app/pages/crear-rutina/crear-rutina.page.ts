@@ -23,12 +23,15 @@ export class CrearRutinaPage implements OnInit {
   diasDisponibles = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   diasSeleccionados: string[] = [];
 
-  musculos = ['Pecho', 'Espalda', 'Hombros', 'Piernas', 'Bíceps', 'Tríceps', 'Abdominales', 'Glúteos', 'Antebrazos'];
+  musculos = ['Calentamiento', 'Pecho', 'Espalda', 'Hombros', 'Piernas', 'Bíceps', 'Tríceps', 'Abdominales', 'Glúteos', 'Antebrazos'];
 
   ejerciciosPorMusculo: { [key: string]: string[] } = {
+    Calentamiento: [
+      'Crunch', 'Cruazdos', 'Rodillas al pecho', 'Bisagra', 'Twuister', 'Elevación caderas', 'Flexiones de brazos', ''
+    ],
     Pecho: [
-      'Press de banca plano', 'Press inclinado', 'Aperturas plano', 'Aperturas inclinado', 'Press declinado', 'Aperturas declinado', 'Cruces en polea', 'Mariposa', 
-      'Pull Over', 'Press plano mancuernas', 'Press inclinado mancuernas'
+      'Press de banca plano', 'Press inclinado', 'Aperturas plano', 'Aperturas inclinado', 'Press declinado', 'Aperturas declinado', 'Cruces (Apertura) en polea', 'Mariposa',
+      'Pull Over', 'Press plano mancuernas', 'Press inclinado mancuernas', 'Pecho máquina'
     ],
     Espalda: [
       'Dominadas', 'Dominadas asistidas', 'Dorsalera supino', 'Dorsalera prono', 'Dorsalera neutro', 'Remo polea baja', 'Remo barra supino', 'Remo barra prono',
@@ -36,29 +39,31 @@ export class CrearRutinaPage implements OnInit {
     ],
     Hombros: [
       'Press hombros máquina', 'Press hombros mancuernas', 'Vuelos laterales', 'Vuelos laterales 1 brazo polea', 'Vuelos completos', 'Vuelos sentado', 'Posterior 1 brazo polea',
-      'Encogimientos de hombros', 'Remo boca', 'Remo boca polea', 'Posterior en polea', 'Posterior mancuernas banco inclinado', 'Posterior en mariposa',
+      'Encogimientos de hombros', 'Remo boca', 'Remo boca polea', 'Posterior en polea', 'Posterior mancuernas banco inclinado', 'Posterior en mariposa', 'Vuelos combinados',
+      'Elevación frente polea entrepiernas'
     ],
     Piernas: [
       'Sentadilla barra', 'Sentadilla globet', 'Sentadilla sumo', 'Prensa 45º', 'Prensa 90º', 'Prensa autito(nueva)', 'Prensa a 1 pierna', 'Camilla cuadriceps',
       'Camilla cuadriceps 1 pierna', 'Prensa 1 pierna', 'Camilla biceps femoral', 'Camilla biceps femoral 1 pierna', 'Femoral sentado', 'Femoral parado', 'Pantorrilla sentado',
-      'Pantorrilla parado', 'Pantorrilla en multipower', 'Peso muerto', 'Peso muerto 1 pierna', 'Pantorrilla 1 pierna', 'Estocadas', 'Búlgaras'
+      'Pantorrilla parado', 'Pantorrilla en multipower', 'Peso muerto', 'Peso muerto 1 pierna', 'Pantorrilla 1 pierna', 'Estocadas', 'Búlgaras', 'Estocadas atrás',
+      'Sentadilla Hack frente', 'Sentadilla Hack espalda', 'Subida al cajón'
     ],
     Biceps: [
-      'Curl con barra', 'Curl sentado mancuernas', 'Curl alternado parado', 'Concentrado', 'Parado 1 polea'
+      'Curl con barra', 'Curl sentado mancuernas', 'Curl alternado parado', 'Concentrado', 'Parado 1 polea', 'Biceps Scott'
     ],
     Triceps: [
-      'Extensión en polea', 'Press francés parado', 'Press francés sentado', 'Francés polea', 'Francés 1 polea', 'Empuje', 'Rompecráneo', 
+      'Extensión en polea', 'Press francés parado', 'Press francés sentado', 'Francés polea', 'Francés 1 polea', 'Empuje', 'Rompecráneo',
       'Lagartijas invertidas', 'Lagartijas en asistidas', 'Patada de burro polea', 'Patada de burro 1 mancuerna', 'Fondos paralelas', 'Fondos en asistidas'
     ],
     Abdominales: [
       'Crunch', 'Reverse crunch', 'Elevación piernas 45º', 'Plancha', 'Bicho muerto alterno', 'Bicho muerto',
-      'Rodillas al pecho', 'Cruzados', 'Twister'
+      'Rodillas al pecho', 'Cruzados', 'Twister', 'Disco techo', 'Bisagra'
     ],
     Glúteos: [
       'Hip thrust', 'Patada de glúteo', 'Abducción de cadera', 'Abductor', 'Aductor', 'Glúteo máquina patada', 'Glúteo subido al cajón 1 pierna'
     ],
     Antebrazos: [
-      'Curl Martillo', 'Martillo inverso barra'
+      'Curl Martillo', 'Martillo inverso barra', 'Extensión', 'Flexor', 'Martillo en polea', 'Concentrado punta martillo'
     ],
   };
 

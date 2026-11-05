@@ -21,8 +21,12 @@
       </ion-item>
 
       <ion-item>
-        <ion-input label="Contraseña" labelPlacement="stacked" type="password"
-        placeholder="Ingresá tu contraseña" [(ngModel)]="password" name="password" required></ion-input>
+        <ion-input label="Contraseña" labelPlacement="stacked" [type]="mostrarPassword ? 'text' : 'password'"
+        placeholder="Ingresá tu contraseña" [(ngModel)]="password" name="password" required>
+       </ion-input>
+       <ion-button fill="clear" slot="end" type="button" (click)="alternarPassword()" aria-label="Mostrar u ocultar contraseña">
+            <ion-icon [name]="mostrarPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+      </ion-button>
       </ion-item>
 
       <ion-button expand="block" type="submit" class="login-button" [disabled]="cargando">
