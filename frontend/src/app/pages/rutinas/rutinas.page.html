@@ -7,53 +7,98 @@
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Agregar ejercicio</ion-card-title>
+      <ion-card-title>Rutinas de entrenamientos</ion-card-title>
     </ion-card-header>
-
     <ion-card-content>
-      <ion-item>
-        <ion-label position="stacked">Nombre del ejercicio</ion-label>
-        <ion-input [(ngModel)]="nombreEjercicio" placeholder="Ej. Press banca plano"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Series</ion-label>
-        <ion-input type="number" min="1" [(ngModel)]="series"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Repeticiones</ion-label>
-        <ion-input [(ngModel)]="repeticiones" placeholder="Ej. 15.12.10"></ion-input>
-      </ion-item>
-
-      <ion-button expand="block" class="ion-margin-top" (click)="agregarEjercicio()">Agregar ejercicio</ion-button>
-
-
+      <p>Acá podés consultar las rutinas creadas y guardadas.</p>
+      <ion-button expand="block" fill="outline" (click)="cargarRutinas()">
+        Actualizar listado
+      </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
-    <ion-list-header>Ejercicios de la rutina</ion-list-header>
+  @if (cargando) {
+    <ion-card>
+      <ion-card-content>
+        <ion-spinner></ion-spinner>
+        Cargando rutinas...
+      </ion-card-content>
+    </ion-card>
+  }
 
-    @if (ejercicioRutina.length === 0) {
-      <ion-item>
-        <ion-label>Todavía no agregaste ejercicios</ion-label>
-      </ion-item>
-    }
+  @if (error) {
+    <ion-card>
+      <ion-card-content>
+        <ion-text color="danger">{{ error }}</ion-text>
+      </ion-card-content>
+    </ion-card>
+  }
 
-    @for (ejercicio of ejercicioRutina; track ejercicio.id) {
-      <ion-item>
-        <ion-label>
-          <h2>{{ ejercicio.nombre }}</h2>
-          <p>
-            {{ ejercicio.series }}  x
-            {{ ejercicio.repeticiones }}
-          </p>
-        </ion-label>
+  @if (!cargando && rutinas.length === 0 && !error) {
+    <ion-card>
+      <ion-card-content>
+        <p>Todavía no hay rutinas guardadas.</p>
+      </ion-card-content>
+    </ion-card>
+  }
 
-        <ion-button slot="end" fill="clear" color="danger" (click)="eliminarEjercicio(ejercicio.id!)">Eliminar</ion-button>
-      </ion-item>
-    }
+  @for (rutina of rutinas; track rutina.id) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ rutina.nombre }}</ion-card-title>
 
-  </ion-list>
-</ion-content>
+        @if (rutina.descripcion) {
+          <ion-card-subtitle>{{ rutina.descripcion }}</ion-card-subtitle>
+        }
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>
+          {{ rutina.semanas.length }} semanas de entrenamiento
+        </p>
+
+        <ion-badge [color]="rutina.activa ? 'success' : 'medium'">
+          {{ rutina.activa ? 'Activa' : 'Inactiva' }}
+        </ion-badge>
+
+        <ion-button expand="block" class="ion-margin-top" (click)="verDetalle(rutina.id!)">
+          {{ rutinaExpandidaId === rutina.id
+          ? 'Ocultar detalle' : 'Ver detalle' }}
+        </ion-button>
+
+        <ion-button expand="block" color="danger" fill="outline" (click)="eliminarRutina(rutina)">
+          Eliminar rutina
+        </ion-button>
+
+        @if (rutinaExpandidaId === rutina.id) {
+          <ion-list class="ion-margin-top">
+            @for (semana of rutina.semanas; track semana.id ?? semana.numeroSemana) {
+              <ion-list-header>
+                <ion-label>
+                  <h2>Semana {{ semana.numeroSemana }}</h2>
+                </ion-label>
+              </ion-list-header>
+
+              @for (dia of semana.dias; track dia.id ?? dia.numeroDia) {
+                <ion-item>
+                  <ion-label>
+                    <h2>{{ dia.nombre }} - {{dia.grupoMuscular }}</h2>
+
+                    @for (ejercicio of dia.ejercicios; track ejercicio.id ?? ejercicio.orden) {
+                      <p>
+                        {{ ejercicio.orden }}.
+                        {{ ejercicio.nombre }} -
+                        {{ ejercicio.series }} series X
+                        {{ ejercicio.repeticiones }}
+                      </p>
+                    }
+                  </ion-label>
+                </ion-item>
+              }
+            }
+          </ion-list>
+        }
+      </ion-card-content>
+    </ion-card>
+  }
+</ion-content>  

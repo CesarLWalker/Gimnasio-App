@@ -7,8 +7,7 @@ public record RutinaResponse(
         Long id,
         String nombre,
         String descripcion,
-        List<String> diasEntrenamiento,
-        Integer diasPorSemana,
-        List<EjercicioRutinaResponse> ejercicios
+        Boolean activa,
+        List<SemanaRutinaResponse> semanas
 ) {
 }

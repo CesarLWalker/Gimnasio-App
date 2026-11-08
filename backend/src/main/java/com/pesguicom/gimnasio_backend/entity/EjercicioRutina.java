@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "ejercicios")
+@Table(name = "ejercicios_rutina")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
@@ -21,13 +21,13 @@ public class EjercicioRutina {
     @Column(nullable = false)
     private Integer series;
 
-    @Column(nullable = false, length = 255)
+    @Column(length = 100)
     private String repeticiones;
 
     @Column(nullable = false)
     private Integer orden;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rutina_id", nullable = false)
-    private Rutina rutina;
+    @JoinColumn(name = "dia_id", nullable = false)
+    private DiaRutina dia;
 }

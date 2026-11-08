@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent,  IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonCheckbox, IonIcon, IonListHeader } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonCheckbox, IonIcon, IonListHeader, IonSegment, IonSegmentButton, IonCardSubtitle } from "@ionic/angular/standalone";
+import { DiaRutina } from 'src/app/models/diaRutina';
 import { EjercicioRutina } from 'src/app/models/ejercicioRutina.model';
 import { Rutina } from 'src/app/models/rutina.model';
+import { SemanaRutina } from 'src/app/models/semanaRutina';
 import { RutinasService } from 'src/app/services/rutinas.service';
 
 @Component({
@@ -11,17 +13,23 @@ import { RutinasService } from 'src/app/services/rutinas.service';
   standalone: true,
   templateUrl: './crear-rutina.page.html',
   styleUrls: ['./crear-rutina.page.scss'],
-  imports: [IonListHeader,  CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard,
-   IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect,
-    IonSelectOption, IonButton, IonList, IonCheckbox, IonIcon],
+  imports: [IonCardSubtitle, IonSegmentButton, IonListHeader, CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard,
+    IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect,
+    IonSelectOption, IonButton, IonList, IonCheckbox, IonIcon, IonSegment]
 })
 export class CrearRutinaPage implements OnInit {
 
   nombre = '';
   descripcion = '';
-  diasPorSemana = 3;
-  diasDisponibles = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-  diasSeleccionados: string[] = [];
+  cantidadSemanas = 1;
+  semanas: SemanaRutina[] = [];
+  semanaSeleccionada = 0;
+  diaSeleccionado = 0;
+
+  musculoSeleccionado = '';
+  nombreEjercicio = '';
+  series = 4;
+  repeticiones = '';
 
   musculos = ['Calentamiento', 'Pecho', 'Espalda', 'Hombros', 'Piernas', 'Bíceps', 'Tríceps', 'Abdominales', 'Glúteos', 'Antebrazos'];
 
@@ -63,49 +71,96 @@ export class CrearRutinaPage implements OnInit {
       'Hip thrust', 'Patada de glúteo', 'Abducción de cadera', 'Abductor', 'Aductor', 'Glúteo máquina patada', 'Glúteo subido al cajón 1 pierna'
     ],
     Antebrazos: [
-      'Curl Martillo', 'Martillo inverso barra', 'Extensión', 'Flexor', 'Martillo en polea', 'Concentrado punta martillo'
+      'Curl Martillo', 'Martillo inverso barra', 'Extensor', 'Flexor', 'Martillo en polea', 'Concentrado punta martillo'
     ],
   };
 
-  musculoSeleccionado = '';
-  nombreEjercicio = '';
-  series = 4;
-  repeticiones = '';
-
-  ejercicios: EjercicioRutina[] = [];
-
   constructor(private rutinasService: RutinasService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.generarSemanas();
   }
 
-  seleccionarMusculo(musculo: string): void {
-    this.musculoSeleccionado = musculo;
-  }
+  // Generar tres días automáticamente por cada semana
+  generarSemanas(): void {
+    this.semanas = [];
 
-  agregarDia(dia: string, seleccionado: boolean): void {
-    if (seleccionado && !this.diasSeleccionados.includes(dia)) {
-      this.diasSeleccionados.push(dia);
-    } else if (!seleccionado) {
-      this.diasSeleccionados =
-        this.diasSeleccionados.filter(d => d !== dia);
+    for (let i = 1; i <= this.cantidadSemanas; i++) {
+      const dias: DiaRutina[] = [];
+
+      for (let j = 1; j <= 3; j++) {
+        dias.push({
+          numeroDia: j,
+          nombre: `Día ${j}`,
+          grupoMuscular: '',
+          ejercicios: []
+        });
+      }
+
+      this.semanas.push({numeroSemana: i, dias});
     }
+
+    this.semanaSeleccionada = 0;
+    this.diaSeleccionado = 0;
+    this.musculoSeleccionado = '';
   }
 
+  // Acceso a la semana seleccionada
+  get semanaActual(): SemanaRutina | undefined {
+    return this.semanas[this.semanaSeleccionada];
+  }
+
+  // Acceso al día seleccionado
+  get diaActual(): DiaRutina | undefined {
+    return this.semanaActual?.dias[this.diaSeleccionado];
+  }
+
+  // Seleccionar semana
+  seleccionarSemana(indice: number): void {
+    this.semanaSeleccionada = indice;
+    this.diaSeleccionado = 0;
+    this.musculoSeleccionado = this.diaActual?.grupoMuscular ?? '';
+  }
+
+  // Seleccionar día
+  seleccionarDia(indice: number): void {
+    this.diaSeleccionado = indice;
+    this.musculoSeleccionado = this.diaActual?.grupoMuscular ?? '';
+  }
+
+  // Cambiar grupo muscular del día
+  seleccionarMusculo(musculo: string): void {
+    if (!this.diaActual) return;
+
+    this.musculoSeleccionado = musculo;
+    this.diaActual.grupoMuscular = musculo;
+  }
+
+  // Agregar ejercicio al día seleccionado
   agregarEjercicio(): void {
     const nombre = this.nombreEjercicio.trim();
-    const repeticiones = this.repeticiones.trim();
+    const reps = this.repeticiones.trim();
 
-    if (!nombre || !repeticiones || this.series < 1) {
-      alert('Completá el ejercicio, las series y las repeticiones.');
+    if (!this.diaActual) {
+      alert('Seleccioná un día.');
       return;
     }
 
-    this.ejercicios.push({
+    if (!this.diaActual.grupoMuscular) {
+      alert('Primero seleccioná un grupo muscular.');
+      return;
+    }
+
+    if (!nombre || !reps || this.series < 1) {
+      alert('Completá el nombre, las series y las repeticiones.');
+      return;
+    }
+
+    this.diaActual.ejercicios.push({
       nombre,
-      series: this.series,
-      repeticiones,
-      orden: this.ejercicios.length + 1
+      series: Number(this.series),
+      repeticiones: reps,
+      orden: this.diaActual.ejercicios.length + 1
     });
 
     this.nombreEjercicio = '';
@@ -113,53 +168,52 @@ export class CrearRutinaPage implements OnInit {
     this.repeticiones = '';
   }
 
+  // Eliminar ejercicio del día seleccionado
   eliminarEjercicio(indice: number): void {
-    this.ejercicios.splice(indice, 1);
+    if (!this.diaActual) return;
 
-    this.ejercicios = this.ejercicios.map((ejercicio, index) => ({
-      ...ejercicio,
-      orden: index + 1
-    }));
+   this.diaActual.ejercicios.splice(indice, 1);
+
+   this.diaActual.ejercicios.forEach((ejercicio, i) => {
+    ejercicio.orden = i + 1;
+   });
   }
 
+  // Guardar rutina completa en MySQL
   guardarRutina(): void {
     if (!this.nombre.trim()) {
       alert('Ingresá el nombre de la rutina.');
       return;
     }
 
-    if (this.diasSeleccionados.length === 0) {
-      alert('Seleccioná los días de entrenamiento.');
-      return;
-    }
+    const diaIncompleto = this.semanas.some(semana =>
+      semana.dias.some(dia => !dia.grupoMuscular.trim() || dia.ejercicios.length === 0)
+    );
 
-    if (this.ejercicios.length === 0) {
-      alert('Agregá al menos un ejercicio.');
+    if (diaIncompleto) {
+      alert('Todos los días deben tener un grupo muscular y al menos un ejercicio.');
       return;
     }
 
     const rutina: Rutina = {
       nombre: this.nombre.trim(),
       descripcion: this.descripcion.trim(),
-      diasEntrenamiento: this.diasSeleccionados,
-      diasPorSemana: this.diasPorSemana,
-      ejercicios: this.ejercicios
+      semanas: this.semanas
     };
 
-    this.rutinasService.crear(rutina).subscribe({
-      next: () => {
-        alert('¡Rutina guardada correctamente!');
+    this.rutinasService.crear(rutina).subscribe({next: () => {
+      alert('¡Rutina guardada correctamente!');
 
-        this.nombre = '';
-        this.descripcion = '';
-        this.diasSeleccionados = [];
-        this.ejercicios = [];
-        this.diasPorSemana = 3;
-      },
-      error: (error) => {
-        console.error('Error al guardar la rutina:', error);
-        alert('No se pudo guardar la rutina.');
-      }
-    });
+      this.nombre = '';
+      this.descripcion = '';
+      this.cantidadSemanas = 1;
+      this.generarSemanas();
+    },
+  error: error => {
+    console.error('Error al guardar la rutina:', error);
+    alert('No se pudo guardar la rutina.');
+  }
+  });
+
   }
 }

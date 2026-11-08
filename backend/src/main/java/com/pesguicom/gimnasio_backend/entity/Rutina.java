@@ -24,13 +24,16 @@ public class Rutina {
     @Column(length = 500)
     private String descripcion;
 
-    @Column(length = 500)
-    private String diasEntrenamiento;
-
     @Column(nullable = false)
-    private Integer diasPorSemana;
+    @Builder.Default
+    private Boolean activa = true;
 
     @OneToMany(mappedBy = "rutina", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("numeroSemana ASC")
     @Builder.Default
-    private List<EjercicioRutina> ejercicios = new ArrayList<>();
+    private List<SemanaRutina> semanas = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creador_por_id")
+    private Usuario creadoPor;
 }

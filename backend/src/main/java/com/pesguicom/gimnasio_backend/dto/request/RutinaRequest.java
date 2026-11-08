@@ -14,17 +14,9 @@ public record RutinaRequest(
         @Size(max = 500)
         String descripcion,
 
-        @NotEmpty(message = "Seleccioná al menos un día de entrenamiento")
-        List<String> diasEntrenamiento,
-
-        @NotNull(message = "La cantidad de días es obligatoria")
-        @Min(value = 1, message = "Debe haber al menos un día")
-        @Max(value = 7, message = "No puede superar los siete días")
-        Integer diasPorSemana,
-
-        @NotNull(message = "Los ejercicios son obligatorios")
+        @NotEmpty(message = "La rutina debe tener al menos una semana")
         @Valid
-        List<EjercicioRutinaRequest> ejercicios
+        List<SemanaRutinaRequest> semanas
 
         ) {
 }

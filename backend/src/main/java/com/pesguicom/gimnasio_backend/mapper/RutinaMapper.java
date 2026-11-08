@@ -3,6 +3,8 @@ package com.pesguicom.gimnasio_backend.mapper;
 import com.pesguicom.gimnasio_backend.dto.request.RutinaRequest;
 import com.pesguicom.gimnasio_backend.dto.response.RutinaResponse;
 import com.pesguicom.gimnasio_backend.entity.Rutina;
+import com.pesguicom.gimnasio_backend.entity.SemanaRutina;
+import com.pesguicom.gimnasio_backend.entity.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,22 +14,24 @@ import java.util.List;
 @Component
 public class RutinaMapper {
 
-    private final EjercicioRutinaMapper ejercicioMapper;
+    private final SemanaRutinaMapper semanaMapper;
 
-    public RutinaMapper(EjercicioRutinaMapper ejercicioMapper) {
-        this.ejercicioMapper = ejercicioMapper;
+    public RutinaMapper(SemanaRutinaMapper semanaMapper) {
+        this.semanaMapper = semanaMapper;
     }
 
-    public Rutina toEntity(RutinaRequest request) {
+    public Rutina toEntity(RutinaRequest request, Usuario usuario) {
         Rutina rutina = new Rutina();
 
         rutina.setNombre(request.nombre());
         rutina.setDescripcion(request.descripcion());
-        rutina.setDiasEntrenamiento(String.join(",", request.diasEntrenamiento()));
-        rutina.setDiasPorSemana(request.diasPorSemana());
-        rutina.setEjercicios(new ArrayList<>());
+        rutina.setActiva(true);
+        rutina.setCreadoPor(usuario);
+        rutina.setSemanas(new ArrayList<>());
 
-        request.ejercicios().forEach(ejercicio -> {rutina.getEjercicios().add(ejercicioMapper.toEntity(ejercicio, rutina));
+        request.semanas().forEach(semanaRequest -> {
+            SemanaRutina semana = semanaMapper.toEntity(semanaRequest, rutina);
+            rutina.getSemanas().add(semana);
         });
 
         return rutina;
@@ -35,21 +39,14 @@ public class RutinaMapper {
 
     public RutinaResponse toResponse(Rutina rutina) {
 
-        List<String> dias = rutina.getDiasEntrenamiento() == null
-                ? List.of()
-                : Arrays.stream(rutina.getDiasEntrenamiento().split(","))
-                .map(String::trim)
-                .toList();
-
         return new RutinaResponse(
                 rutina.getId(),
                 rutina.getNombre(),
                 rutina.getDescripcion(),
-                dias,
-                rutina.getDiasPorSemana(),
-                rutina.getEjercicios()
+                rutina.getActiva(),
+                rutina.getSemanas()
                         .stream()
-                        .map(ejercicioMapper::toResponse)
+                        .map(semanaMapper::toResponse)
                         .toList()
         );
     }
@@ -59,11 +56,10 @@ public class RutinaMapper {
     ) {
         rutina.setNombre(request.nombre());
         rutina.setDescripcion(request.descripcion());
-        rutina.setDiasEntrenamiento(String.join(",", request.diasEntrenamiento()));
-        rutina.setDiasPorSemana(request.diasPorSemana());
-        rutina.getEjercicios().clear();
-        request.ejercicios().forEach(ejercicio -> {
-            rutina.getEjercicios().add(ejercicioMapper.toEntity(ejercicio, rutina));
+        rutina.getSemanas().clear();
+        request.semanas().forEach(semanaRequest -> {
+            SemanaRutina semana = semanaMapper.toEntity(semanaRequest, rutina);
+            rutina.getSemanas().add(semana);
         });
     }
 }

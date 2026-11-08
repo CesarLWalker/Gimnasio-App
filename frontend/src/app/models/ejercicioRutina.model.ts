@@ -3,5 +3,5 @@ export interface EjercicioRutina {
   nombre: string;
   series: number;
   repeticiones: string;
-  orden?: number;
+  orden: number;
 }
