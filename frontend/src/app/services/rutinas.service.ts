@@ -8,9 +8,13 @@ import { Rutina } from "../models/rutina.model";
 })
 export class RutinasService {
 
-  private readonly apiUrl = 'http://localhost:8083/api/rutinas';
+  private readonly apiUrl = '/api/rutinas'; // 'http://localhost:8083/api/rutinas'
 
   constructor(private http: HttpClient) {}
+
+  getToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
 
   // Obtener todas las rutinas
   listar(): Observable<Rutina[]> {

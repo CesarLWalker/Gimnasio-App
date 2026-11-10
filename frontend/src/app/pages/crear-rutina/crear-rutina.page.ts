@@ -35,11 +35,12 @@ export class CrearRutinaPage implements OnInit {
 
   ejerciciosPorMusculo: { [key: string]: string[] } = {
     Calentamiento: [
-      'Crunch', 'Cruazdos', 'Rodillas al pecho', 'Bisagra', 'Twuister', 'Elevación caderas', 'Flexiones de brazos', ''
+      'Crunch', 'Cruzados', 'Rodillas al pecho', 'Bisagra', 'Twuister', 'Elevación caderas', 'Flexiones de brazos', 'Elevación piernas 45º',
+      'Espinales', 'Reverse crunch', 'Bisagra 1 pierna'
     ],
     Pecho: [
       'Press de banca plano', 'Press inclinado', 'Aperturas plano', 'Aperturas inclinado', 'Press declinado', 'Aperturas declinado', 'Cruces (Apertura) en polea', 'Mariposa',
-      'Pull Over', 'Press plano mancuernas', 'Press inclinado mancuernas', 'Pecho máquina'
+      'Pull Over', 'Press plano mancuernas', 'Press inclinado mancuernas', 'Pecho máquina', 'Plano multipower', 'Inclinado multipower'
     ],
     Espalda: [
       'Dominadas', 'Dominadas asistidas', 'Dorsalera supino', 'Dorsalera prono', 'Dorsalera neutro', 'Remo polea baja', 'Remo barra supino', 'Remo barra prono',
@@ -56,10 +57,10 @@ export class CrearRutinaPage implements OnInit {
       'Pantorrilla parado', 'Pantorrilla en multipower', 'Peso muerto', 'Peso muerto 1 pierna', 'Pantorrilla 1 pierna', 'Estocadas', 'Búlgaras', 'Estocadas atrás',
       'Sentadilla Hack frente', 'Sentadilla Hack espalda', 'Subida al cajón'
     ],
-    Biceps: [
-      'Curl con barra', 'Curl sentado mancuernas', 'Curl alternado parado', 'Concentrado', 'Parado 1 polea', 'Biceps Scott'
+    Bíceps: [
+      'Curl con barra', 'Curl sentado mancuernas', 'Curl alternado parado', 'Concentrado', 'Parado 1 polea', 'Biceps Scott', 'Parado 2 brazos polea enfrentadas'
     ],
-    Triceps: [
+    Tríceps: [
       'Extensión en polea', 'Press francés parado', 'Press francés sentado', 'Francés polea', 'Francés 1 polea', 'Empuje', 'Rompecráneo',
       'Lagartijas invertidas', 'Lagartijas en asistidas', 'Patada de burro polea', 'Patada de burro 1 mancuerna', 'Fondos paralelas', 'Fondos en asistidas'
     ],

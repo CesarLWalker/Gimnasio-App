@@ -5,17 +5,23 @@ import { inject } from '@angular/core';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authService = inject(AuthService);
-  const token = authService.getToken();
 
-  if (token) {
-    const request = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    return next(request);
+   // No agregar token al login
+  if (req.url.includes('/api/auth/login')) {
+    return next(req);
   }
 
-  return next(req);
-}
+  const token = authService.getToken();
+
+  // Si no hay token, continúa normalmente
+  if (!token) {
+    return next(req);
+  }
+
+  // Agrega automáticamente el Bearer Token
+  const requestConToken = req.clone({
+    setHeaders: {Authorization: `Bearer ${token}`}
+  });
+
+  return next(requestConToken);
+};
