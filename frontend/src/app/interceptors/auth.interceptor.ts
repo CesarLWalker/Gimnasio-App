@@ -13,6 +13,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = authService.getToken();
 
+  console.log('Interceptor: ', req.url, 'Token presente: ', !!token);
+
   // Si no hay token, continúa normalmente
   if (!token) {
     return next(req);

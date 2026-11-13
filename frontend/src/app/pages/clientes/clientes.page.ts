@@ -47,7 +47,16 @@ export class ClientesPage implements OnInit {
   }
 
   //  Ciclos de vida
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.clienteService.cargarClientesDesdeApi().subscribe({
+      next: () => {
+        console.log('Clientes cargados desde MySQL');
+      },
+      error: error => {
+        console.log('Error al cargar clientes: ', error);
+      }
+    });
+  }
 
   // Normaliza el texto para que la búsqueda ignore mayúsculas, minúsculas y acentos
   //

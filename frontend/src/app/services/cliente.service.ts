@@ -5,7 +5,20 @@ import { TipoPago } from '../enums/tipoPago.enum';
 import { EstadoCliente } from '../enums/estadoCliente.enum';
 import { PeriodoPago } from '../enums/periodoPago';
 import { ActividadService } from './actividad.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap, map } from 'rxjs';
 
+interface ClienteApiResponse {
+  id: number;
+  nombre: string;
+  celular: string;
+  estado: EstadoCliente;
+  fechaUltimoPago: string | null;
+  cuota: Cuota;
+  tipoPago: TipoPago;
+  periodoPago: PeriodoPago;
+  monto: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -15,27 +28,41 @@ export class ClienteService {
   // CLIENTES
   // ================================================
 
-  private clientes: Cliente[] = [
-    /*
-    {
-      id: 1,
-      nombre: 'AC/DC',
-      estado: EstadoCliente.PAGADO,
-      periodoPago: PeriodoPago.MES,
-      fechaUltimoPago: '2026-09-05',
-      cuota: Cuota.INDIVIDUAL,
-      monto: 10000,
-      tipoPagoHabitual: TipoPago.EFECTIVO,
-      celular: '123456'
-    },
-    */  
-  ];
+  private clientes: Cliente[] = [];
 
   private clientesVersion = signal(0);
   public readonly clientesChanged = this.clientesVersion.asReadonly();
 
+  private readonly apiUrl = 'http://localhost:8081/api/clientes'; 
+
+  public cargarClientesDesdeApi(): Observable<Cliente[]> {
+    return this.http.get<ClienteApiResponse[]>(this.apiUrl).pipe(
+      map(clientesApi => clientesApi.map(cliente => ({
+        id: cliente.id,
+        nombre: cliente.nombre,
+        celular: cliente.celular,
+        estado: cliente.estado,
+        fechaUltimoPago: cliente.fechaUltimoPago,
+        cuota: cliente.cuota,
+        monto: cliente.monto,
+        tipoPagoHabitual: cliente.tipoPago,
+        periodoPago: cliente.periodoPago
+      }))),
+
+      tap(clientes => {
+        this.clientes = clientes;
+        this.actualizarEstados();
+        this.clientesVersion.update(valor => valor + 1);
+      })
+    // El resultado que recibe la pantalla conserva el modelo de Angular.
+    // El servicio también mantiene su copia en memoria.
+    // La lista se obtiene desde MySQL.
+    );
+  }
+
   constructor(
-    private actividadService: ActividadService
+    private actividadService: ActividadService,
+    private http: HttpClient
   ) {}
 
   // =========================================================
@@ -215,7 +242,7 @@ export class ClienteService {
   // ==========================================================
 
   public addCliente(cliente: Cliente): Cliente {
-    
+
     // Generamos un ID basado en el mayor ID existente
     const nuevoId = this.clientes.length > 0 ? Math.max(...this.clientes.map(c => c.id)) + 1 : 1;
 
