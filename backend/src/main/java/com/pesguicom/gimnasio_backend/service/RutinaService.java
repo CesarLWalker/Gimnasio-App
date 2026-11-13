@@ -1,0 +1,71 @@
+package com.pesguicom.gimnasio_backend.service;
+
+import com.pesguicom.gimnasio_backend.dto.request.RutinaRequest;
+import com.pesguicom.gimnasio_backend.dto.response.RutinaResponse;
+import com.pesguicom.gimnasio_backend.entity.Rutina;
+import com.pesguicom.gimnasio_backend.entity.Usuario;
+import com.pesguicom.gimnasio_backend.exception.ResourceNotFoundException;
+import com.pesguicom.gimnasio_backend.mapper.RutinaMapper;
+import com.pesguicom.gimnasio_backend.repository.RutinaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class RutinaService {
+
+    private final RutinaRepository rutinaRepository;
+    private final RutinaMapper rutinaMapper;
+
+    public RutinaService(RutinaRepository rutinaRepository, RutinaMapper rutinaMapper) {
+        this.rutinaRepository = rutinaRepository;
+        this.rutinaMapper = rutinaMapper;
+    }
+
+    @Transactional(readOnly = true)
+    public List<RutinaResponse> listarTodas() {
+        return rutinaRepository.findAll()
+                .stream()
+                .map(rutinaMapper::toResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public RutinaResponse buscarPorId(Long id) {
+        Rutina rutina = rutinaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la rutina con ID: " + id));
+        return rutinaMapper.toResponse(rutina);
+    }
+
+    public RutinaResponse crear(RutinaRequest request, Usuario usuario) {
+        Rutina rutina = rutinaMapper.toEntity(request, usuario);
+
+        Rutina rutinaGuardada = rutinaRepository.save(rutina);
+
+        return rutinaMapper.toResponse(rutinaGuardada);
+    }
+
+    public RutinaResponse actualizar(Long id, RutinaRequest request) {
+        Rutina rutina = obtenerRutina(id);
+
+        rutinaMapper.updateEntity(request, rutina);
+
+        Rutina rutinaActualizada = rutinaRepository.save(rutina);
+
+        return rutinaMapper.toResponse(rutinaActualizada);
+    }
+
+    public void eliminar(Long id) {
+        Rutina rutina = obtenerRutina(id);
+
+        rutinaRepository.delete(rutina);
+    }
+
+    private Rutina obtenerRutina(Long id) {
+
+        return rutinaRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("No se encontró la rutina con ID: " + id));
+    }
+}
